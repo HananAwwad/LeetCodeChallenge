@@ -13,7 +13,7 @@ public class Solution {
         int[] prices = {7, 6, 4, 3, 1};
         String[] strings = {"ray", "cod", "abe", "ned", "arc", "jar", "owl", "pop", "paw", "sky", "yup", "fed", "jul", "woo", "ado", "why", "ben", "mys", "den", "dem", "fat", "you", "eon", "sui", "oct", "asp", "ago", "lea", "sow", "hus", "fee", "yup", "eve", "red", "flo", "ids", "tic", "pup", "hag", "ito", "zoo"};
         //[["hag"],["pup"],["ids"],["ito"],["flo"],["red"],["hus"],["sow"],["asp"],["oct"],["sui"],["fee"],["eon"],["tic"],["sky"],["ago"],["paw"],["jul"],["pop"],["jar"],["den","ned"],["owl"],["eve"],["mys"],["abe"],["zoo"],["ado"],["ray"],["cod"],["lea"],["arc"],["dem"],["fat"],["yup","yup"],["woo"],["fed"],["why"],["ben"],["you"]]
-        int[] arr = {1,1,2,2};
+        int[] arr = {1, 1, 2, 2};
         System.out.println("output ..... " + countElements(arr));
 
     }
@@ -218,4 +218,10 @@ public class Solution {
         return numOfCounting;
     }
 
+
+
+
 }
+
+
+
