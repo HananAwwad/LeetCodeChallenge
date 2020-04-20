@@ -44,22 +44,106 @@ public class Solution2 {
 //        int[] nums = {1,2,3,4};
         //System.out.println("solution ...." + new Solution2().productExceptSelf(nums));
 
-        System.out.println(new Solution2().checkValidString("(*)"));
-
-        char M[][] = new char[][]{{'1', '1', '0', '0', '0'},
-                {'1', '1', '0', '0', '0'},
-                {'0', '0', '1', '0', '0'},
-                {'0', '0', '0', '1', '1'}};
-
-        int[][] s = new int[][]{
-                {1, 3, 1},
-                {1, 5, 1},
-                {4, 2, 1}
-        };
-
-        System.out.println("Number of islands is:::::   " + new Solution2().minPathSum(s));
+//        System.out.println(new Solution2().checkValidString("(*)"));
+//
+//        char M[][] = new char[][]{{'1', '1', '0', '0', '0'},
+//                {'1', '1', '0', '0', '0'},
+//                {'0', '0', '1', '0', '0'},
+//                {'0', '0', '0', '1', '1'}};
+//
+//        int[][] s = new int[][]{
+//                {1, 3, 1},
+//                {1, 5, 1},
+//                {4, 2, 1}
+//        };
+        int[] a = new int[]{8, 5, 1, 7, 10, 12};
+        TreeNode node = new Solution2().bstFromPreorder(a);
+        node.printPreorder(node);
     }
 
+    TreeNode root;
+
+    private void insert(int val) {
+
+        TreeNode node = new TreeNode(val);
+        if (root == null) root = node;
+        else {
+            TreeNode temp = root;
+            while (true) {
+                if (temp.val > val) {
+                    if (temp.left == null) {
+                        temp.left = node;
+                        break;
+                    } else temp = temp.left;
+                } else {
+                    if (temp.right == null) {
+                        temp.right = node;
+                        break;
+                    } else temp = temp.right;
+                }
+            }
+        }
+    }
+
+    public TreeNode bstFromPreorder(int[] preorder) {
+
+        for (int i = 0; i < preorder.length; i++)
+            insert(preorder[i]);
+
+        return root;
+    }
+//    public TreeNode bstFromPreorder(int[] preorder){
+//
+//        return helper(preorder,0,preorder.length-1);
+//}
+
+    private TreeNode helper(int[] preorder, int start, int end) {
+        if (start > end)
+            return null;
+
+        TreeNode root = new TreeNode(preorder[start]);
+
+        if (start == end)
+            return root;
+
+
+        //get the range for left sub tree
+        int leftTreeEndIndex = start + 1;
+        while (leftTreeEndIndex <= end && preorder[leftTreeEndIndex] < preorder[start])
+            leftTreeEndIndex++;
+
+        root.left = helper(preorder, start + 1, leftTreeEndIndex - 1);
+        root.right = helper(preorder, leftTreeEndIndex, end);
+
+        return root;
+
+
+    }
+
+    public int search(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        int mid;
+
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (target == nums[mid])
+                return mid;
+            else if (nums[mid] <= nums[right]) {
+                if (target > nums[mid] && target <= nums[right]) {
+                    left = mid + 1;
+                } else
+                    right = mid - 1;
+            } else {
+                if (target < nums[mid] && target >= nums[left]) {
+                    right = mid - 1;
+                } else
+                    left = mid + 1;
+            }
+        }
+
+        return -1;
+
+    }
 
     public int minPathSum(int[][] grid) {
 
@@ -500,6 +584,23 @@ class TreeNode {
         val = x;
     }
 
+    public void printPreorder(TreeNode node) {
+        if (node == null)
+            return;
+
+
+
+        /* first print data of node */
+        System.out.print(node.val + " ");
+
+        /* then recur on left sutree */
+        printPreorder(node.left);
+
+        /* now recur on right subtree */
+        printPreorder(node.right);
+
+
+    }
 
 }
 
