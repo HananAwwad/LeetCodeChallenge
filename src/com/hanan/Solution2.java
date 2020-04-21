@@ -1,8 +1,6 @@
 package com.hanan;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Solution2 {
 
@@ -56,9 +54,36 @@ public class Solution2 {
 //                {1, 5, 1},
 //                {4, 2, 1}
 //        };
-        int[] a = new int[]{8, 5, 1, 7, 10, 12};
-        TreeNode node = new Solution2().bstFromPreorder(a);
-        node.printPreorder(node);
+//        int[] a = new int[]{8, 5, 1, 7, 10, 12};
+//        TreeNode node = new Solution2().bstFromPreorder(a);
+//        node.printPreorder(node);
+        new Solution2().leftMostColumnWithOne(new BinaryMatrix(new int[][]{{0,0},{1,1}}));
+    }
+
+
+    public int leftMostColumnWithOne(BinaryMatrix binaryMatrix) {
+        int result = -1;
+
+        int row = binaryMatrix.dimensions().get(0);
+        int col = binaryMatrix.dimensions().get(1);
+
+        int i = 0;
+        int j= col-1;
+        while (true){
+            int currentVal = binaryMatrix.get(i, j);
+            //move left
+            if (currentVal == 1) {
+                result = j;
+                j--;
+            } else if (currentVal == 0)
+                i++;
+            if (i > row-1)
+                break;
+            if (j < 0 )
+                break;
+        }
+
+        return result;
     }
 
     TreeNode root;
@@ -604,4 +629,22 @@ class TreeNode {
 
 }
 
+class BinaryMatrix {
+
+    int[][] a ;
+
+    BinaryMatrix(int [][] a){
+        this.a = a;
+    }
+    public int get(int x, int y) {
+        return a[x][y];
+    }
+
+    public List<Integer> dimensions() {
+        List array = new ArrayList<Integer>();
+        array.add(a.length);
+        array.add(a[0].length);
+        return array;
+    }
+}
 
