@@ -57,7 +57,70 @@ public class Solution2 {
 //        int[] a = new int[]{8, 5, 1, 7, 10, 12};
 //        TreeNode node = new Solution2().bstFromPreorder(a);
 //        node.printPreorder(node);
-        new Solution2().leftMostColumnWithOne(new BinaryMatrix(new int[][]{{0,0},{1,1}}));
+        //    new Solution2().leftMostColumnWithOne(new BinaryMatrix(new int[][]{{0,0},{1,1}}));
+        //   new Solution2().minPurchases(new int[]{1, 3, 6}, 15);
+        new Solution2().subarraySumMap(new int[]{1, 1, 1}, 2);
+    }
+    public int subarraySumMap(int[] nums, int k) {
+        int count = 0, sum = 0;
+        HashMap < Integer, Integer > map = new HashMap < > ();
+        map.put(0, 1);
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            if (map.containsKey(sum - k))
+                count += map.get(sum - k);
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        return count;
+    }
+    public int subarraySum(int[] nums, int k) {
+
+        int counter = 0;
+        for (int start = 0; start < nums.length; start++) {
+            int sum = 0;
+
+            for (int end = start; end < nums.length; end++) {
+                sum += nums[end];
+                if (sum == k) {
+                    counter++;
+                }
+
+            }
+        }
+        return counter;
+    }
+
+    public int[][] distance_path(int src, int dest, int[][] wizards) {
+        int result[][] = new int[2][];
+        int minCost = 0;
+        int[] minPath = null;
+        // Put your code here to calculate minCost and minPath
+
+        // Return the result, do not change the structure
+        result[0] = new int[]{minCost};
+        if (minPath == null) {
+            minPath = new int[]{};
+        }
+        result[1] = minPath;
+        return result;
+    }
+
+    public int minPurchases(int[] trip_durations, int total_hours) {
+        int min_purchases = 0;
+        // Put your code here to calculate min_purchases
+
+        Arrays.sort(trip_durations);
+        int tmp = total_hours;
+        for (int i = trip_durations.length - 1; i >= 0; i--) {
+            while (trip_durations[i] <= tmp) {
+                tmp = tmp - trip_durations[i];
+                min_purchases++;
+            }
+            if (tmp == 0)
+                break;
+        }
+        // Return the result, do not change the structure
+        return min_purchases;
     }
 
 
@@ -68,8 +131,8 @@ public class Solution2 {
         int col = binaryMatrix.dimensions().get(1);
 
         int i = 0;
-        int j= col-1;
-        while (true){
+        int j = col - 1;
+        while (true) {
             int currentVal = binaryMatrix.get(i, j);
             //move left
             if (currentVal == 1) {
@@ -77,9 +140,9 @@ public class Solution2 {
                 j--;
             } else if (currentVal == 0)
                 i++;
-            if (i > row-1)
+            if (i > row - 1)
                 break;
-            if (j < 0 )
+            if (j < 0)
                 break;
         }
 
@@ -631,11 +694,12 @@ class TreeNode {
 
 class BinaryMatrix {
 
-    int[][] a ;
+    int[][] a;
 
-    BinaryMatrix(int [][] a){
+    BinaryMatrix(int[][] a) {
         this.a = a;
     }
+
     public int get(int x, int y) {
         return a[x][y];
     }
