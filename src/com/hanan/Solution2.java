@@ -59,11 +59,26 @@ public class Solution2 {
 //        node.printPreorder(node);
         //    new Solution2().leftMostColumnWithOne(new BinaryMatrix(new int[][]{{0,0},{1,1}}));
         //   new Solution2().minPurchases(new int[]{1, 3, 6}, 15);
-        new Solution2().subarraySumMap(new int[]{1, 1, 1}, 2);
+        // new Solution2().subarraySumMap(new int[]{1, 1, 1}, 2);
+        System.out.println(new Solution2().rangeBitwiseAnd(5, 12));
     }
+
+    public int rangeBitwiseAnd(int m, int n) {
+        System.out.println("Binary is " + Integer.toBinaryString(m));
+
+        System.out.println("Binary is " + Integer.toBinaryString(n));
+
+        while (n > m){
+            n = n & n - 1;
+            System.out.println(n);
+        }
+        return m & n;
+
+    }
+
     public int subarraySumMap(int[] nums, int k) {
         int count = 0, sum = 0;
-        HashMap < Integer, Integer > map = new HashMap < > ();
+        HashMap<Integer, Integer> map = new HashMap<>();
         map.put(0, 1);
         for (int i = 0; i < nums.length; i++) {
             sum += nums[i];
@@ -73,6 +88,7 @@ public class Solution2 {
         }
         return count;
     }
+
     public int subarraySum(int[] nums, int k) {
 
         int counter = 0;
