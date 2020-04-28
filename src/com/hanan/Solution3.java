@@ -19,7 +19,34 @@ public class Solution3 {
 //        cache.get(3);       // returns 3
 //        cache.get(4);       // returns 4
         //System.out.println(new Solution3().canJump(new int[]{2, 3, 1, 1, 4}));
-        System.out.println(new Solution3().longestCommonSubsequence("abcde","ace"));
+        //    System.out.println(new Solution3().longestCommonSubsequence("abcde","ace"));
+        new Solution3().maximalSquare(new char[][]{
+                {'1', '0', '1', '0', '0'},
+                {'1', '0', '1', '1', '1'},
+                {'1', '1', '1', '1', '1'},
+                {'1', '0', '0', '1', '0'}
+        });
+    }
+
+    public int maximalSquare(char[][] matrix) {
+        int rows = matrix.length, cols = rows > 0 ? matrix[0].length : 0;
+
+        int[] dp = new int[cols + 1];
+        int maxsqlen = 0, prev = 0;
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= cols; j++) {
+                int temp = dp[j];
+                if (matrix[i - 1][j - 1] == '1') {
+                    dp[j] = Math.min(Math.min(dp[j - 1], prev), dp[j]) + 1;
+                    maxsqlen = Math.max(maxsqlen, dp[j]);
+                } else {
+                    dp[j] = 0;
+                }
+                prev = temp;
+            }
+        }
+        return maxsqlen * maxsqlen;
+
     }
 
     public int longestCommonSubsequence(String text1, String text2) {
