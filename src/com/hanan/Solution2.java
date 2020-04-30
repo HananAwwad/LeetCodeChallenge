@@ -562,11 +562,11 @@ public class Solution2 {
     }
 
     // Function to insert nodes in level order
-    public TreeNode insertLevelOrder(int[] arr, TreeNode root,
+    public TreeNode insertLevelOrder(String[] arr, TreeNode root,
                                      int i) {
         // Base case for recursion
-        if (i < arr.length) {
-            TreeNode temp = new TreeNode(arr[i]);
+        if (i < arr.length && arr[i] != null) {
+            TreeNode temp = new TreeNode(Integer.parseInt(arr[i]));
             root = temp;
 
             // insert left child
@@ -687,23 +687,20 @@ class TreeNode {
     TreeNode(int x) {
         val = x;
     }
-
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
     public void printPreorder(TreeNode node) {
         if (node == null)
             return;
-
-
-
         /* first print data of node */
         System.out.print(node.val + " ");
-
         /* then recur on left sutree */
         printPreorder(node.left);
-
         /* now recur on right subtree */
         printPreorder(node.right);
-
-
     }
 
 }

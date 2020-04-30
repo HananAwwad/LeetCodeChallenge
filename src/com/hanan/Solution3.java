@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Solution3 {
+    int max = Integer.MAX_VALUE;
     public static void main(String[] a) {
         // Your LRUCache object will be instantiated and called as such:
 //        LRUCache cache = new LRUCache(2);
@@ -20,12 +21,33 @@ public class Solution3 {
 //        cache.get(4);       // returns 4
         //System.out.println(new Solution3().canJump(new int[]{2, 3, 1, 1, 4}));
         //    System.out.println(new Solution3().longestCommonSubsequence("abcde","ace"));
-        new Solution3().maximalSquare(new char[][]{
-                {'1', '0', '1', '0', '0'},
-                {'1', '0', '1', '1', '1'},
-                {'1', '1', '1', '1', '1'},
-                {'1', '0', '0', '1', '0'}
-        });
+//        new Solution3().maximalSquare(new char[][]{
+//                {'1', '0', '1', '0', '0'},
+//                {'1', '0', '1', '1', '1'},
+//                {'1', '1', '1', '1', '1'},
+//                {'1', '0', '0', '1', '0'}
+//        });
+
+        TreeNode root = null;
+        String arr[] = {"-10", "9", "20", "null", "null", "15", "7"};
+        root = new Solution2().insertLevelOrder(arr, root, 0);
+    }
+
+    public int maxPathSum(TreeNode root) {
+        return getPathLength(root);
+    }
+
+    public int getPathLength(TreeNode node) {
+        if (node == null)
+            return 0;
+
+        int leftGain = getPathLength(node.left);
+        int rightGain = getPathLength(node.right);
+        int currentSum = node.val + leftGain + rightGain;
+
+        max = Math.max(currentSum, max);
+        return node.val + Math.max(leftGain,rightGain);
+
     }
 
     public int maximalSquare(char[][] matrix) {
@@ -134,3 +156,4 @@ class LRUCache {
         }
     }
 }
+
