@@ -33,22 +33,22 @@ public class Solution3 {
         root = new Solution2().insertLevelOrder(arr, root, 0);
     }
 
-    public int maxPathSum(TreeNode root) {
-        return getPathLength(root);
-    }
+        public int maxPathSum(TreeNode root) {
+            return getPathLength(root);
+        }
 
-    public int getPathLength(TreeNode node) {
-        if (node == null)
-            return 0;
+        public int getPathLength(TreeNode node) {
+            if (node == null)
+                return 0;
 
-        int leftGain = getPathLength(node.left);
-        int rightGain = getPathLength(node.right);
-        int currentSum = node.val + leftGain + rightGain;
+            int leftGain = getPathLength(node.left);
+            int rightGain = getPathLength(node.right);
+            int currentSum = node.val + leftGain + rightGain;
 
-        max = Math.max(currentSum, max);
-        return node.val + Math.max(leftGain,rightGain);
+            max = Math.max(currentSum, max);
+            return node.val + Math.max(leftGain,rightGain);
 
-    }
+        }
 
     public int maximalSquare(char[][] matrix) {
         int rows = matrix.length, cols = rows > 0 ? matrix[0].length : 0;
