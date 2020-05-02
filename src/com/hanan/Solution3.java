@@ -1,11 +1,10 @@
 package com.hanan;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Solution3 {
     int max = Integer.MAX_VALUE;
+
     public static void main(String[] a) {
         // Your LRUCache object will be instantiated and called as such:
 //        LRUCache cache = new LRUCache(2);
@@ -33,22 +32,22 @@ public class Solution3 {
         root = new Solution2().insertLevelOrder(arr, root, 0);
     }
 
-        public int maxPathSum(TreeNode root) {
-            return getPathLength(root);
-        }
+    public int maxPathSum(TreeNode root) {
+        return getPathLength(root);
+    }
 
-        public int getPathLength(TreeNode node) {
-            if (node == null)
-                return 0;
+    public int getPathLength(TreeNode node) {
+        if (node == null)
+            return 0;
 
-            int leftGain = getPathLength(node.left);
-            int rightGain = getPathLength(node.right);
-            int currentSum = node.val + leftGain + rightGain;
+        int leftGain = getPathLength(node.left);
+        int rightGain = getPathLength(node.right);
+        int currentSum = node.val + leftGain + rightGain;
 
-            max = Math.max(currentSum, max);
-            return node.val + Math.max(leftGain,rightGain);
+        max = Math.max(currentSum, max);
+        return node.val + Math.max(leftGain, rightGain);
 
-        }
+    }
 
     public int maximalSquare(char[][] matrix) {
         int rows = matrix.length, cols = rows > 0 ? matrix[0].length : 0;
@@ -155,5 +154,41 @@ class LRUCache {
             map.put(key, value);
         }
     }
+}
+
+class FirstUnique {
+
+    Queue<Integer> queue;
+    Map<Integer, Integer> map;
+
+    FirstUnique(int[] nums) {
+        queue = new LinkedList<>();
+        map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            add(nums[i]);
+        }
+    }
+
+    int showFirstUnique() {
+        while (!queue.isEmpty()) {
+            int currentVal = queue.peek();
+            if (map.get(currentVal) ==1 )
+                return currentVal;
+            queue.poll();
+        }
+        return -1;
+    }
+
+    void add(int value) {
+
+        if (map.containsKey(value)) {
+            map.put(value, map.get(value) + 1);
+        } else {
+            map.put(value, 1);
+            queue.add(value);
+
+        }
+    }
+
 }
 
