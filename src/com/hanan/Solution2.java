@@ -63,12 +63,27 @@ public class Solution2 {
         System.out.println(new Solution2().rangeBitwiseAnd(5, 12));
     }
 
+    public boolean isValidSequence(TreeNode root, int[] arr) {
+        return isValidSequenceHelper(root,arr, 0);
+    }
+
+    public boolean isValidSequenceHelper(TreeNode root, int[] aa, int i) {
+        if (root == null || i == aa.length){
+            return false;
+        }
+        if (i == aa.length -1 && root.val == aa[i] && root.left == null && root.right == null){
+            System.out.printf("is leave node");
+            return true;
+        }
+        return root.val == aa[i] && (isValidSequenceHelper(root.left, aa, i + 1) || isValidSequenceHelper(root.right, aa, i + 1));
+    }
+
     public int rangeBitwiseAnd(int m, int n) {
         System.out.println("Binary is " + Integer.toBinaryString(m));
 
         System.out.println("Binary is " + Integer.toBinaryString(n));
 
-        while (n > m){
+        while (n > m) {
             n = n & n - 1;
             System.out.println(n);
         }
@@ -687,11 +702,13 @@ class TreeNode {
     TreeNode(int x) {
         val = x;
     }
+
     TreeNode(int val, TreeNode left, TreeNode right) {
         this.val = val;
         this.left = left;
         this.right = right;
     }
+
     public void printPreorder(TreeNode node) {
         if (node == null)
             return;
