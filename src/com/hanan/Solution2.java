@@ -60,18 +60,38 @@ public class Solution2 {
         //    new Solution2().leftMostColumnWithOne(new BinaryMatrix(new int[][]{{0,0},{1,1}}));
         //   new Solution2().minPurchases(new int[]{1, 3, 6}, 15);
         // new Solution2().subarraySumMap(new int[]{1, 1, 1}, 2);
-        System.out.println(new Solution2().rangeBitwiseAnd(5, 12));
+        //System.out.println(new Solution2().rangeBitwiseAnd(5, 12));
+        System.out.println(new Solution2().canConstruct("aa", "aab"));
+    }
+
+    public boolean canConstruct(String ransomNote, String magazine) {
+
+        if (ransomNote.length() > magazine.length())
+            return false;
+
+        int[] arr = new int[26];
+        for (char c : magazine.toCharArray()) {
+            arr[c - 'a']++;
+        }
+        for (char c : ransomNote.toCharArray()) {
+            if (arr[c - 'a'] > 0) {
+                arr[c - 'a']--;
+            } else
+                return false;
+        }
+
+        return true;
     }
 
     public boolean isValidSequence(TreeNode root, int[] arr) {
-        return isValidSequenceHelper(root,arr, 0);
+        return isValidSequenceHelper(root, arr, 0);
     }
 
     public boolean isValidSequenceHelper(TreeNode root, int[] aa, int i) {
-        if (root == null || i == aa.length){
+        if (root == null || i == aa.length) {
             return false;
         }
-        if (i == aa.length -1 && root.val == aa[i] && root.left == null && root.right == null){
+        if (i == aa.length - 1 && root.val == aa[i] && root.left == null && root.right == null) {
             System.out.printf("is leave node");
             return true;
         }
