@@ -6,10 +6,17 @@ import java.util.Set;
 public class Solution {
 
     public static void main(String s[]) {
-        System.out.println(new Solution().firstBadVersion(5));
+       // System.out.println(new Solution().firstBadVersion(5));
+        System.out.println(new Solution().findComplement(2));
 
     }
+    public int findComplement(int num) {
 
+        int bitlength = ((int)(Math.log(num)/Math.log(2)) + 1 );
+        int bitMask = (1 << bitlength)-1 ;
+
+        return num ^ bitMask;
+    }
     public int numJewelsInStones(String J, String S) {
         int res = 0;
         Set<Character> unique = new HashSet<Character>();
