@@ -11,29 +11,46 @@ public class Solution {
         // System.out.println(new Solution().firstBadVersion(5));
         // System.out.println(new Solution().findComplement(2));
         // System.out.printf("unique char " + new Solution().firstUniqChar("loveleetcode"));
-        System.out.println(new Solution().majorityElementBetterSol(new int[]{3, 2, 3}));
+        // System.out.println(new Solution().majorityElementBetterSol(new int[]{3, 2, 3}));
+        System.out.println(new Solution().checkStraightLine(new int[][]{{-4, -3}, {1, 0}, {3, -1}, {0, -1}, {-5, 2}}));
     }
+
+    public boolean checkStraightLine(int[][] coordinates) {
+        if (coordinates.length == 2)
+            return true;
+        double slobe = (double) (coordinates[1][1] - coordinates[0][1]) / (coordinates[1][0] - coordinates[0][1]);
+
+        for (int i = 1; i <= coordinates.length - 1; i++) {
+            double currentSlobe = (double) (coordinates[i + 1][1] - coordinates[i][1]) / (coordinates[i + 1][0] - coordinates[i][0]);
+
+            if (currentSlobe != slobe)
+                return false;
+        }
+
+        return true;
+    }
+
 
     public boolean isCousins(TreeNode root, int x, int y) {
 
         Pair xPair = getPair(root, x, null, 0);
         Pair yPair = getPair(root, y, null, 0);
-        if (xPair.level == yPair.level && xPair.parent == yPair.parent){
+        if (xPair.level == yPair.level && xPair.parent == yPair.parent) {
             return true;
         }
         return false;
     }
 
-    public Pair getPair (TreeNode root, int val, TreeNode parent, int level ) {
+    public Pair getPair(TreeNode root, int val, TreeNode parent, int level) {
         if (root == null)
-            return  null;
+            return null;
         if (root.val == val)
-            return  new Pair(parent,level);
+            return new Pair(parent, level);
 
-        Pair leftPair = getPair(root.left, val, root,level +1 );
-        Pair rightPair = getPair(root.right, val, root, level+1);
+        Pair leftPair = getPair(root.left, val, root, level + 1);
+        Pair rightPair = getPair(root.right, val, root, level + 1);
 
-        return  leftPair == null ? rightPair: leftPair;
+        return leftPair == null ? rightPair : leftPair;
 
     }
 
@@ -166,8 +183,8 @@ class Pair {
     TreeNode parent;
     int level;
 
-    Pair(TreeNode parent, int level){
-        this.parent= parent;
+    Pair(TreeNode parent, int level) {
+        this.parent = parent;
         this.level = level;
     }
 
