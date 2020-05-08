@@ -10,22 +10,46 @@ public class Solution {
     public static void main(String s[]) {
         // System.out.println(new Solution().firstBadVersion(5));
         // System.out.println(new Solution().findComplement(2));
-       // System.out.printf("unique char " + new Solution().firstUniqChar("loveleetcode"));
-        System.out.println(new Solution().majorityElementBetterSol(new int[]{3,2,3}));
+        // System.out.printf("unique char " + new Solution().firstUniqChar("loveleetcode"));
+        System.out.println(new Solution().majorityElementBetterSol(new int[]{3, 2, 3}));
     }
 
-    public  int majorityElementBetterSol (int [] nums){
+    public boolean isCousins(TreeNode root, int x, int y) {
+
+        Pair xPair = getPair(root, x, null, 0);
+        Pair yPair = getPair(root, y, null, 0);
+        if (xPair.level == yPair.level && xPair.parent == yPair.parent){
+            return true;
+        }
+        return false;
+    }
+
+    public Pair getPair (TreeNode root, int val, TreeNode parent, int level ) {
+        if (root == null)
+            return  null;
+        if (root.val == val)
+            return  new Pair(parent,level);
+
+        Pair leftPair = getPair(root.left, val, root,level +1 );
+        Pair rightPair = getPair(root.right, val, root, level+1);
+
+        return  leftPair == null ? rightPair: leftPair;
+
+    }
+
+    public int majorityElementBetterSol(int[] nums) {
 
         int count = 0;
         int candadiate = 0;
-        for (int i =0 ; i< nums.length ; i++){
-            if (count ==0 ){
+        for (int i = 0; i < nums.length; i++) {
+            if (count == 0) {
                 candadiate = nums[i];
             }
-            count += (candadiate == nums[i]? 1 : -1);
+            count += (candadiate == nums[i] ? 1 : -1);
         }
         return candadiate;
     }
+
     public int majorityElement(int[] nums) {
         int majorityElement = -1;
         Map map = new HashMap();
@@ -117,4 +141,34 @@ class VersionControl {
         }
         return false;
     }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode() {
+    }
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class Pair {
+    TreeNode parent;
+    int level;
+
+    Pair(TreeNode parent, int level){
+        this.parent= parent;
+        this.level = level;
+    }
+
 }
