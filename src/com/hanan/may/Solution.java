@@ -12,7 +12,31 @@ public class Solution {
         // System.out.println(new Solution().findComplement(2));
         // System.out.printf("unique char " + new Solution().firstUniqChar("loveleetcode"));
         // System.out.println(new Solution().majorityElementBetterSol(new int[]{3, 2, 3}));
-        System.out.println(new Solution().checkStraightLine(new int[][]{{-4, -3}, {1, 0}, {3, -1}, {0, -1}, {-5, 2}}));
+       // System.out.println(new Solution().checkStraightLine(new int[][]{{-4, -3}, {1, 0}, {3, -1}, {0, -1}, {-5, 2}}));
+        System.out.println(new Solution().isPerfectSquare(14));
+    }
+
+    public boolean isPerfectSquare(int num) {
+
+        if (num < 2) {
+            return true;
+        }
+        long si = 2, ei = num / 2;
+        while (si <= ei) {
+            long mid = si + ((ei - si) / 2);
+            long guessedNumber = mid * mid;
+            if (guessedNumber == num)
+                return true;
+            else if (guessedNumber > num)
+                ei = mid - 1;
+            else
+                si = mid + 1;
+
+
+        }
+        return false;
+
+
     }
 
     public boolean checkStraightLine(int[][] coordinates) {
