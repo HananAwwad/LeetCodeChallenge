@@ -15,9 +15,38 @@ public class Solution {
         // System.out.println(new Solution().checkStraightLine(new int[][]{{-4, -3}, {1, 0}, {3, -1}, {0, -1}, {-5, 2}}));
         //System.out.println(new Solution().isPerfectSquare(14));
         // System.out.println(new Solution().findJudge(4,new int[][]{{1,3},{1,4},{2,3},{2,4},{4,3}}));
-        System.out.println(new Solution().floodFill(new int[][]{{1, 2}}, 2, 1, 2));
+        //System.out.println(new Solution().floodFill(new int[][]{{1, 2}}, 2, 1, 2));
+        System.out.println(new Solution().singleNonDuplicate(new int[]{3, 3, 7, 7, 10, 11, 11}));
 
     }
+
+    public int singleNonDuplicate(int[] nums) {
+
+        int si = 0, ei = nums.length - 1;
+
+        while (si < ei) {
+            int mid = si + (ei - si) / 2;
+            if (nums[mid - 1] == nums[mid]) {
+                boolean isEven = (ei - mid) % 2 == 0;
+                if (isEven) {
+                    ei = mid - 2;
+                } else {
+                    si = mid + 1;
+                }
+            } else if (nums[mid] == nums[mid + 1]) {
+
+                boolean isEven = (ei - mid + 1) % 2 == 0;
+                if (isEven) {
+                    ei = mid - 1;
+                } else {
+                    si = mid + 2;
+                }
+            } else
+                return nums[mid];
+        }
+        return nums[si];
+    }
+
 
     public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
         if (image[sr][sc] == newColor)
@@ -28,7 +57,7 @@ public class Solution {
         return image;
     }
 
-    public void dfs (int [][] image, int sr, int sc, int color , int newColor){
+    public void dfs(int[][] image, int sr, int sc, int color, int newColor) {
 
         if (sr < 0 || sc >= image.length)
             return;
@@ -39,12 +68,13 @@ public class Solution {
 
         image[sr][sc] = newColor;
 
-        dfs(image,sr-1, sc,color,newColor);
-        dfs(image,sr, sc-1,color,newColor);
-        dfs(image,sr+1, sc,color,newColor);
-        dfs(image,sr, sc+1,color,newColor);
+        dfs(image, sr - 1, sc, color, newColor);
+        dfs(image, sr, sc - 1, color, newColor);
+        dfs(image, sr + 1, sc, color, newColor);
+        dfs(image, sr, sc + 1, color, newColor);
 
     }
+
     public int findJudge(int N, int[][] trust) {
 
         int[] inDegree = new int[N + 1];
