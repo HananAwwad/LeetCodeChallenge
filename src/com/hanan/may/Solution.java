@@ -12,22 +12,50 @@ public class Solution {
         // System.out.println(new Solution().findComplement(2));
         // System.out.printf("unique char " + new Solution().firstUniqChar("loveleetcode"));
         // System.out.println(new Solution().majorityElementBetterSol(new int[]{3, 2, 3}));
-       // System.out.println(new Solution().checkStraightLine(new int[][]{{-4, -3}, {1, 0}, {3, -1}, {0, -1}, {-5, 2}}));
+        // System.out.println(new Solution().checkStraightLine(new int[][]{{-4, -3}, {1, 0}, {3, -1}, {0, -1}, {-5, 2}}));
         //System.out.println(new Solution().isPerfectSquare(14));
-        System.out.println(new Solution().findJudge(4,new int[][]{{1,3},{1,4},{2,3},{2,4},{4,3}}));
+        // System.out.println(new Solution().findJudge(4,new int[][]{{1,3},{1,4},{2,3},{2,4},{4,3}}));
+        System.out.println(new Solution().floodFill(new int[][]{{1, 2}}, 2, 1, 2));
+
     }
 
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        if (image[sr][sc] == newColor)
+            return image;
+
+        dfs(image, sr, sc, image[sr][sc], newColor);
+
+        return image;
+    }
+
+    public void dfs (int [][] image, int sr, int sc, int color , int newColor){
+
+        if (sr < 0 || sc >= image.length)
+            return;
+        if (sc < 0 || sc >= image[0].length)
+            return;
+        if (image[sr][sc] == newColor || image[sr][sc] != color)
+            return;
+
+        image[sr][sc] = newColor;
+
+        dfs(image,sr-1, sc,color,newColor);
+        dfs(image,sr, sc-1,color,newColor);
+        dfs(image,sr+1, sc,color,newColor);
+        dfs(image,sr, sc+1,color,newColor);
+
+    }
     public int findJudge(int N, int[][] trust) {
 
-        int [] inDegree = new int[N+1];
-        int [] outDegree = new int[N+1];
-        for (int i=0; i < trust.length ; i++){
+        int[] inDegree = new int[N + 1];
+        int[] outDegree = new int[N + 1];
+        for (int i = 0; i < trust.length; i++) {
             outDegree[trust[i][0]]++;
             inDegree[trust[i][1]]++;
 
         }
-        for (int i = 1 ; i <= N ; i++){
-            if (outDegree[i] == 0 && inDegree[i] == (N-1))
+        for (int i = 1; i <= N; i++) {
+            if (outDegree[i] == 0 && inDegree[i] == (N - 1))
                 return i;
         }
         return -1;
