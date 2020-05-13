@@ -1,9 +1,6 @@
 package com.hanan.may;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Solution {
 
@@ -16,8 +13,40 @@ public class Solution {
         //System.out.println(new Solution().isPerfectSquare(14));
         // System.out.println(new Solution().findJudge(4,new int[][]{{1,3},{1,4},{2,3},{2,4},{4,3}}));
         //System.out.println(new Solution().floodFill(new int[][]{{1, 2}}, 2, 1, 2));
-        System.out.println(new Solution().singleNonDuplicate(new int[]{3, 3, 7, 7, 10, 11, 11}));
+        //System.out.println(new Solution().singleNonDuplicate(new int[]{3, 3, 7, 7, 10, 11, 11}));
+        System.out.println(new Solution().removeKdigits("", 4));
 
+    }
+
+    public String removeKdigits(String num, int k) {
+        if (k == 0)
+            return num;
+        if (k == num.length())
+            return "0";
+        Stack<Character> stack = new Stack();
+        for (char c : num.toCharArray()) {
+            while (!stack.isEmpty() && k > 0 && stack.peek() > c) {
+                stack.pop();
+                k--;
+            }
+            stack.push(c);
+        }
+
+        for (int i = 0; i < k; i++) {
+            stack.pop();
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop());
+        }
+        sb.reverse();
+
+        while (sb.length() > 1 && sb.charAt(0) == '0') {
+            sb.deleteCharAt(0);
+        }
+        return sb.toString();
     }
 
     public int singleNonDuplicate(int[] nums) {
