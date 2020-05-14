@@ -14,8 +14,14 @@ public class Solution {
         // System.out.println(new Solution().findJudge(4,new int[][]{{1,3},{1,4},{2,3},{2,4},{4,3}}));
         //System.out.println(new Solution().floodFill(new int[][]{{1, 2}}, 2, 1, 2));
         //System.out.println(new Solution().singleNonDuplicate(new int[]{3, 3, 7, 7, 10, 11, 11}));
-        System.out.println(new Solution().removeKdigits("", 4));
+        //System.out.println(new Solution().removeKdigits("", 4));
 
+        //Your Trie object will be instantiated and called as such:
+        Trie obj = new Trie();
+        obj.insert("apple");
+        boolean param_2 = obj.search("apple");
+        boolean param_3 = obj.startsWith("app");
+        System.out.println("param_2    " + param_2 + "       param_3   " + param_3);
     }
 
     public String removeKdigits(String num, int k) {
@@ -316,4 +322,75 @@ class Pair {
         this.level = level;
     }
 
+}
+
+
+class Trie {
+
+    class Node {
+        char c;
+        Node[] arr;
+        boolean b;
+
+        Node(char c) {
+            this.c = c;
+            arr = new Node[26];
+        }
+    }
+
+    Node root;
+
+    /**
+     * Initialize your data structure here.
+     */
+    public Trie() {
+        this.root = new Node('\0');
+    }
+
+    /**
+     * Inserts a word into the trie.
+     */
+    public void insert(String word) {
+        Node node = root;
+        for (char c : word.toCharArray()) {
+            Node tmp = node.arr[c - 'a'];
+            if (tmp == null) {
+                tmp = new Node(c);
+                node.arr[c - 'a'] = tmp;
+            }
+            node = tmp;
+        }
+        node.b = true;
+
+    }
+
+    /**
+     * Returns if the word is in the trie.
+     */
+    public boolean search(String word) {
+        Node node = root;
+        for (char c : word.toCharArray()) {
+            Node tmp = node.arr[c - 'a'];
+            if (tmp == null) {
+                return false;
+            }
+            node = tmp;
+        }
+        return node.b;
+    }
+
+    /**
+     * Returns if there is any word in the trie that starts with the given prefix.
+     */
+    public boolean startsWith(String prefix) {
+        Node node = root;
+        for (char c : prefix.toCharArray()) {
+            Node tmp = node.arr[c - 'a'];
+            if (tmp == null) {
+                return false;
+            }
+            node = tmp;
+        }
+        return true;
+    }
 }
