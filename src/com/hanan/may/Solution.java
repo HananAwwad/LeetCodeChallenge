@@ -17,11 +17,45 @@ public class Solution {
         //System.out.println(new Solution().removeKdigits("", 4));
 
         //Your Trie object will be instantiated and called as such:
-        Trie obj = new Trie();
-        obj.insert("apple");
-        boolean param_2 = obj.search("apple");
-        boolean param_3 = obj.startsWith("app");
-        System.out.println("param_2    " + param_2 + "       param_3   " + param_3);
+//        Trie obj = new Trie();
+//        obj.insert("apple");
+//        boolean param_2 = obj.search("apple");
+//        boolean param_3 = obj.startsWith("app");
+//        System.out.println("param_2    " + param_2 + "       param_3   " + param_3);
+
+        System.out.println(new Solution().maxSubarraySumCircular(new int[]{3, -1, 2, -1}));
+    }
+
+    public int maxSubarraySumCircular(int[] A) {
+        int maxSub = Integer.MIN_VALUE;
+        int minSub = Integer.MIN_VALUE;
+        int total = Integer.MAX_VALUE;
+        int currentMax = 0;
+        int currentMin = 0;
+
+        for (int i = 0; i < A.length; i++) {
+            currentMax += A[i];
+            maxSub = Math.max(currentMax, maxSub);
+            currentMax = Math.max(currentMax, 0);
+
+            currentMin += A[i];
+            minSub = Math.min(currentMin, minSub);
+            currentMin = Math.min(currentMin, 0);
+
+        }
+        return maxSub < 0 ? maxSub : Math.max(maxSub, total - minSub);
+    }
+
+    public int maxSubArray(int[] nums) {
+        int currentSub = 0;
+        int maxSub = Integer.MIN_VALUE;
+
+        for (int i = 0; i < nums.length; i++) {
+            currentSub += nums[i];
+            maxSub = Math.max(currentSub, maxSub);
+            currentSub = Math.max(currentSub, 0);
+        }
+        return maxSub;
     }
 
     public String removeKdigits(String num, int k) {
