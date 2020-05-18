@@ -23,30 +23,87 @@ public class Solution {
 //        boolean param_3 = obj.startsWith("app");
 //        System.out.println("param_2    " + param_2 + "       param_3   " + param_3);
         // System.out.println(new Solution().maxSubarraySumCircular(new int[]{3, -1, 2, -1}));
+        // System.out.println(new Solution().findAnagrams("cbaebabacd","abc"));
+        System.out.println(new Solution().checkInclusion("ab", "eidbaooo"));
+    }
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length())
+            return false;
+        int[] s1map = new int[26];
+        int[] s2map = new int[26];
+        for (int i = 0; i < s1.length(); i++) {
+            s1map[s1.charAt(i) - 'a']++;
+            s2map[s2.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < s2.length() - s1.length(); i++) {
+            if (matches(s1map, s2map))
+                return true;
+            s2map[s2.charAt(i + s1.length()) - 'a']++;
+            s2map[s2.charAt(i) - 'a']--;
+        }
+        return matches(s1map, s2map);
+    }
+    public boolean matches(int[] s1map, int[] s2map) {
+        for (int i = 0; i < 26; i++) {
+            if (s1map[i] != s2map[i])
+                return false;
+        }
+        return true;
+    }
+    public boolean checkInclusion1(String s1, String s2) {
 
+        if (s1.length() > s2.length())
+            return false;
+        int[] s1map = new int[26];
+        int[] s2map = new int[26];
+        for (int i = 0; i < s1.length(); i++) {
+            s1map[s1.charAt(i) - 'a']++;
+            s2map[s2.charAt(i) - 'a']++;
+        }
+        int count = 0;
+        for (int i = 0; i < 26; i++)
+            if (s1map[i] == s2map[i])
+                count++;
+        for (int i = 0; i < s2.length() - s1.length(); i++) {
+            int r = s2.charAt(i + s1.length()) - 'a', l = s2.charAt(i) - 'a';
+            if (count == 26)
+                return true;
+            s2map[r]++;
+            if (s2map[r] == s1map[r])
+                count++;
+            else if (s2map[r] == s1map[r] + 1)
+                count--;
+            s2map[l]--;
+            if (s2map[l] == s1map[l])
+                count++;
+            else if (s2map[l] == s1map[l] - 1)
+                count--;
+        }
+        return count == 26;
     }
 
-    public List<Integer> findAnagrams(String s, String p) {
-        int m = s.length(), n = p.length();
-        if (n > m) return new ArrayList<>();
+
+    public List<Integer> findAnagrams(String wholeStr, String part) {
+        int wholeStrLenght = wholeStr.length(), partLength = part.length();
+        if (partLength > wholeStrLenght) return new ArrayList<>();
 
         int[] cnt_arr = new int[26];
-        for (int i = 0; i < n; i++) {
-            cnt_arr[s.charAt(i) - 'a']++;
-            cnt_arr[p.charAt(i) - 'a']--;
+        for (int i = 0; i < partLength; i++) {
+            cnt_arr[wholeStr.charAt(i) - 'a']++;
+            cnt_arr[part.charAt(i) - 'a']--;
         }
 
         List<Integer> result = new ArrayList<>();
 
-        for (int i = n; i < m; i++) {
+        for (int i = partLength; i < wholeStrLenght; i++) {
             if (areAllZeros(cnt_arr)) {
-                result.add(i - n);
+                result.add(i - partLength);
             }
-            cnt_arr[s.charAt(i) - 'a']++;
-            cnt_arr[s.charAt(i - n) - 'a']--;
+            cnt_arr[wholeStr.charAt(i) - 'a']++;
+            cnt_arr[wholeStr.charAt(i - partLength) - 'a']--;
         }
         if (areAllZeros(cnt_arr)) {
-            result.add(m - n);
+            result.add(wholeStrLenght - partLength);
         }
         return result;
     }
