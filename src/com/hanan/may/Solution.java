@@ -26,6 +26,38 @@ public class Solution {
 
     }
 
+    public List<Integer> findAnagrams(String s, String p) {
+        int m = s.length(), n = p.length();
+        if (n > m) return new ArrayList<>();
+
+        int[] cnt_arr = new int[26];
+        for (int i = 0; i < n; i++) {
+            cnt_arr[s.charAt(i) - 'a']++;
+            cnt_arr[p.charAt(i) - 'a']--;
+        }
+
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = n; i < m; i++) {
+            if (areAllZeros(cnt_arr)) {
+                result.add(i - n);
+            }
+            cnt_arr[s.charAt(i) - 'a']++;
+            cnt_arr[s.charAt(i - n) - 'a']--;
+        }
+        if (areAllZeros(cnt_arr)) {
+            result.add(m - n);
+        }
+        return result;
+    }
+
+    boolean areAllZeros(int[] cnt_arr) {
+        for (int i = 0; i < cnt_arr.length; i++) {
+            if (cnt_arr[i] != 0) return false;
+        }
+        return true;
+    }
+
     public ListNode oddEvenList(ListNode head) {
         if (head == null)
             return null;
