@@ -24,8 +24,18 @@ public class Solution {
 //        System.out.println("param_2    " + param_2 + "       param_3   " + param_3);
         // System.out.println(new Solution().maxSubarraySumCircular(new int[]{3, -1, 2, -1}));
         // System.out.println(new Solution().findAnagrams("cbaebabacd","abc"));
-        System.out.println(new Solution().checkInclusion("ab", "eidbaooo"));
+        //  System.out.println(new Solution().checkInclusion("ab", "eidbaooo"));
+
+        // * Your StockSpanner object will be instantiated and called as such:
+        StockSpanner obj = new StockSpanner();
+        int [] aa = new int []{12,3,9,5,6,4,7};
+        for (int i =0 ; i < aa.length; i ++) {
+            int param_1 = obj.next(aa[i]);
+            System.out.println(param_1);
+        }
+        System.out.println(" last value "+ obj.next(10));
     }
+
     public boolean checkInclusion(String s1, String s2) {
         if (s1.length() > s2.length())
             return false;
@@ -43,6 +53,7 @@ public class Solution {
         }
         return matches(s1map, s2map);
     }
+
     public boolean matches(int[] s1map, int[] s2map) {
         for (int i = 0; i < 26; i++) {
             if (s1map[i] != s2map[i])
@@ -50,6 +61,7 @@ public class Solution {
         }
         return true;
     }
+
     public boolean checkInclusion1(String s1, String s2) {
 
         if (s1.length() > s2.length())
@@ -549,5 +561,25 @@ class ListNode {
     ListNode(int val, ListNode next) {
         this.val = val;
         this.next = next;
+    }
+}
+
+class StockSpanner {
+
+    Stack<int[]> stk;
+
+    public StockSpanner() {
+
+        stk = new Stack<>();
+    }
+
+    public int next(int price) {
+        int span = 1;
+        while (!stk.isEmpty() && price >= stk.peek()[0]) {
+            span += stk.peek()[1];
+            stk.pop();
+        }
+        stk.push(new int[]{price, span});
+        return span;
     }
 }
