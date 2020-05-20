@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Solution {
 
+    int ans, count;
+
     public static void main(String s[]) {
         // System.out.println(new Solution().firstBadVersion(5));
         // System.out.println(new Solution().findComplement(2));
@@ -27,13 +29,31 @@ public class Solution {
         //  System.out.println(new Solution().checkInclusion("ab", "eidbaooo"));
 
         // * Your StockSpanner object will be instantiated and called as such:
-        StockSpanner obj = new StockSpanner();
-        int [] aa = new int []{12,3,9,5,6,4,7};
-        for (int i =0 ; i < aa.length; i ++) {
-            int param_1 = obj.next(aa[i]);
-            System.out.println(param_1);
+//        StockSpanner obj = new StockSpanner();
+//        int[] aa = new int[]{12, 3, 9, 5, 6, 4, 7};
+//        for (int i = 0; i < aa.length; i++) {
+//            int param_1 = obj.next(aa[i]);
+//            System.out.println(param_1);
+//        }
+//        System.out.println(" last value " + obj.next(10));
+
+
+    }
+
+    public int kthSmallest(TreeNode root, int k) {
+        inOrder(root, k, 0, 0);
+        return ans;
+    }
+
+    void inOrder(TreeNode root, int k, int count, int ans) {
+        if (root == null) return;
+        inOrder(root.left, k, count, ans);
+        count++;
+        if (count == k) {
+            ans = root.val;
+            return;
         }
-        System.out.println(" last value "+ obj.next(10));
+        inOrder(root.right, k, count, ans);
     }
 
     public boolean checkInclusion(String s1, String s2) {
