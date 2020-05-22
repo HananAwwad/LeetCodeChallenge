@@ -39,6 +39,27 @@ public class Solution {
 
 
     }
+    public int countSquares(int[][] matrix) {
+       int m = matrix.length , n = matrix[0].length;
+       int [][] dp = new int[2][n];
+       int res =0;
+        int flag = 0;
+        for (int i =0; i < m ; i++){
+            for (int j =0 ; j < n ; j++){
+                if (i ==0 || j == 0){
+                    dp[flag][j] = matrix[i][j];
+                }else {
+                    dp[flag][j] = (matrix[i][j] == 1 ? Math.min(dp[flag ^ 1][j], Math.min(dp[flag ^ 1][j -1 ], dp[flag][j -1 ]))+ 1 : 0);
+
+                }
+                res += dp[flag][j];
+            }
+            flag ^=1;
+        }
+
+        return res;
+
+    }
 
     public int kthSmallest(TreeNode root, int k) {
         inOrder(root, k, 0, 0);
