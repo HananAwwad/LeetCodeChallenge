@@ -39,22 +39,48 @@ public class Solution {
 
 
     }
+
+    public String frequencySort(String s) {
+        if (s == null || s.length() == 0)
+            return s;
+
+        int[] cnt_arr = new int[256];
+        for (char c : s.toCharArray()) {
+            cnt_arr[c]++;
+        }
+        PriorityQueue<Character> pq = new PriorityQueue<>((a, b) -> cnt_arr[b] - cnt_arr[a]);
+
+        for (int i = 0; i < 256; i++) {
+            pq.offer((char) i);
+        }
+        String sb = new String();
+        while (!pq.isEmpty()) {
+            Character c = pq.poll();
+            for (int i = 0; i < cnt_arr[c]; i++) {
+                sb += c;
+            }
+        }
+        return sb.toString();
+
+
+    }
+
     public int countSquares(int[][] matrix) {
-       int m = matrix.length , n = matrix[0].length;
-       int [][] dp = new int[2][n];
-       int res =0;
+        int m = matrix.length, n = matrix[0].length;
+        int[][] dp = new int[2][n];
+        int res = 0;
         int flag = 0;
-        for (int i =0; i < m ; i++){
-            for (int j =0 ; j < n ; j++){
-                if (i ==0 || j == 0){
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || j == 0) {
                     dp[flag][j] = matrix[i][j];
-                }else {
-                    dp[flag][j] = (matrix[i][j] == 1 ? Math.min(dp[flag ^ 1][j], Math.min(dp[flag ^ 1][j -1 ], dp[flag][j -1 ]))+ 1 : 0);
+                } else {
+                    dp[flag][j] = (matrix[i][j] == 1 ? Math.min(dp[flag ^ 1][j], Math.min(dp[flag ^ 1][j - 1], dp[flag][j - 1])) + 1 : 0);
 
                 }
                 res += dp[flag][j];
             }
-            flag ^=1;
+            flag ^= 1;
         }
 
         return res;
