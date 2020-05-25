@@ -5,6 +5,7 @@ import java.util.*;
 public class Solution {
 
     int ans, count;
+    TreeNode root;
 
     public static void main(String s[]) {
         // System.out.println(new Solution().firstBadVersion(5));
@@ -39,6 +40,61 @@ public class Solution {
 
 
     }
+    private void insert(int val) {
+
+        TreeNode node = new TreeNode(val);
+        if(root == null) root = node;
+        else {
+            TreeNode temp = root;
+            while(true) {
+                if(temp.val > val) {
+                    if(temp.left == null) {
+                        temp.left = node;
+                        break;
+                    }
+                    else temp = temp.left;
+                }
+                else {
+                    if(temp.right == null) {
+                        temp.right = node;
+                        break;
+                    }
+                    else temp = temp.right;
+                }
+            }
+        }
+    }
+
+    public TreeNode bstFromPreorder(int[] preorder) {
+
+        for(int i = 0; i < preorder.length; i++) insert(preorder[i]);
+
+        return root;
+    }
+
+    private TreeNode helper(int[] preorder, int start, int end){
+        if(start>end)
+            return null;
+
+        TreeNode root = new TreeNode(preorder[start]);
+
+        if(start==end)
+            return root;
+
+
+        //get the range for left sub tree
+        int leftTreeEndIndex=start+1;
+        while(leftTreeEndIndex<=end && preorder[leftTreeEndIndex]<preorder[start])
+            leftTreeEndIndex++;
+
+        root.left = helper(preorder, start+1, leftTreeEndIndex-1);
+        root.right = helper(preorder, leftTreeEndIndex, end);
+
+        return root;
+
+
+    }
+
     public int [][] intervalIntersection(int[][] A, int[][] B){
         List<int[]> list = new ArrayList<>();
         int i =0 , j =0 ;
