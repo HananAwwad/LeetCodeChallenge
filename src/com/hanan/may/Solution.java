@@ -37,6 +37,7 @@ public class Solution {
 //            System.out.println(param_1);
 //        }
 //        System.out.println(" last value " + obj.next(10));
+        System.out.println(new Solution().maxUncrossedLines(new int[]{2,5,1,2,5}, new int []{10,5,2,1,5,2}));
 
 
     }
