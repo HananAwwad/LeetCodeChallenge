@@ -41,7 +41,24 @@ public class Solution {
 
 
     }
+    public int[] countBits(int num) {
+        int[] result = new int[num+1];
+        result[0] = 0;
 
+        int idx = 0;
+        int currentPow = 1;
+        int nextPow = 2;
+        while (idx<num) {
+            idx++;
+            if (nextPow == idx) {
+                currentPow = nextPow;
+                nextPow = nextPow << 1;
+            }
+            result[idx] = 1+result[idx-currentPow];
+
+        }
+        return result;
+    }
 
     public int maxUncrossedLines(int[] A, int[] B) {
         if(A == null || B == null
