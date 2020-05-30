@@ -37,44 +37,84 @@ public class Solution {
 //            System.out.println(param_1);
 //        }
 //        System.out.println(" last value " + obj.next(10));
-        System.out.println(new Solution().maxUncrossedLines(new int[]{2,5,1,2,5}, new int []{10,5,2,1,5,2}));
+        System.out.println(new Solution().maxUncrossedLines(new int[]{2, 5, 1, 2, 5}, new int[]{10, 5, 2, 1, 5, 2}));
 
 
     }
+
+    List<Integer>[] adj;
+    boolean[] visited;
+    boolean[] marked;
+
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        adj = new ArrayList[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            adj[i] = new ArrayList<>();
+        }
+        visited = new boolean[numCourses];
+        marked = new boolean[numCourses];
+        for (int i = 0; i < prerequisites.length; i++) {
+            adj[prerequisites[i][0]].add(prerequisites[i][1]);
+        }
+        for (int i = 0; i < numCourses; i++) {
+            if (!visited[i]) {
+                if (isCyclic(i)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    boolean isCyclic(int i) {
+        visited[i] = true;
+        for (Integer j : adj[i]) {
+            if (!visited[j]) {
+                if (isCyclic(j)) {
+                    return true;
+                }
+            } else if (!marked[j]) {
+                return true;
+            }
+        }
+        marked[i] = true;
+        return false;
+    }
+
     public int[] countBits(int num) {
-        int[] result = new int[num+1];
+        int[] result = new int[num + 1];
         result[0] = 0;
 
         int idx = 0;
         int currentPow = 1;
         int nextPow = 2;
-        while (idx<num) {
+        while (idx < num) {
             idx++;
             if (nextPow == idx) {
                 currentPow = nextPow;
                 nextPow = nextPow << 1;
             }
-            result[idx] = 1+result[idx-currentPow];
+            result[idx] = 1 + result[idx - currentPow];
 
         }
         return result;
     }
 
     public int maxUncrossedLines(int[] A, int[] B) {
-        if(A == null || B == null
+        if (A == null || B == null
                 || A.length == 0 || B.length == 0
         ) return 0;
 
         int[][] dp = new int[A.length + 1][B.length + 1];
 
-        for(int i = 1; i <= A.length; i++){
+        for (int i = 1; i <= A.length; i++) {
 
-            for(int j = 1; j <= B.length; j++){
+            for (int j = 1; j <= B.length; j++) {
 
-                if(A[i - 1] == B[j - 1]){
+                if (A[i - 1] == B[j - 1]) {
 
                     dp[i][j] = 1 + dp[i - 1][j - 1];
-                } else{
+                } else {
 
                     dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
                 }
@@ -87,23 +127,20 @@ public class Solution {
     private void insert(int val) {
 
         TreeNode node = new TreeNode(val);
-        if(root == null) root = node;
+        if (root == null) root = node;
         else {
             TreeNode temp = root;
-            while(true) {
-                if(temp.val > val) {
-                    if(temp.left == null) {
+            while (true) {
+                if (temp.val > val) {
+                    if (temp.left == null) {
                         temp.left = node;
                         break;
-                    }
-                    else temp = temp.left;
-                }
-                else {
-                    if(temp.right == null) {
+                    } else temp = temp.left;
+                } else {
+                    if (temp.right == null) {
                         temp.right = node;
                         break;
-                    }
-                    else temp = temp.right;
+                    } else temp = temp.right;
                 }
             }
         }
@@ -111,27 +148,27 @@ public class Solution {
 
     public TreeNode bstFromPreorder(int[] preorder) {
 
-        for(int i = 0; i < preorder.length; i++) insert(preorder[i]);
+        for (int i = 0; i < preorder.length; i++) insert(preorder[i]);
 
         return root;
     }
 
-    private TreeNode helper(int[] preorder, int start, int end){
-        if(start>end)
+    private TreeNode helper(int[] preorder, int start, int end) {
+        if (start > end)
             return null;
 
         TreeNode root = new TreeNode(preorder[start]);
 
-        if(start==end)
+        if (start == end)
             return root;
 
 
         //get the range for left sub tree
-        int leftTreeEndIndex=start+1;
-        while(leftTreeEndIndex<=end && preorder[leftTreeEndIndex]<preorder[start])
+        int leftTreeEndIndex = start + 1;
+        while (leftTreeEndIndex <= end && preorder[leftTreeEndIndex] < preorder[start])
             leftTreeEndIndex++;
 
-        root.left = helper(preorder, start+1, leftTreeEndIndex-1);
+        root.left = helper(preorder, start + 1, leftTreeEndIndex - 1);
         root.right = helper(preorder, leftTreeEndIndex, end);
 
         return root;
@@ -139,25 +176,24 @@ public class Solution {
 
     }
 
-    public int [][] intervalIntersection(int[][] A, int[][] B){
+    public int[][] intervalIntersection(int[][] A, int[][] B) {
         List<int[]> list = new ArrayList<>();
-        int i =0 , j =0 ;
-        while (i< A.length && j< B.length){
+        int i = 0, j = 0;
+        while (i < A.length && j < B.length) {
             int maxStart = Math.max(A[i][0], B[j][0]);
             int minEnd = Math.min(A[i][1], B[j][1]);
-            if (maxStart <= minEnd){
+            if (maxStart <= minEnd) {
                 list.add(new int[]{maxStart, minEnd});
             }
-            if (A[i][1] < B[j][1]){
+            if (A[i][1] < B[j][1]) {
                 i++;
-            }
-            else {
+            } else {
                 j++;
             }
         }
         int[][] res = new int[list.size()][2];
-        i =0 ;
-        for (int[] arr:list){
+        i = 0;
+        for (int[] arr : list) {
             res[i++] = arr;
         }
         return res;
