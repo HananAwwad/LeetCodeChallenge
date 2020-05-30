@@ -37,10 +37,34 @@ public class Solution {
 //            System.out.println(param_1);
 //        }
 //        System.out.println(" last value " + obj.next(10));
-        System.out.println(new Solution().maxUncrossedLines(new int[]{2, 5, 1, 2, 5}, new int[]{10, 5, 2, 1, 5, 2}));
-
+    //        System.out.println(new Solution().maxUncrossedLines(new int[]{2, 5, 1, 2, 5}, new int[]{10, 5, 2, 1, 5, 2}));
+        System.out.println(new Solution().kClosest(new int[][]{{3,3},{5,-1},{-2,4}}, 2));
 
     }
+
+    public int[][] kClosest(int[][] points, int K) {
+        if (K == points.length)
+            return points;
+
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>((a, b) -> {
+            int dist_a = (int) (Math.pow(a[0], 2) + Math.pow(a[1], 2));
+            int dist_b = (int) (Math.pow(b[0], 2) + Math.pow(b[1], 2));
+            return dist_a - dist_b;
+        });
+
+        for (int i = 0; i < points.length; i++) {
+            pq.offer(new int[]{points[i][0], points[i][1]});
+        }
+        int[][] res = new int[K][2];
+        for (int i = 0; i < K; i++) {
+            int[] point = pq.poll();
+            res[i][0] = point[0];
+            res[i][1] = point[1];
+
+        }
+        return res;
+    }
+
 
     List<Integer>[] adj;
     boolean[] visited;
