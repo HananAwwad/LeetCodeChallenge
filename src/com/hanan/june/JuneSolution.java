@@ -9,6 +9,12 @@ public class JuneSolution {
         }
     }
 
+    public void deleteNode(ListNode node) {
+
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+
     public TreeNode invertTree(TreeNode root) {
         if (root == null)
             return root;
@@ -22,6 +28,15 @@ public class JuneSolution {
 
 }
 
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+    }
+}
 
 class TreeNode {
     int val;
