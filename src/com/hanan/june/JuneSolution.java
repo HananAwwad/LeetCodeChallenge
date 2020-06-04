@@ -7,6 +7,20 @@ public class JuneSolution {
         for (int i = 0; i < a.length; i++) {
 
         }
+        char[] s = new char[]{'h','e','l','l','o'};
+        new JuneSolution().reverseString(s);
+        System.out.println(s);
+    }
+
+    public void reverseString(char[] s) {
+        int left = 0;
+        int right = s.length - 1;
+        while (left < right) {
+            char tmp = s[left];
+            s[left++] = s[right];
+            s[right--] = tmp;
+        }
+
     }
 
     public void deleteNode(ListNode node) {
