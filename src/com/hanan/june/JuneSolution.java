@@ -16,6 +16,11 @@ public class JuneSolution {
         System.out.println(new JuneSolution().twoCitySchedCost(new int[][]{{10,20},{30,200},{400,50},{30,20}}));
     }
 
+
+
+
+
+
     public int twoCitySchedCost(int[][] costs) {
         int N = costs.length/2;
         int[] refund = new int[N * 2];
