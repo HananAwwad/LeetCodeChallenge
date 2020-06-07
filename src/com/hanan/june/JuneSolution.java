@@ -1,5 +1,6 @@
 package com.hanan.june;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,16 +16,46 @@ public class JuneSolution {
 //        new JuneSolution().reverseString(s);
 //        System.out.println(s);
 
-       // System.out.println(new JuneSolution().twoCitySchedCost(new int[][]{{10, 20}, {30, 200}, {400, 50}, {30, 20}}));
-        System.out.println(new JuneSolution().reconstructQueue(new int[][]{{7,0}, {4,4}, {7,1}, {5,0}, {6,1}, {5,2}}));
+        // System.out.println(new JuneSolution().twoCitySchedCost(new int[][]{{10, 20}, {30, 200}, {400, 50}, {30, 20}}));
+       // System.out.println(new JuneSolution().reconstructQueue(new int[][]{{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}}));
+        System.out.println(new JuneSolution().change(5, new int[]{1,2,3}));
+    }
+    public int change(int amount, int[] coins) {
+        int[][] dp = new int[coins.length + 1][amount + 1];
+        dp[0][0] = 1;
+        for (int j = 1; j <= coins.length; j++) {
+            dp[j][0] = 1; // number ways of selecting for amount zero is 1
+            for (int i = 1; i <= amount; i++) {
+                dp[j][i] = dp[j - 1][i]; // exclude current coin
+                if (i - coins[j - 1] >= 0) { // check if amount  >= to the current i`th coin
+                    dp[j][i] += dp[j][i - coins[j - 1]]; // include current coin
+                }
+            }
+        }
+        return dp[coins.length][amount];
+    }
+    public int change1(int amount, int[] coins) {
+        int[][] dp = new int[coins.length][amount+1 ];
+        for (int [] p : dp){
+            Arrays.fill(p, -1);
+        }
+        return cc(coins, 0, amount, dp);
+    }
+
+    int cc(int[] coins, int i, int amount, int[][] dp) {
+        if (amount == 0) return 1;
+        if (amount < 0 || i == coins.length) return 0;
+        if (dp[i][amount] != -1 )
+            return dp[i][amount];
+        return dp[i][amount] = (cc(coins, i, amount - coins[i],dp) + cc(coins, i + 1, amount,dp));
     }
 
     public int[][] reconstructQueue(int[][] people) {
         Arrays.sort(people, (a, b) -> (a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]));
         List<int[]> res = new ArrayList<>();
 
-        for (int[] p : people){
-            res.add(p[1],p);
+        for (int[] p : people) {
+            res.add(p[1], p);
         }
         int n = people.length;
         return res.toArray(new int[n][2]);
