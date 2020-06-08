@@ -1,6 +1,5 @@
 package com.hanan.june;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,9 +16,17 @@ public class JuneSolution {
 //        System.out.println(s);
 
         // System.out.println(new JuneSolution().twoCitySchedCost(new int[][]{{10, 20}, {30, 200}, {400, 50}, {30, 20}}));
-       // System.out.println(new JuneSolution().reconstructQueue(new int[][]{{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}}));
-        System.out.println(new JuneSolution().change(5, new int[]{1,2,3}));
+        // System.out.println(new JuneSolution().reconstructQueue(new int[][]{{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}}));
+        //System.out.println(new JuneSolution().change(5, new int[]{1, 2, 3}));
+        System.out.println(new JuneSolution().isPowerOfTwo(128));
     }
+
+    public boolean isPowerOfTwo(int n) {
+        if (n < 0) return false;
+        while (n % 2 == 0) n /= 2;
+        return n == 1;
+    }
+
     public int change(int amount, int[] coins) {
         int[][] dp = new int[coins.length + 1][amount + 1];
         dp[0][0] = 1;
@@ -34,9 +41,10 @@ public class JuneSolution {
         }
         return dp[coins.length][amount];
     }
+
     public int change1(int amount, int[] coins) {
-        int[][] dp = new int[coins.length][amount+1 ];
-        for (int [] p : dp){
+        int[][] dp = new int[coins.length][amount + 1];
+        for (int[] p : dp) {
             Arrays.fill(p, -1);
         }
         return cc(coins, 0, amount, dp);
@@ -45,9 +53,9 @@ public class JuneSolution {
     int cc(int[] coins, int i, int amount, int[][] dp) {
         if (amount == 0) return 1;
         if (amount < 0 || i == coins.length) return 0;
-        if (dp[i][amount] != -1 )
+        if (dp[i][amount] != -1)
             return dp[i][amount];
-        return dp[i][amount] = (cc(coins, i, amount - coins[i],dp) + cc(coins, i + 1, amount,dp));
+        return dp[i][amount] = (cc(coins, i, amount - coins[i], dp) + cc(coins, i + 1, amount, dp));
     }
 
     public int[][] reconstructQueue(int[][] people) {
