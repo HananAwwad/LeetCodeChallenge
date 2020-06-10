@@ -19,7 +19,16 @@ public class JuneSolution {
         // System.out.println(new JuneSolution().reconstructQueue(new int[][]{{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}}));
         //System.out.println(new JuneSolution().change(5, new int[]{1, 2, 3}));
         ///System.out.println(new JuneSolution().isPowerOfTwo(128));
-        System.out.println(new JuneSolution().isSubsequence("axc","ahbgdc"));
+       // System.out.println(new JuneSolution().isSubsequence("axc", "ahbgdc"));
+        System.out.println(new JuneSolution().searchInsert(new int[]{1,3,5,6},0));
+    }
+
+    public int searchInsert(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            if (target == nums[i] || target < nums[i])
+              return  i ;
+        }
+        return nums.length;
     }
 
     public boolean isSubsequence(String s, String t) {
@@ -34,6 +43,7 @@ public class JuneSolution {
 
         return i == s.length();
     }
+
     public boolean isPowerOfTwo(int n) {
         if (n < 0) return false;
         while (n % 2 == 0) n /= 2;
