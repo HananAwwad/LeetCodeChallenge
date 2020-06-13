@@ -19,15 +19,69 @@ public class JuneSolution {
         // System.out.println(new JuneSolution().reconstructQueue(new int[][]{{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}}));
         //System.out.println(new JuneSolution().change(5, new int[]{1, 2, 3}));
         ///System.out.println(new JuneSolution().isPowerOfTwo(128));
-       // System.out.println(new JuneSolution().isSubsequence("axc", "ahbgdc"));
-        System.out.println(new JuneSolution().searchInsert(new int[]{1,3,5,6},0));
+        // System.out.println(new JuneSolution().isSubsequence("axc", "ahbgdc"));
+        // System.out.println(new JuneSolution().searchInsert(new int[]{1, 3, 5, 6}, 0));
+        //  System.out.println(new JuneSolution().sortColors(new int[]{2,0,2,1,1,0}));
     }
+
+    public void sortColors(int[] nums) {
+        int low = 0, mid = 0, high = nums.length - 1;
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                swap(nums, mid, low);
+                mid++;
+                low++;
+            } else if (nums[mid] == 1) {
+                mid++;
+            } else if (nums[mid] == 2) {
+                swap(nums, mid, high);
+                high--;
+            }
+        }
+
+    }
+
+    public void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+
+    public int[] sortColors1(int[] nums) {
+        int zeros = 0;
+        int ones = 0;
+        int twos = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0)
+                zeros++;
+            else if (nums[i] == 1)
+                ones++;
+            else if (nums[i] == 2)
+                twos++;
+        }
+        int i = 0;
+        while (i < nums.length) {
+            if (zeros != 0) {
+                nums[i] = 0;
+                zeros--;
+            } else if (ones != 0) {
+                nums[i] = 1;
+                ones--;
+            } else if (twos != 0) {
+                nums[i] = 2;
+                twos--;
+            }
+            i++;
+        }
+        return nums;
+    }
+
 
     public int searchInsert(int[] nums, int target) {
         int i = 0;
-        for ( ;i < nums.length; i++) {
+        for (; i < nums.length; i++) {
             if (target <= nums[i])
-              return  i ;
+                return i;
         }
         return i;
     }
