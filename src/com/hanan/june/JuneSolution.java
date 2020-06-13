@@ -1,8 +1,6 @@
 package com.hanan.june;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class JuneSolution {
 
@@ -23,43 +21,47 @@ public class JuneSolution {
         // System.out.println(new JuneSolution().searchInsert(new int[]{1, 3, 5, 6}, 0));
         //  System.out.println(new JuneSolution().sortColors(new int[]{2,0,2,1,1,0}));
 
-        String s = "afcbedg";
 
-        System.out.print(longest_special_subseq(s,7, 2));
+        //System.out.print(longest_special_subseq("afcbedg",7, 2));
+        RandomizedSet obj = new RandomizedSet();
+        boolean param_1 = obj.insert(2);
+        boolean param_2 = obj.remove(1);
+        int param_3 = obj.getRandom();
     }
-    static int longest_special_subseq(String str , int n, int k){
+
+    static int longest_special_subseq(String str, int n, int k) {
         int[] dp = new int[n];
         int[] max_length = new int[26];
-        for (int i = 0; i < n ; i++){
+        for (int i = 0; i < n; i++) {
 
             int curr = str.charAt(i) - 'a';
-            int lower = Math.max(0, curr - k );
-            int uppper = Math.min(25, curr + k );
+            int lower = Math.max(0, curr - k);
+            int uppper = Math.min(25, curr + k);
 
-            for (int j = lower; j < uppper +1 ; j++){
-                dp[i] = Math.max(dp[i] , max_length[j] + 1);
+            for (int j = lower; j < uppper + 1; j++) {
+                dp[i] = Math.max(dp[i], max_length[j] + 1);
             }
 
             max_length[curr] = Math.max(dp[i], max_length[curr]);
         }
         int ans = 0;
-        for(int i : dp) ans = Math.min(i,ans);
+        for (int i : dp) ans = Math.min(i, ans);
         return ans;
     }
-    static int longest_special_subseq1(String str , int n, int k){
+
+    static int longest_special_subseq1(String str, int n, int k) {
         // Creating a list with
         // all 0's of size
         // equal to the length of String
-        int []dp = new int[n];
+        int[] dp = new int[n];
 
         // Supporting list with
         // all 0's of size 26 since
         // the given String consists
         // of only lower case alphabets
-        int []max_length = new int[26];
+        int[] max_length = new int[26];
 
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
 
             // Converting the ascii value to
             // list indices
@@ -72,8 +74,7 @@ public class JuneSolution {
             int upper = Math.min(25, curr + k);
 
             // Filling the dp array with values
-            for (int j = lower; j < upper + 1; j++)
-            {
+            for (int j = lower; j < upper + 1; j++) {
                 dp[i] = Math.max(dp[i], max_length[j] + 1);
             }
 
@@ -84,7 +85,7 @@ public class JuneSolution {
 
         int ans = 0;
 
-        for(int i:dp) ans = Math.max(i, ans);
+        for (int i : dp) ans = Math.max(i, ans);
 
         // return the max length of subsequence
         return ans;
@@ -288,3 +289,50 @@ class TreeNode {
     }
 }
 
+class RandomizedSet {
+
+    List<Integer> list;
+    Map<Integer, Integer> map;
+    Random rand;
+
+    public RandomizedSet() {
+        list = new ArrayList<>();
+        map = new HashMap<>();
+        rand = new Random();
+    }
+
+    /**
+     * Inserts a value to the set. Returns true if the set did not already contain the specified element.
+     */
+    public boolean insert(int val) {
+        if (map.containsKey(val)) {
+            return false;
+        }
+        list.add(val);
+        map.put(val, list.size() - 1);
+        return true;
+    }
+
+    /**
+     * Removes a value from the set. Returns true if the set contained the specified element.
+     */
+    public boolean remove(int val) {
+        if (!map.containsKey(val)) {
+            return false;
+        }
+        int index = map.get(val);
+        int lastElement = list.get(list.size() - 1);
+        list.set(index, lastElement);
+        map.put(lastElement, index);
+        list.remove(list.size() - 1);
+        map.remove(val);
+        return true;
+    }
+
+    /**
+     * Get a random element from the set.
+     */
+    public int getRandom() {
+        return list.get(rand.nextInt(list.size()));
+    }
+}
