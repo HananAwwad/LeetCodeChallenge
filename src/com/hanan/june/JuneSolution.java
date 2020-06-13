@@ -37,7 +37,7 @@ public class JuneSolution {
             int uppper = Math.min(25, curr + k );
 
             for (int j = lower; j < uppper +1 ; j++){
-                dp[i] = Math.max( dp[i] , max_length[j] + 1);
+                dp[i] = Math.max(dp[i] , max_length[j] + 1);
             }
 
             max_length[curr] = Math.max(dp[i], max_length[curr]);
