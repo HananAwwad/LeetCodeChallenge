@@ -22,6 +22,72 @@ public class JuneSolution {
         // System.out.println(new JuneSolution().isSubsequence("axc", "ahbgdc"));
         // System.out.println(new JuneSolution().searchInsert(new int[]{1, 3, 5, 6}, 0));
         //  System.out.println(new JuneSolution().sortColors(new int[]{2,0,2,1,1,0}));
+
+        String s = "afcbedg";
+
+        System.out.print(longest_special_subseq(s,7, 2));
+    }
+    static int longest_special_subseq(String str , int n, int k){
+        int[] dp = new int[n];
+        int[] max_length = new int[26];
+        for (int i = 0; i < n ; i++){
+
+            int curr = str.charAt(i) - 'a';
+            int lower = Math.max(0, curr - k );
+            int uppper = Math.min(25, curr + k );
+
+            for (int j = lower; j < uppper +1 ; j++){
+                dp[i] = Math.max( dp[i] , max_length[j] + 1);
+            }
+
+            max_length[curr] = Math.max(dp[i], max_length[curr]);
+        }
+        int ans = 0;
+        for(int i : dp) ans = Math.min(i,ans);
+        return ans;
+    }
+    static int longest_special_subseq1(String str , int n, int k){
+        // Creating a list with
+        // all 0's of size
+        // equal to the length of String
+        int []dp = new int[n];
+
+        // Supporting list with
+        // all 0's of size 26 since
+        // the given String consists
+        // of only lower case alphabets
+        int []max_length = new int[26];
+
+        for (int i = 0; i < n; i++)
+        {
+
+            // Converting the ascii value to
+            // list indices
+            int curr = str.charAt(i) - 'a';
+
+            // Determining the lower bound
+            int lower = Math.max(0, curr - k);
+
+            // Determining the upper bound
+            int upper = Math.min(25, curr + k);
+
+            // Filling the dp array with values
+            for (int j = lower; j < upper + 1; j++)
+            {
+                dp[i] = Math.max(dp[i], max_length[j] + 1);
+            }
+
+            // Filling the max_length array with max
+            // length of subsequence till now
+            max_length[curr] = Math.max(dp[i], max_length[curr]);
+        }
+
+        int ans = 0;
+
+        for(int i:dp) ans = Math.max(i, ans);
+
+        // return the max length of subsequence
+        return ans;
     }
 
     public void sortColors(int[] nums) {
