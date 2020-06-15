@@ -28,8 +28,49 @@ public class JuneSolution {
 //        boolean param_2 = obj.remove(1);
 //        int param_3 = obj.getRandom();
 
-        System.out.println(new JuneSolution().findCheapestPrice(3,new int[][]{{0,1,100},{1,2,100},{0,2,500}},0,2,1));
+        //System.out.println(new JuneSolution().findCheapestPrice(3,new int[][]{{0,1,100},{1,2,100},{0,2,500}},0,2,1));
+        TreeNode root = null;
+        int arr[] = {4, 2, 7, 1, 3};
+        root = new JuneSolution().insertLevelOrder(arr, root, 0);
+        new JuneSolution().inOrder(root);
 
+    }
+
+    public TreeNode searchBST(TreeNode root, int val) {
+        if (root.val == val || root == null)
+            return root;
+        if (root.val > val)
+            return searchBST(root.left, val);
+        return searchBST(root.right, val);
+
+    }
+
+    // Function to insert nodes in level order
+    public TreeNode insertLevelOrder(int[] arr, TreeNode root,
+                                     int i) {
+        // Base case for recursion
+        if (i < arr.length) {
+            TreeNode temp = new TreeNode(arr[i]);
+            root = temp;
+
+            // insert left child
+            root.left = insertLevelOrder(arr, root.left,
+                    2 * i + 1);
+
+            // insert right child
+            root.right = insertLevelOrder(arr, root.right,
+                    2 * i + 2);
+        }
+        return root;
+    }
+
+    public void inOrder(TreeNode root) {
+        if (root != null) {
+            inOrder(root.left);
+            inOrder(root.right);
+            System.out.print(root.val + " ");
+
+        }
     }
 
     static int longest_special_subseq(String str, int n, int k) {
@@ -104,20 +145,20 @@ public class JuneSolution {
             }
             graph.get(flight[0]).add(new int[]{flight[1], flight[2]});
         }
-        PriorityQueue<Node> q = new PriorityQueue<Node>((a, b )-> (a.cost - b.cost));
+        PriorityQueue<Node> q = new PriorityQueue<Node>((a, b) -> (a.cost - b.cost));
 
-        q.add(new Node(src,0, -1));
+        q.add(new Node(src, 0, -1));
 
-        while (!q.isEmpty()){
+        while (!q.isEmpty()) {
             Node curr = q.poll();
 
             if (curr.city == dst)
                 return curr.cost;
 
-            if (curr.stop< K){
+            if (curr.stop < K) {
                 List<int[]> nexts = graph.get(curr.city);
-                for (int[] next: nexts){
-                    q.add(new Node(next[0],curr.cost+ next[1],curr.stop+1));
+                for (int[] next : nexts) {
+                    q.add(new Node(next[0], curr.cost + next[1], curr.stop + 1));
                 }
             }
 
