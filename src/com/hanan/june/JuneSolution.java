@@ -23,10 +23,21 @@ public class JuneSolution {
 
 
         //System.out.print(longest_special_subseq("afcbedg",7, 2));
-        RandomizedSet obj = new RandomizedSet();
-        boolean param_1 = obj.insert(2);
-        boolean param_2 = obj.remove(1);
-        int param_3 = obj.getRandom();
+//        RandomizedSet obj = new RandomizedSet();
+//        boolean param_1 = obj.insert(2);
+//        boolean param_2 = obj.remove(1);
+//        int param_3 = obj.getRandom();
+
+
+    }
+
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+
+        }
+        return res;
     }
 
     static int longest_special_subseq(String str, int n, int k) {
