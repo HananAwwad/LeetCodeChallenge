@@ -28,16 +28,8 @@ public class JuneSolution {
 //        boolean param_2 = obj.remove(1);
 //        int param_3 = obj.getRandom();
 
+        System.out.println(new JuneSolution().findCheapestPrice(3,new int[][]{{0,1,100},{1,2,100},{0,2,500}},0,2,1));
 
-    }
-
-    public List<Integer> largestDivisibleSubset(int[] nums) {
-        List<Integer> res = new ArrayList<>();
-
-        for (int i = 0; i < nums.length; i++) {
-
-        }
-        return res;
     }
 
     static int longest_special_subseq(String str, int n, int k) {
@@ -100,6 +92,46 @@ public class JuneSolution {
 
         // return the max length of subsequence
         return ans;
+    }
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        if (flights.length == 0)
+            return -1;
+        HashMap<Integer, ArrayList<int[]>> graph = new HashMap<>();
+        for (int[] flight : flights) {
+            if (!graph.containsKey(flight[0])) {
+                graph.put(flight[0], new ArrayList<>());
+            }
+            graph.get(flight[0]).add(new int[]{flight[1], flight[2]});
+        }
+        PriorityQueue<Node> q = new PriorityQueue<Node>((a, b )-> (a.cost - b.cost));
+
+        q.add(new Node(src,0, -1));
+
+        while (!q.isEmpty()){
+            Node curr = q.poll();
+
+            if (curr.city == dst)
+                return curr.cost;
+
+            if (curr.stop< K){
+                List<int[]> nexts = graph.get(curr.city);
+                for (int[] next: nexts){
+                    q.add(new Node(next[0],curr.cost+ next[1],curr.stop+1));
+                }
+            }
+
+        }
+        return -1;
+    }
+
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+
+        }
+        return res;
     }
 
     public void sortColors(int[] nums) {
@@ -345,5 +377,17 @@ class RandomizedSet {
      */
     public int getRandom() {
         return list.get(rand.nextInt(list.size()));
+    }
+}
+
+class Node {
+    int city;
+    int cost;
+    int stop;
+
+    public Node(int city, int cost, int stop) {
+        this.city = city;
+        this.cost = cost;
+        this.stop = stop;
     }
 }
