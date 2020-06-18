@@ -34,8 +34,18 @@ public class JuneSolution {
 //        root = new JuneSolution().insertLevelOrder(arr, root, 0);
 //        new JuneSolution().inOrder(root);
 
+        System.out.println( new JuneSolution().hIndex(new int[]{0,1,3,5,6}));
     }
+    public int hIndex(int[] citations) {
+        Arrays.sort(citations);
 
+        int i = 0;
+        while (i < citations.length && citations.length - i > citations[i]) {
+            i++;
+        }
+
+        return citations.length - i;
+    }
     public void solve(char[][] board) {
 
         if (board == null || board.length == 0)
