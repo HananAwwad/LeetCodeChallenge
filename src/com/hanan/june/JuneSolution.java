@@ -29,11 +29,47 @@ public class JuneSolution {
 //        int param_3 = obj.getRandom();
 
         //System.out.println(new JuneSolution().findCheapestPrice(3,new int[][]{{0,1,100},{1,2,100},{0,2,500}},0,2,1));
-        TreeNode root = null;
-        int arr[] = {4, 2, 7, 1, 3};
-        root = new JuneSolution().insertLevelOrder(arr, root, 0);
-        new JuneSolution().inOrder(root);
+//        TreeNode root = null;
+//        int arr[] = {4, 2, 7, 1, 3};
+//        root = new JuneSolution().insertLevelOrder(arr, root, 0);
+//        new JuneSolution().inOrder(root);
 
+    }
+
+    public void solve(char[][] board) {
+
+        if (board == null || board.length == 0)
+            return;
+
+        int rows = board.length;
+        int col = board[0].length;
+        for (int i =0 ; i < board.length ; i++){
+            if (board[i][0] == 'O') DFS(board, i , 0);
+            if (board[i][col-1] == 'O') DFS(board,i, col -1);
+        }
+
+        for (int j =0 ; j < col; j ++){
+            if (board[0][j] == 'O') DFS(board, 0 , j);
+            if (board[rows-1][j] =='O') DFS(board,rows-1, j);
+        }
+        for (int i = 0 ; i < rows ; i++){
+            for (int j =0 ; j< col; j++){
+                if (board[i][j] == 'E') board[i][j] = 'O';
+                else if (board[i][j] == 'O') board[i][j] = 'X';
+            }
+        }
+    }
+
+    public void DFS(char[][] board, int i , int j ){
+        if (i < 0 || j < 0 || i>= board.length || j >=board[0].length || board[i][j] != 'O')return;
+        board[i][j] = 'E';
+        DFS(board, i + 1, j);
+        DFS(board,i , j +1);
+        DFS(board, i-1 , j);
+        DFS(board,i, j-1);
+    }
+    public String validIPAddress(String IP) {
+        return "";
     }
 
     public TreeNode searchBST(TreeNode root, int val) {
