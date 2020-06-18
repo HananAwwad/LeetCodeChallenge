@@ -34,8 +34,10 @@ public class JuneSolution {
 //        root = new JuneSolution().insertLevelOrder(arr, root, 0);
 //        new JuneSolution().inOrder(root);
 
-        System.out.println( new JuneSolution().hIndex(new int[]{0,1,3,5,6}));
+        //System.out.println( new JuneSolution().hIndex(new int[]{0,1,3,5,6}));
+        System.out.println(new JuneSolution().validIPAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334"));
     }
+
     public int hIndex(int[] citations) {
         Arrays.sort(citations);
 
@@ -46,6 +48,7 @@ public class JuneSolution {
 
         return citations.length - i;
     }
+
     public void solve(char[][] board) {
 
         if (board == null || board.length == 0)
@@ -53,33 +56,103 @@ public class JuneSolution {
 
         int rows = board.length;
         int col = board[0].length;
-        for (int i =0 ; i < board.length ; i++){
-            if (board[i][0] == 'O') DFS(board, i , 0);
-            if (board[i][col-1] == 'O') DFS(board,i, col -1);
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][0] == 'O') DFS(board, i, 0);
+            if (board[i][col - 1] == 'O') DFS(board, i, col - 1);
         }
 
-        for (int j =0 ; j < col; j ++){
-            if (board[0][j] == 'O') DFS(board, 0 , j);
-            if (board[rows-1][j] =='O') DFS(board,rows-1, j);
+        for (int j = 0; j < col; j++) {
+            if (board[0][j] == 'O') DFS(board, 0, j);
+            if (board[rows - 1][j] == 'O') DFS(board, rows - 1, j);
         }
-        for (int i = 0 ; i < rows ; i++){
-            for (int j =0 ; j< col; j++){
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < col; j++) {
                 if (board[i][j] == 'E') board[i][j] = 'O';
                 else if (board[i][j] == 'O') board[i][j] = 'X';
             }
         }
     }
 
-    public void DFS(char[][] board, int i , int j ){
-        if (i < 0 || j < 0 || i>= board.length || j >=board[0].length || board[i][j] != 'O')return;
+    public void DFS(char[][] board, int i, int j) {
+        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || board[i][j] != 'O') return;
         board[i][j] = 'E';
         DFS(board, i + 1, j);
-        DFS(board,i , j +1);
-        DFS(board, i-1 , j);
-        DFS(board,i, j-1);
+        DFS(board, i, j + 1);
+        DFS(board, i - 1, j);
+        DFS(board, i, j - 1);
     }
+
     public String validIPAddress(String IP) {
-        return "";
+        if (validIPv4(IP)) return "IPv4";
+        if (validIPv6(IP)) return "IPv6";
+        return "Neither";
+    }
+
+    public boolean validIPv4(String IP) {
+
+        String[] str = IP.split("\\.");
+
+        // Check if String length is less thn 4
+        if (str.length != 4) return false;
+
+        // Check if last char is not .
+        if (IP.charAt(IP.length() - 1) == '.') return false;
+
+        for (int i = 0; i < str.length; i++) {
+            // Try to convert string into the number
+            try {
+                int number = Integer.parseInt(str[i]);
+                //check if number is greater than 255
+                if (number > 255) {
+                    return false;
+                }
+                //check if number is less thn 10 or 100 and have leading zero
+                if ((number < 10 && str[i].length() > 1) || (number < 100 && str[i].length() > 2)) {
+                    return false;
+                }
+            }
+            // catch the exception is string is not converted to number i.e. in case of invalid IPv4
+            catch (Exception e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean validIPv6(String IP) {
+
+        String[] str = IP.split(":");
+        // Check if String length is less thn 8
+        if (str.length != 8) return false;
+
+        // Check if last char is not :
+        if (IP.charAt(IP.length() - 1) == ':') return false;
+
+        for (int i = 0; i < str.length; i++) {
+
+            String currentStr = str[i].toLowerCase();
+
+            if (currentStr.length() > 4 || currentStr.length() < 1) return false;
+
+            int count = 0;
+
+            for (int j = 0; j < currentStr.length(); j++) {
+
+                char c = currentStr.charAt(j);
+                // a = 97 and 0 = 48
+                if (((c >= 48 && c <= 57) || (c >= 97 && c <= 102))) {
+                    // check if the char is 0 ;
+                    if (c == 48) {
+                        count++;
+                    } else if (count == 4) {
+                        return false;
+                    }
+                } else
+                    return false;
+            }
+
+        }
+        return true;
     }
 
     public TreeNode searchBST(TreeNode root, int val) {
