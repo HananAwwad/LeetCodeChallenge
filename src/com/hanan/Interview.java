@@ -1,7 +1,6 @@
 package com.hanan;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Interview {
 
@@ -26,7 +25,39 @@ public class Interview {
 
 
     public static void main(String[] aa) {
-        System.out.println(new Interview().twoSum(new int[]{2, 7, 11, 15}, 9));
+        //System.out.println(new Interview().twoSum(new int[]{2, 7, 11, 15}, 9));
+        //System.out.println(new Interview().maxProfit(new int[]{7, 1, 5, 3, 6, 4}));
+        System.out.println(new Interview().isValidParentheses("([)]"));
+    }
+
+    public boolean isValidParentheses(String s) {
+        Map<Character , Character> mappins = new HashMap<>();
+        mappins.put('[', ']');
+        mappins.put('{','}');
+        mappins.put('(',')');
+        Stack stack = new Stack<Character>();
+        for (int i =0 ; i < s.toCharArray().length; i++){
+            if (mappins.containsKey(s.charAt(i))){
+                stack.push(s.charAt(i));
+            }else if (mappins.containsValue(s.charAt(i))){
+                if (stack.isEmpty() || (char)stack.pop() != s.charAt(i)){
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
+        public int maxProfit(int[] prices) {
+        int maxProfit = 0;
+        for (int i = 0; i < prices.length; i++) {
+            for (int j = i + 1; j < prices.length; j++) {
+                if (prices[j] > prices[i]) {
+                    maxProfit = Math.max(maxProfit, prices[j] - prices[i]);
+                }
+            }
+        }
+        return maxProfit;
     }
 
     public boolean containsDuplicate(int[] nums) {
