@@ -1,8 +1,7 @@
 package com.hanan;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Interview {
 
@@ -30,16 +29,27 @@ public class Interview {
         System.out.println(new Interview().twoSum(new int[]{2, 7, 11, 15}, 9));
     }
 
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            set.add(new Integer(nums[i]));
+        }
+        if (set.size() != nums.length)
+            return true;
+        else
+            return false;
+    }
 
     public int[] twoSum(int[] nums, int target) {
 
         int[] aa = new int[2];
 
-        END: for (int i = 0; i < nums.length; i++) {
+        END:
+        for (int i = 0; i < nums.length; i++) {
             for (int j = 0; j < nums.length; j++) {
                 if (i != j) {
                     if ((nums[i] + nums[j]) == target) {
-                        aa[0]= i;
+                        aa[0] = i;
                         aa[1] = j;
 
                         break END;
