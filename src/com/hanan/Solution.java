@@ -163,7 +163,27 @@ public class Solution {
         }
         return result;
     }
+    public boolean isAnagram1(String str1, String str2) {
+        if (str2.length() != str1.length())
+            return false;
 
+        int[] array = new int [26];
+        for (char c : str2.toCharArray()){
+            array[c- 'a']++;
+        }
+        int[] array2 = new int [26];
+
+        for (char c: str1.toCharArray()){
+            if (array[c-'a'] == 0)
+                return false;
+            else
+                array2[c - 'a']++;
+        }
+        if (!Arrays.equals(array, array2)){
+            return false;
+        }
+        return true;
+    }
     public static boolean isAnagrams(String str1, String str2) {
 
         String s1 = str1.replaceAll("\\s", "");
