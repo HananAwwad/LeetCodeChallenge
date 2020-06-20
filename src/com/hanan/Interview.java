@@ -1,6 +1,7 @@
 package com.hanan;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Interview {
 
@@ -27,20 +28,65 @@ public class Interview {
     public static void main(String[] aa) {
         //System.out.println(new Interview().twoSum(new int[]{2, 7, 11, 15}, 9));
         //System.out.println(new Interview().maxProfit(new int[]{7, 1, 5, 3, 6, 4}));
-        System.out.println(new Interview().isValidParentheses("([)]"));
+        // System.out.println(new Interview().isValidParentheses("([)]"));
+        System.out.println(new Interview().threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
+    }
+
+    public List<List<Integer>> threeSum(int[] nums) {
+
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+
+        if (nums.length < 3 || nums[0] > 0)
+            return result;
+
+        boolean same = true;
+        for (int i = 1; i < nums.length; i++)
+            if (nums[i] != nums[0])
+                same = false;
+
+        if (same) {
+            List<Integer> t = new ArrayList<Integer>();
+            t.add(0);
+            t.add(0);
+            t.add(0);
+            result.add(t);
+            return result;
+        }
+
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            int l = i + 1;
+            int r = nums.length - 1;
+            while (l < r) {
+                List<Integer> tl = new ArrayList<Integer>();
+                if (nums[i] + nums[l] + nums[r] == 0) {
+                    tl.add(nums[i]);
+                    tl.add(nums[l]);
+                    tl.add(nums[r]);
+                    result.add(tl);
+                }
+                if (nums[i] + nums[l] + nums[r] < 0)
+                    l++;
+                else
+                    r--;
+            }
+        }
+        result = result.stream().distinct().collect(Collectors.toList());
+        return result;
     }
 
     public boolean isValidParentheses(String s) {
-        Map<Character , Character> mappins = new HashMap<>();
+        Map<Character, Character> mappins = new HashMap<>();
         mappins.put('[', ']');
-        mappins.put('{','}');
-        mappins.put('(',')');
+        mappins.put('{', '}');
+        mappins.put('(', ')');
         Stack stack = new Stack<Character>();
-        for (int i =0 ; i < s.toCharArray().length; i++){
-            if (mappins.containsKey(s.charAt(i))){
+        for (int i = 0; i < s.toCharArray().length; i++) {
+            if (mappins.containsKey(s.charAt(i))) {
                 stack.push(s.charAt(i));
-            }else if (mappins.containsValue(s.charAt(i))){
-                if (stack.isEmpty() || (char)stack.pop() != s.charAt(i)){
+            } else if (mappins.containsValue(s.charAt(i))) {
+                if (stack.isEmpty() || (char) stack.pop() != s.charAt(i)) {
                     return false;
                 }
             }
@@ -48,7 +94,7 @@ public class Interview {
         return stack.isEmpty();
     }
 
-        public int maxProfit(int[] prices) {
+    public int maxProfit(int[] prices) {
         int maxProfit = 0;
         for (int i = 0; i < prices.length; i++) {
             for (int j = i + 1; j < prices.length; j++) {
