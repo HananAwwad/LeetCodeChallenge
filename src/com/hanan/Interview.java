@@ -29,8 +29,172 @@ public class Interview {
         //System.out.println(new Interview().twoSum(new int[]{2, 7, 11, 15}, 9));
         //System.out.println(new Interview().maxProfit(new int[]{7, 1, 5, 3, 6, 4}));
         // System.out.println(new Interview().isValidParentheses("([)]"));
-        System.out.println(new Interview().threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
+        // System.out.println(new Interview().threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
+        //System.out.println(new Interview().burstBallons(new int[]{0, 4, 4}));
+       // System.out.println(new Interview().permute(new int[]{1, 2, 3}));
+        //System.out.println(new Interview().permute1(new int[]{1,2,3}));
+        System.out.println(new Interview().maxProduct(new int[]{2,-5,-2,-4,3}));
     }
+
+    public int maxProduct(int[] nums) {
+        if(nums==null || nums.length==0){
+            return 0;
+        }
+        int current_max = nums[0];
+        int current_min = nums[0];
+        int final_product = nums[0];
+        for (int i =1; i < nums.length; i++){
+
+            int tmp = current_max;
+            current_max = Math.max(Math.max(current_max* nums[i], current_min * nums[i]),nums[i]);
+            current_min = Math.min(Math.min(tmp* nums[i], current_min * nums[i]),nums[i]);
+            if (current_max> final_product)
+                final_product = current_max;
+        }
+
+        return final_product;
+    }
+
+    List<List<Integer>> ans;
+
+    public List<List<Integer>> permute1(int[] nums) {
+
+        ans = new ArrayList<>();
+
+        // by it we will easily indentifies that we have take this value or not
+        boolean[] b = new boolean[nums.length];
+
+        get(nums, new ArrayList<Integer>(), b);
+
+        return ans;
+    }
+
+    public void get(int[] nums, ArrayList set, boolean[] b) {
+//we get new permutation
+
+        if (set.size() == nums.length) {
+
+            List<Integer> list2 = new ArrayList<>();
+            list2 = (ArrayList) set.clone();
+            System.out.println("adding new set now " + list2);
+            ans.add(list2);
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            System.out.println("############# start loop with " + i );
+            if (!b[i]) {
+                System.out.println("##############start processing " + i + " set " + set );
+                b[i] = true;
+                System.out.println("adding "+ nums[i] + " to the set with i "  + i );
+                set.add(nums[i]);
+                get(nums, set, b);
+                System.out.println("removing "+ nums[set.size() -1 ] + " to the set with i = "  + i );
+
+                set.remove(set.size() - 1);
+                System.out.println(" now we have all combinations from it so put false and take another" + set);
+                // now we have all combinations from it so put false and take another
+                b[i] = false;
+                System.out.println("##############done processing " + i );
+
+            }
+            System.out.println("##############end loop with index " + i );
+        }
+    }
+
+
+
+    public int burstBallons(int[] ballonHeights) {
+        int minShots = 0;
+
+        if (ballonHeights.length == 0)
+            return 0;
+
+        Map<Integer, Integer> map = new HashMap();
+
+        for (int i = 0; i < ballonHeights.length; i++) {
+            map.put(i, ballonHeights[i]);
+        }
+
+        while (!map.isEmpty()) {
+            minShots++;
+
+            Map.Entry<Integer, Integer> entry = map.entrySet().iterator().next();
+
+            int arrowHeight = entry.getValue();
+
+            Iterator it = map.entrySet().iterator();
+
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry) it.next();
+                if (arrowHeight == (int) pair.getValue()) {
+                    System.out.println("Deleting the following pairs from the map " + pair.getKey() + " = " + pair.getValue());
+                    arrowHeight--;
+                    it.remove();
+                }
+            }
+
+
+        }
+        return minShots;
+    }
+
+
+    public List<List<Integer>> permute(int[] nums) {
+        Integer[] list = new Integer[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            list[i] = nums[i];
+        }
+        ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
+        findPermutation(list, 0, result);
+        return result;
+    }
+
+    void findPermutation(Integer nums[], int index, ArrayList<List<Integer>> result) {
+        if (index == nums.length) {
+            result.add(new ArrayList<Integer>(Arrays.asList(nums)));
+        }
+        for (int i = index; i < nums.length; i++) {
+            int temp = nums[i];
+            nums[i] = nums[index];
+            nums[index] = temp;
+            findPermutation(nums, index + 1, result);
+            temp = nums[i];
+            nums[i] = nums[index];
+            nums[index] = temp;
+        }
+    }
+
+    public int maxCoins(int[] nums) {
+        if (nums.length == 0) return 0;
+
+        int n = nums.length;
+
+        // dp[i,j] holds the solution for max conins between indices and i and j in nums
+        int[][] dp = new int[nums.length][nums.length];
+
+        // k - sliding window size, i.e. distance between i and j. we try all sizes
+        for (int k = 0; k < n; k++) {
+            // i - statring index of sliding window in nums
+            // j - endind index of sliding window in nums
+            for (int i = 0; i < n - k; i++) {
+                int j = i + k;
+                int l = i == 0 ? 1 : nums[i - 1];
+                int r = j == n - 1 ? 1 : nums[j + 1];
+
+                dp[i][j] = 0;
+                // q - which element of the sliding window will burst last, we try them all to find best/max
+                for (int q = i; q <= j; q++) {
+                    int lh = q == i ? 0 : dp[i][q - 1];
+                    int rh = q == j ? 0 : dp[q + 1][j];
+                    dp[i][j] = Math.max(dp[i][j], lh + l * nums[q] * r + rh);
+                }
+            }
+        }
+
+        return dp[0][nums.length - 1];
+    }
+
 
     public List<List<Integer>> threeSum(int[] nums) {
 
