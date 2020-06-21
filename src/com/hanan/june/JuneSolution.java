@@ -22,7 +22,7 @@ public class JuneSolution {
         //  System.out.println(new JuneSolution().sortColors(new int[]{2,0,2,1,1,0}));
 
 
-        //System.out.print(longest_special_subseq("afcbedg",7, 2));
+      //  System.out.print(longest_special_subseq("afcbedg", 7, 2));
 //        RandomizedSet obj = new RandomizedSet();
 //        boolean param_1 = obj.insert(2);
 //        boolean param_2 = obj.remove(1);
@@ -35,7 +35,94 @@ public class JuneSolution {
 //        new JuneSolution().inOrder(root);
 
         //System.out.println( new JuneSolution().hIndex(new int[]{0,1,3,5,6}));
-        System.out.println(new JuneSolution().validIPAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334"));
+        // System.out.println(new JuneSolution().validIPAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334"));
+        //System.out.println(new JuneSolution().longestDupSubstring(""));
+        System.out.println(new JuneSolution().getPermutation(3, 3));
+    }
+
+    public String getPermutation(int n, int k) {
+        Integer[] nums = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = i + 1;
+        }
+        List<List<Integer>> res = permute(nums);
+        StringBuilder builder = new StringBuilder();
+        for (int i : res.get(k)) {
+            builder.append(i);
+        }
+        return builder.toString().substring(0,builder.toString().length());
+ //       return "ssssss"+Arrays.toString(res.get(k).toArray()).toString();
+
+    }
+
+    public List<List<Integer>> permute(Integer[] nums) {
+        ArrayList<List<Integer>> res = new ArrayList<>();
+
+        permute(nums, 0, res);
+        return res;
+    }
+
+    public void permute(Integer[] nums, int index, ArrayList<List<Integer>> res) {
+
+        if (index == nums.length) {
+            res.add(new ArrayList<Integer>(Arrays.asList(nums)));
+
+        }
+        for (int i = index; i < nums.length; i++) {
+            int tmp = nums[i];
+            nums[i] = nums[index];
+            nums[index] = tmp;
+            permute(nums, i + 1, res);
+            int tmp1 = nums[i];
+            nums[i] = nums[index];
+            nums[index] = tmp1;
+        }
+    }
+
+
+    public String longestDupSubstring(String s) {
+        int left = 1, right = s.length();
+        long mod = Long.MAX_VALUE / 26;
+
+        String ans = "";
+        int i;
+        int strLenght = s.length();
+        int mid, flag;
+
+
+        while (left <= right) {
+            Set<Long> set = new HashSet<Long>();
+            mid = left + ((right - left) >> 1);
+            flag = 0;
+            long hash = 0, p = 1;
+
+            for (i = 0; i < mid; i++) {
+                hash = (26 * hash + (s.charAt(i) - 'a')) % mod;
+                p = (p * 26) % mod;
+            }
+
+            set.add(hash);
+
+            for (i = 0; i + mid < strLenght; i++) {
+                hash = (hash * 26 + (s.charAt(i + mid) - 'a') - ((s.charAt(i) - 'a') * p)) % mod;
+                if (hash < 0) hash += mod;
+                if (set.contains(hash)) {
+                    flag = 1;
+                    ans = s.substring(i + 1, i + mid + 1);
+                    break;
+                }
+
+                set.add(hash);
+            }
+
+            if (flag == 1) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return ans;
     }
 
     public int hIndex(int[] citations) {

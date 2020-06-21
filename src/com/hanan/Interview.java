@@ -31,24 +31,41 @@ public class Interview {
         // System.out.println(new Interview().isValidParentheses("([)]"));
         // System.out.println(new Interview().threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
         //System.out.println(new Interview().burstBallons(new int[]{0, 4, 4}));
-       // System.out.println(new Interview().permute(new int[]{1, 2, 3}));
+        // System.out.println(new Interview().permute(new int[]{1, 2, 3}));
         //System.out.println(new Interview().permute1(new int[]{1,2,3}));
-        System.out.println(new Interview().maxProduct(new int[]{2,-5,-2,-4,3}));
+        System.out.println(new Interview().maxProduct(new int[]{2, -5, -2, -4, 3}));
+    }
+
+    public boolean isValidBST(TreeNode root) {
+
+        if (root != null) {
+            if (root.left != null && root.val < root.left.val)
+                return false;
+
+            if (root.right != null && root.val > root.right.val)
+                return false;
+        }
+        if (root.left != null)
+            isValidBST(root.left);
+        if (root.right != null)
+            isValidBST(root.right);
+
+        return true;
     }
 
     public int maxProduct(int[] nums) {
-        if(nums==null || nums.length==0){
+        if (nums == null || nums.length == 0) {
             return 0;
         }
         int current_max = nums[0];
         int current_min = nums[0];
         int final_product = nums[0];
-        for (int i =1; i < nums.length; i++){
+        for (int i = 1; i < nums.length; i++) {
 
             int tmp = current_max;
-            current_max = Math.max(Math.max(current_max* nums[i], current_min * nums[i]),nums[i]);
-            current_min = Math.min(Math.min(tmp* nums[i], current_min * nums[i]),nums[i]);
-            if (current_max> final_product)
+            current_max = Math.max(Math.max(current_max * nums[i], current_min * nums[i]), nums[i]);
+            current_min = Math.min(Math.min(tmp * nums[i], current_min * nums[i]), nums[i]);
+            if (current_max > final_product)
                 final_product = current_max;
         }
 
@@ -82,26 +99,25 @@ public class Interview {
         }
 
         for (int i = 0; i < nums.length; i++) {
-            System.out.println("############# start loop with " + i );
+            System.out.println("############# start loop with " + i);
             if (!b[i]) {
-                System.out.println("##############start processing " + i + " set " + set );
+                System.out.println("##############start processing " + i + " set " + set);
                 b[i] = true;
-                System.out.println("adding "+ nums[i] + " to the set with i "  + i );
+                System.out.println("adding " + nums[i] + " to the set with i " + i);
                 set.add(nums[i]);
                 get(nums, set, b);
-                System.out.println("removing "+ nums[set.size() -1 ] + " to the set with i = "  + i );
+                System.out.println("removing " + nums[set.size() - 1] + " to the set with i = " + i);
 
                 set.remove(set.size() - 1);
                 System.out.println(" now we have all combinations from it so put false and take another" + set);
                 // now we have all combinations from it so put false and take another
                 b[i] = false;
-                System.out.println("##############done processing " + i );
+                System.out.println("##############done processing " + i);
 
             }
-            System.out.println("##############end loop with index " + i );
+            System.out.println("##############end loop with index " + i);
         }
     }
-
 
 
     public int burstBallons(int[] ballonHeights) {
