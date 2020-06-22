@@ -22,7 +22,7 @@ public class JuneSolution {
         //  System.out.println(new JuneSolution().sortColors(new int[]{2,0,2,1,1,0}));
 
 
-      //  System.out.print(longest_special_subseq("afcbedg", 7, 2));
+        //  System.out.print(longest_special_subseq("afcbedg", 7, 2));
 //        RandomizedSet obj = new RandomizedSet();
 //        boolean param_1 = obj.insert(2);
 //        boolean param_2 = obj.remove(1);
@@ -37,7 +37,28 @@ public class JuneSolution {
         //System.out.println( new JuneSolution().hIndex(new int[]{0,1,3,5,6}));
         // System.out.println(new JuneSolution().validIPAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334"));
         //System.out.println(new JuneSolution().longestDupSubstring(""));
-        System.out.println(new JuneSolution().getPermutation(3, 3));
+        //System.out.println(new JuneSolution().getPermutation(3, 3));
+        System.out.println(new JuneSolution().singleNumber(new int[]{1,1,2,2,2,99,99,99}));
+    }
+
+
+    public int singleNumber(int[] nums) {
+        Arrays.sort(nums);
+
+        int i, length = nums.length, result = 0;
+        for (i = 0; i < length; ) {
+            if (i == length - 1) {
+                System.out.println("its the last element");
+                result = nums[i];
+                break;
+            } else if (nums[i] == nums[i + 1] && i + 3 <= length) {
+                i += 3;
+            } else {
+                result = nums[i];
+                break;
+            }
+        }
+        return result;
     }
 
     public String getPermutation(int n, int k) {
@@ -50,8 +71,8 @@ public class JuneSolution {
         for (int i : res.get(k)) {
             builder.append(i);
         }
-        return builder.toString().substring(0,builder.toString().length());
- //       return "ssssss"+Arrays.toString(res.get(k).toArray()).toString();
+        return builder.toString().substring(0, builder.toString().length());
+        //       return "ssssss"+Arrays.toString(res.get(k).toArray()).toString();
 
     }
 
