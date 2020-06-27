@@ -41,7 +41,20 @@ public class JuneSolution {
         // System.out.println(new JuneSolution().singleNumber(new int[]{1,1,2,2,2,99,99,99}));
         //   System.out.println(new JuneSolution().calculateMinimumHP(new int[][]{{-2,-3,3},{-5,-10,1},{10,30,-5}}));
         //System.out.println(new JuneSolution().numSquares(14));
-        System.out.println(new JuneSolution().numSquares1(12));
+        //System.out.println(new JuneSolution().numSquares1(12));
+        System.out.println(new JuneSolution().numTrees(4));
+    }
+
+    public int numTrees(int n) {
+
+        if (n == 0 || n == 1)
+            return 1;
+        int count = 0;
+
+        for (int i = 1; i <= n; i++) {
+            count += numTrees(i - 1) * numTrees(n - i);
+        }
+        return count;
     }
 
     public int numSquares1(int n) {
