@@ -38,8 +38,74 @@ public class JuneSolution {
         // System.out.println(new JuneSolution().validIPAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334"));
         //System.out.println(new JuneSolution().longestDupSubstring(""));
         //System.out.println(new JuneSolution().getPermutation(3, 3));
-       // System.out.println(new JuneSolution().singleNumber(new int[]{1,1,2,2,2,99,99,99}));
-        System.out.println(new JuneSolution().calculateMinimumHP(new int[][]{{-2,-3,3},{-5,-10,1},{10,30,-5}}));
+        // System.out.println(new JuneSolution().singleNumber(new int[]{1,1,2,2,2,99,99,99}));
+        //   System.out.println(new JuneSolution().calculateMinimumHP(new int[][]{{-2,-3,3},{-5,-10,1},{10,30,-5}}));
+        //System.out.println(new JuneSolution().numSquares(14));
+        System.out.println(new JuneSolution().numSquares1(12));
+    }
+
+    public int numSquares1(int n) {
+        int[] dp = new int[n + 1];
+
+
+        for (int x = 1; x <= n; ++x) {
+
+            int min_val = x;
+
+            int y = 1, perfectSequare = 1;
+
+            while (perfectSequare <= x) {
+                min_val = Math.min(min_val, 1 + dp[x - perfectSequare]);
+                y++;
+                perfectSequare = y * y;
+            }
+
+            dp[x] = min_val;
+        }
+
+
+        return dp[n];
+    }
+
+    public int numSquares(int n) {
+
+        double sq = Math.sqrt(n);
+        double closestInt = Math.floor(sq);
+        if ((sq - closestInt) == 0) {
+            return (int) closestInt;
+        }
+        List result = new ArrayList();
+
+        for (int i = (int) closestInt; i > 0; i--) {
+            int remaining = n - (i * i);
+
+
+            double sq1 = Math.sqrt(remaining);
+            double closestInt1 = Math.floor(sq1);
+            if ((sq1 - closestInt1) == 0) {
+                result.add(i);
+            }
+
+            while (remaining != 0) {
+                remaining = n - (i * i);
+
+
+            }
+
+        }
+        return result.size();
+    }
+
+    public boolean isPerfectSequare(int num) {
+        // finding the square root of given number
+        double sq = Math.sqrt(num);
+
+        /* Math.floor() returns closest integer value, for
+         * example Math.floor of 984.1 is 984, so if the value
+         * of sq is non integer than the below expression would
+         * be non-zero.
+         */
+        return ((sq - Math.floor(sq)) == 0);
     }
 
     public int calculateMinimumHP(int[][] dungeon) {
@@ -68,6 +134,7 @@ public class JuneSolution {
 
         return dp[0][0];
     }
+
     public int singleNumber(int[] nums) {
         Arrays.sort(nums);
 
