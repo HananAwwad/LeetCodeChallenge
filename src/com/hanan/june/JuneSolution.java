@@ -45,6 +45,43 @@ public class JuneSolution {
         System.out.println(new JuneSolution().numTrees(4));
     }
 
+    Map<String, PriorityQueue<String>> graph;
+    LinkedList res;
+
+    public List<String> findItinerary(List<List<String>> tickets) {
+        graph = new HashMap<>();
+        res = new LinkedList();
+
+        //1- build the directed graph.
+        for (List<String> ticket : tickets) {
+            String from = ticket.get(0);
+            String to = ticket.get(1);
+
+            if (!graph.containsKey(from)) {
+                graph.put(from, new PriorityQueue<>());
+            }
+            graph.get(from).offer(to);
+
+        }
+        depthFirstSearch("JFK");
+        return res;
+
+
+    }
+
+    public void depthFirstSearch(String from) {
+
+        PriorityQueue<String> arrivals = graph.get(from);
+        //2- remove teh edge with all arrivals till reached last node ...
+        while (arrivals != null && !arrivals.isEmpty()) {
+            depthFirstSearch(arrivals.poll());
+        }
+        // once reach the last node add it to the first ,,,
+        // the recursion will handling returning back to the first node
+        // then the recursion
+        res.addFirst(from);
+    }
+
     public int numTrees(int n) {
 
         if (n == 0 || n == 1)
