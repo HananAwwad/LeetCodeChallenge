@@ -1,9 +1,39 @@
 package com.hanan;
 
+import java.util.*;
+
 public class JulySolution {
     public static void main(String[] aa) {
         //System.out.println(new JulySolution().arrangeCoins(5));
         System.out.println(new JulySolution().prisonAfterNDays(new int[]{0, 1, 0, 1, 1, 0, 0, 1}, 50));
+    }
+
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+
+        if (root == null) return new ArrayList();
+        List<List<Integer>> result = new ArrayList();
+        Queue<TreeNode> queue = new LinkedList();
+        Stack<List<Integer>> stack = new Stack();
+
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> level = new ArrayList();
+            while (size-- > 0) {
+                root = queue.poll();
+                level.add(root.val);
+                if (root.left != null)
+                    queue.add(root.left);
+                if (root.right != null)
+                    queue.add(root.right);
+            }
+            stack.add(level);
+        }
+
+        while (!stack.isEmpty())
+            result.add(stack.pop());
+
+        return result;
     }
 
     public int[] prisonAfterNDays(int[] cells, int N) {
@@ -32,4 +62,5 @@ public class JulySolution {
         }
         return numberOfStaircase;
     }
+
 }
