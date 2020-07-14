@@ -6,7 +6,85 @@ public class JulySolution {
     public static void main(String[] aa) {
         //System.out.println(new JulySolution().arrangeCoins(5));
         //   System.out.println(new JulySolution().prisonAfterNDays(new int[]{0, 1, 0, 1, 1, 0, 0, 1}, 50));
-        System.out.println(new JulySolution().subsets(new int[]{1, 2, 3}));
+        // System.out.println(new JulySolution().subsets(new int[]{1, 2, 3}));
+        //System.out.println(Integer.parseInt("00000010100101000001111010011100"));
+        // System.out.println(new JulySolution().reverseBits(Integer.parseInt("00000010100101000001111010011100")));
+        System.out.println(new JulySolution().ArrayChallenge(new int[]{1, 1, 2, 10, 3, 1, 12}));
+    }
+
+
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null)
+            return true;
+        if (p == null || q == null)
+            return false;
+        if (p.val != q.val)
+            return false;
+        return isSameTree(p.left, q.left) && isSameTree(p.left, q.right);
+    }
+
+
+    public static int ArrayChallenge(int[] arr) {
+        Arrays.sort(arr);
+        int sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        int doubleSum = sum * sum;
+        int prevelement = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            int product = prevelement * arr[i];
+            if (product > doubleSum) {
+                System.out.println("true");
+                return 1;
+            }
+
+            prevelement = arr[i];
+
+        }
+
+
+        return 0;
+    }
+
+    public static String StringChallenge(String str) {
+        return "" + str.split(" ").length;
+    }
+
+    public int reverseBits(int n) {
+
+        int a = 60;
+        int b = -60;
+        int c = 0;
+        System.out.println("60  = " + Integer.toBinaryString(a));
+        System.out.println("-60 = " + Integer.toBinaryString(b));
+        //signed shift
+        c = a >> 1;
+        System.out.println("60 >> 1  = " + Integer.toBinaryString(c));
+
+        //unsigned shift
+        c = a >>> 1;
+        System.out.println("60 >>> 1 = " + Integer.toBinaryString(c));
+
+        c = b >> 1;
+        System.out.println("-60 >> 1  = " + Integer.toBinaryString(c));
+
+        c = b >>> 1;
+        System.out.println("-60 >>> 1 = " + Integer.toBinaryString(c));
+
+
+        int ans = 0;
+
+        for (int i = 0; i < 32; i++) {
+            ans += (n & 1);
+            if (i == 31) {
+                break;
+            }
+            ans <<= 1;
+            n >>= 1;
+        }
+
+        return ans;
     }
 
     public List<List<Integer>> subsets(int[] nums) {
