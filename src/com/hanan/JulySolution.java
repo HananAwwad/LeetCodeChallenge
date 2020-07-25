@@ -10,8 +10,29 @@ public class JulySolution {
         //System.out.println(Integer.parseInt("00000010100101000001111010011100"));
         // System.out.println(new JulySolution().reverseBits(Integer.parseInt("00000010100101000001111010011100")));
         // System.out.println(new JulySolution().ArrayChallenge(new int[]{1, 1, 2, 10, 3, 1, 12}));
-        System.out.println(new JulySolution().topKFrequent(new int[]{1, 1, 1, 1, 2, 2, 3}, 2));
+        //System.out.println(new JulySolution().topKFrequent(new int[]{1, 1, 1, 1, 2, 2, 3}, 2));
+        System.out.println(new JulySolution().singleNumber(new int []{1,1,2,2,3,5}));
 
+    }
+
+    public int[] singleNumber(int[] nums) {
+
+        int xor = 0;
+
+        for (int n : nums) {
+            xor ^= n;
+        }
+        // generate the bit mask ....
+        int mask = 0;
+        mask = (xor & (xor - 1)) ^ xor;
+
+        int num1 = 0;
+        for (int n : nums) {
+            // classify them in to two groups,, first group with i = 0 , then we generate the second group depending on num2 = xor ^ num1
+            if ((mask & n) == 0)
+                num1 ^= n;
+        }
+        return new int[]{num1, xor ^ num1};
     }
 
 
