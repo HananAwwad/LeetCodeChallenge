@@ -11,8 +11,69 @@ public class JulySolution {
         // System.out.println(new JulySolution().reverseBits(Integer.parseInt("00000010100101000001111010011100")));
         // System.out.println(new JulySolution().ArrayChallenge(new int[]{1, 1, 2, 10, 3, 1, 12}));
         //System.out.println(new JulySolution().topKFrequent(new int[]{1, 1, 1, 1, 2, 2, 3}, 2));
-        System.out.println(new JulySolution().singleNumber(new int []{1,1,2,2,3,5}));
+        //System.out.println(new JulySolution().singleNumber(new int []{1,1,2,2,3,5}));
+        System.out.println(new JulySolution().findMin(new int[]{2, 2, 2, 0, 1}));
 
+    }
+
+    public boolean search(int[] nums, int target) {
+        int left = 0, right = nums.length;
+        while (left != right) {
+            int mid = left + ((right - left) / 2);
+            if (nums[mid] == target)
+                return true;
+            else if (nums[mid] < nums[right]) {
+                if (target > nums[left] && target < nums[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+
+            } else {
+                if (target > nums[left] && target < nums[right]) {
+                    right = mid - 1;
+                } else
+                    left = mid + 1;
+
+
+            }
+        }
+        return false;
+    }
+
+
+    public int findMin(int[] nums) {
+        int start = 0, end = nums.length - 1;
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+
+            if (nums[mid] < nums[start]) {
+                start++;
+                end = mid;
+            } else if (nums[mid] > nums[end]) {
+                start = mid + 1;
+            } else
+                end--;
+        }
+        return nums[start];
+
+//        if (nums.length == 2)
+//            return nums[1];
+//        int start = 0;
+//        int end = nums.length - 1;
+//        int mid = 0;
+//        while (end != start) {
+//            mid = start + ((end - start) / 2);
+//            if (nums[mid] > nums[start]) {
+//                start = mid - 1;
+//            } else {
+//               // end = mid + 1;
+//                break;
+//            }
+//
+//        }
+//        return nums[mid];
     }
 
     public int[] singleNumber(int[] nums) {
