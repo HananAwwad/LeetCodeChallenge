@@ -44,7 +44,7 @@ public class AugustChallenge {
 
     public List<List<Integer>> pathSumII(TreeNode root, int sum) {
         fillPaths(root, sum, sum, new ArrayList());
-        return ans.s;
+        return ans;
     }
 
     public void fillPaths(TreeNode root, int currentSum, int sum, List path) {
