@@ -21,6 +21,31 @@ public class AugustChallenge {
 //
 //        boolean param_2 = obj.search("b..");
 //        System.out.println(param_2);
+        System.out.println(new AugustChallenge().titleToNumber("AAA"));
+    }
+
+    public int titleToNumber(String s) {
+        int result = 0;
+        int factor = 1;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            result += factor * (s.charAt(i) - 'A' + 1);
+            factor *= 26;
+        }
+        return result;
+    }
+
+    public String convertToTitle(int n) {
+        StringBuilder result = new StringBuilder();
+        while (n > 0) {
+            if (n % 26 == 0)
+                result.insert(0, 'Z');
+            else {
+                result.insert(0, (char) ('A' + n % 26 - 1));
+            }
+            n--;
+            n /= 26;
+        }
+        return result.toString();
     }
 
     public int pathSumIII(TreeNode root, int sum) {
