@@ -2,9 +2,9 @@ package com.hanan.august;
 
 
 import com.hanan.common.TreeNode;
-import com.hanan.june.JuneSolution;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +23,94 @@ public class AugustChallenge {
 //        boolean param_2 = obj.search("b..");
 //        System.out.println(param_2);
         //System.out.println(new AugustChallenge().titleToNumber("AAA"));
-        System.out.println( new JuneSolution().hIndex(new int[]{0,1,3,5,6}));
+        //  System.out.println(new JuneSolution().hIndex(new int[]{0, 1, 3, 5, 6}));
+        //System.out.println(new AugustChallenge().generate(5).size());
+        System.out.println(new AugustChallenge().getRow(3));
+    }
+
+    public List<Integer> getRow(int rowIndex) {
+        Integer[] result = new Integer[rowIndex + 1];
+        Arrays.fill(result, 0);
+        result[0] = 1;
+        for (int i = 1; i <= rowIndex; i++)
+            for (int j = i; j > 0; j--)
+                result[j] = result[j] + result[j - 1];
+
+        return Arrays.asList(result);
+
+
+
+//        List<List<Integer>> triangle = new ArrayList<>();
+//        List<Integer> row = new ArrayList<>();
+//        if (rowIndex == 0) {
+//            return row;
+//        }
+//        triangle.add(row);
+//        triangle.get(0).add(1);
+//
+//
+//        for (int i = 1; i <= rowIndex; i++) {
+//            row = new ArrayList<>();
+//            List<Integer> previousRow = triangle.get(i - 1);
+//            // The last row element is always 1.
+//            row.add(1);
+//
+//            for (int j = 1; j < i; j++) {
+//                row.add(previousRow.get(j) + previousRow.get(j - 1));
+//            }
+//            // The last row element is always 1.
+//            row.add(1);
+//            triangle.clear ();
+//            triangle.add(row);
+//
+//        }
+//
+//
+//        return row;
+
+
+
+//        List<Integer> result = new ArrayList<>();
+//        for (int i=0; i <=rowIndex ; i++){
+//            int j =0;
+//            while (result.size()-1 > j){
+//                result.add(result.get(0) + result.get(1));
+//                result.remove(0);
+//                j++;
+//            }
+//            result.add(1);
+//        }
+//        return  result;
+    }
+
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> triangle = new ArrayList<>();
+
+        // First base case; if user requests zero rows, they get zero rows.
+        if (numRows == 0) {
+            return triangle;
+        }
+
+        // Second base case; first row is always [1].
+        triangle.add(new ArrayList<>());
+        triangle.get(0).add(1);
+
+
+        for (int i = 1; i < numRows; i++) {
+            List<Integer> row = new ArrayList<>();
+            List<Integer> previousRow = triangle.get(i - 1);
+            // The last row element is always 1.
+            row.add(1);
+
+            for (int j = 1; j < i; j++) {
+                row.add(previousRow.get(j) + previousRow.get(j - 1));
+            }
+            // The last row element is always 1.
+            row.add(1);
+
+            triangle.add(row);
+        }
+        return triangle;
     }
 
     public int titleToNumber(String s) {
