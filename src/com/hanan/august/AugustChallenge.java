@@ -2,6 +2,7 @@ package com.hanan.august;
 
 
 import com.hanan.common.TreeNode;
+import com.hanan.june.JuneSolution;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -21,7 +22,8 @@ public class AugustChallenge {
 //
 //        boolean param_2 = obj.search("b..");
 //        System.out.println(param_2);
-        System.out.println(new AugustChallenge().titleToNumber("AAA"));
+        //System.out.println(new AugustChallenge().titleToNumber("AAA"));
+        System.out.println( new JuneSolution().hIndex(new int[]{0,1,3,5,6}));
     }
 
     public int titleToNumber(String s) {
