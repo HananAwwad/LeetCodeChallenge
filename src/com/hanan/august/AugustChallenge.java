@@ -25,7 +25,38 @@ public class AugustChallenge {
         //System.out.println(new AugustChallenge().titleToNumber("AAA"));
         //  System.out.println(new JuneSolution().hIndex(new int[]{0, 1, 3, 5, 6}));
         //System.out.println(new AugustChallenge().generate(5).size());
-        System.out.println(new AugustChallenge().getRow(3));
+        //System.out.println(new AugustChallenge().getRow(3));
+        System.out.println("max profit " + new AugustChallenge().maxProfit(new int[]{3, 3, 5, 0, 0, 3, 1, 4}));
+    }
+    public int[] distributeCandies(int candies, int num_people) {
+
+    }
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+
+        if (prices.length < 2)
+            return 0;
+
+        int pMas = prices[n - 1];
+        int pMin = prices[0];
+        int[] profit1 = new int[n];
+        int[] profit2 = new int[n];
+        for (int i = 1; i < n; i++) {
+            profit1[i] = Math.max(profit1[i - 1], prices[i]-pMin);
+            pMin = Math.min(pMin, prices[i]);
+
+            int j = n - 1 - i;
+
+            profit2[j] = Math.max(profit2[j + 1], pMas - prices[j] );
+            pMas = Math.max(pMas, prices[j]);
+
+        }
+
+        int profit = 0;
+        for (int i = 0; i < n; i++) {
+            profit = Math.max(profit, profit1[i] + profit2[i]);
+        }
+        return profit;
     }
 
     public List<Integer> getRow(int rowIndex) {
@@ -37,7 +68,6 @@ public class AugustChallenge {
                 result[j] = result[j] + result[j - 1];
 
         return Arrays.asList(result);
-
 
 
 //        List<List<Integer>> triangle = new ArrayList<>();
@@ -67,7 +97,6 @@ public class AugustChallenge {
 //
 //
 //        return row;
-
 
 
 //        List<Integer> result = new ArrayList<>();
