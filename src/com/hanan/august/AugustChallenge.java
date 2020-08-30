@@ -26,11 +26,43 @@ public class AugustChallenge {
         //  System.out.println(new JuneSolution().hIndex(new int[]{0, 1, 3, 5, 6}));
         //System.out.println(new AugustChallenge().generate(5).size());
         //System.out.println(new AugustChallenge().getRow(3));
-        System.out.println("max profit " + new AugustChallenge().maxProfit(new int[]{3, 3, 5, 0, 0, 3, 1, 4}));
-    }
-    public int[] distributeCandies(int candies, int num_people) {
+        //System.out.println("max profit " + new AugustChallenge().maxProfit(new int[]{3, 3, 5, 0, 0, 3, 1, 4}));
+
+        // System.out.println(new AugustChallenge().distributeCandies(7, 4));
+        StreamChecker streamChecker = new StreamChecker(new String[]{"cd", "f", "kl"}); // init the dictionary.
+        streamChecker.query('a');          // return false
+        streamChecker.query('b');          // return false
+        streamChecker.query('c');          // return false
+        streamChecker.query('d');          // return true, because 'cd' is in the wordlist
+        streamChecker.query('e');          // return false
+        streamChecker.query('f');          // return true, because 'f' is in the wordlist
+        streamChecker.query('g');          // return false
+        streamChecker.query('h');          // return false
+        streamChecker.query('i');          // return false
+        streamChecker.query('j');          // return false
+        streamChecker.query('k');          // return false
+        streamChecker.query('l');          // return true, because 'kl' is in the wordlist
 
     }
+
+    public int[] distributeCandies(int candies, int num_people) {
+        int[] result = new int[num_people];
+        int index = 0;
+        int i = 1;
+        int count = candies;
+        while (count != 0) {
+            result[i - 1] += i;
+            count -= i;
+
+            if (i == num_people) {
+
+            }
+            i++;
+        }
+
+        return result;
+    }
+
     public int maxProfit(int[] prices) {
         int n = prices.length;
 
@@ -42,12 +74,12 @@ public class AugustChallenge {
         int[] profit1 = new int[n];
         int[] profit2 = new int[n];
         for (int i = 1; i < n; i++) {
-            profit1[i] = Math.max(profit1[i - 1], prices[i]-pMin);
+            profit1[i] = Math.max(profit1[i - 1], prices[i] - pMin);
             pMin = Math.min(pMin, prices[i]);
 
             int j = n - 1 - i;
 
-            profit2[j] = Math.max(profit2[j + 1], pMas - prices[j] );
+            profit2[j] = Math.max(profit2[j + 1], pMas - prices[j]);
             pMas = Math.max(pMas, prices[j]);
 
         }
