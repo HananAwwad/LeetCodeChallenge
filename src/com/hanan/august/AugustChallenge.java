@@ -3,10 +3,7 @@ package com.hanan.august;
 
 import com.hanan.common.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class AugustChallenge {
 
@@ -43,9 +40,46 @@ public class AugustChallenge {
 //        streamChecker.query('k');          // return false
 //        streamChecker.query('l');          // return true, because 'kl' is in the wordlist
 
-        new AugustChallenge().pancakeSort(new int[]{3, 2, 4, 1});
+        //new AugustChallenge().pancakeSort(new int[]{3, 2, 4, 1});
+        new AugustChallenge().largestComponentSize(new int[]{20,50,9,63});
     }
 
+    public int largestComponentSize(int[] A) {
+        int[] parent = new int[100001];
+        for (int i = 0; i < 100001; ++i) parent[i] = -1;
+
+        for (int x : A) {
+            for (int i = 2; i <= Math.sqrt(x); ++i) {
+                if (x % i == 0) {
+                    _union(i, x, parent);
+                    _union(x, x / i, parent);
+                }
+            }
+        }
+
+        int count = 0;
+        Map<Integer, Integer> cache = new HashMap();
+        for (int x : A) {
+            int xp = _find(x, parent);
+            count = Math.max(count, 1 + cache.getOrDefault(xp, 0));
+            cache.put(xp, 1 + cache.getOrDefault(xp, 0));
+        }
+        return count;
+    }
+
+    int _find(int x, int[] parent) {
+        if (parent[x] == -1)
+            return x;
+        parent[x] = _find(parent[x], parent);
+        return parent[x];
+    }
+
+    void _union(int x, int y, int[] parent) {
+        int xp = _find(x, parent);
+        int yp = _find(y, parent);
+        if (xp != yp)
+            parent[yp] = xp;
+    }
 
     private void flip(int[] A, int idx) {
         for (int i = 0; i <= idx / 2; ++i) {
