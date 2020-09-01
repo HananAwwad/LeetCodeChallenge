@@ -41,8 +41,49 @@ public class AugustChallenge {
 //        streamChecker.query('l');          // return true, because 'kl' is in the wordlist
 
         //new AugustChallenge().pancakeSort(new int[]{3, 2, 4, 1});
-        new AugustChallenge().largestComponentSize(new int[]{20,50,9,63});
+        // new AugustChallenge().largestComponentSize(new int[]{20,50,9,63});
+        new AugustChallenge().deleteNode(new TreeNode(10), 7);
     }
+
+    private int inOrderSuccessor(TreeNode root) {
+        root = root.left;
+        while (root.right != null)
+            root = root.right;
+
+        return root.val;
+    }
+
+    private int inOrderPrecessuccer(TreeNode root) {
+
+        root = root.right;
+        while (root.left != null)
+            root = root.left;
+        return root.val;
+
+    }
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) return root;
+        if (root.val > key)
+            root.left = deleteNode(root.left, key);
+        else if (root.val < key)
+            root.right = deleteNode(root.right, key);
+        else {
+            if (root.right == null && root.left == null) {
+                root = null;
+            } else if (root.left != null) {
+                root.val = inOrderPrecessuccer(root);
+                root.left = deleteNode(root.left, key);
+            } else {
+                root.val = inOrderSuccessor(root);
+                root.right = deleteNode(root.right, key);
+            }
+        }
+        return root;
+    }
+
+
+
+
 
     public int largestComponentSize(int[] A) {
         int[] parent = new int[100001];
