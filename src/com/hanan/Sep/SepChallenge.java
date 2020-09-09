@@ -1,5 +1,7 @@
 package com.hanan.Sep;
 
+import com.hanan.common.TreeNode;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,23 @@ public class SepChallenge {
         //System.out.println(new SepChallenge().wordPattern("abba", "dog cat cat dog"));
         System.out.println(new SepChallenge().isIsomorphic("egg", "add"));
 
+    }
+
+    public int sumRootToLeaf(TreeNode root) {
+
+        return sum(root, 0);
+    }
+
+    public int sum(TreeNode root, int sum) {
+
+        if (root == null)
+            return 0;
+
+        sum = (sum << 1 ) + root.val;
+        if (root.left == null && root.right == null) {
+            return sum;
+        } else
+            return sum(root.left, sum) + sum(root.right, sum);
     }
 
     public boolean isIsomorphic(String s, String t) {
