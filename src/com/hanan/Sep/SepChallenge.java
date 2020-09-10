@@ -13,8 +13,27 @@ public class SepChallenge {
 //                {0, 1, 1},
 //                {0, 0, 1}}));
         //System.out.println(new SepChallenge().wordPattern("abba", "dog cat cat dog"));
-       // System.out.println(new SepChallenge().isIsomorphic("egg", "add"));
-        System.out.println(new SepChallenge().compareVersion("1.0.1", "1"));
+        // System.out.println(new SepChallenge().isIsomorphic("egg", "add"));
+        //System.out.println(new SepChallenge().compareVersion("1.0.1", "1"));
+        System.out.println(new SepChallenge().getHint("1807", "7810"));
+
+    }
+
+    public String getHint(String secret, String guess) {
+        int cows = 0, bulls = 0;
+
+        int[] numbers = new int[10];
+        for (int i = 0; i < secret.length(); i++) {
+            int s = secret.charAt(i) - '0';
+            int g = guess.charAt(i) - '0';
+            if (s == g)
+                bulls++;
+            else {
+                if (numbers[s]++ < 0) cows++;
+                if (numbers[g]-- > 0) cows++;
+            }
+        }
+        return bulls + "A" + cows + "B";
 
     }
 
