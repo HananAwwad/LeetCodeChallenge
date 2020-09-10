@@ -13,9 +13,28 @@ public class SepChallenge {
 //                {0, 1, 1},
 //                {0, 0, 1}}));
         //System.out.println(new SepChallenge().wordPattern("abba", "dog cat cat dog"));
-        System.out.println(new SepChallenge().isIsomorphic("egg", "add"));
+       // System.out.println(new SepChallenge().isIsomorphic("egg", "add"));
+        System.out.println(new SepChallenge().compareVersion("1.0.1", "1"));
 
     }
+
+    public int compareVersion(String version1, String version2) {
+        String[] ver1Strings = version1.split("\\.");
+        String[] ver2Strings = version2.split("\\.");
+        int max = Math.max(ver1Strings.length, ver2Strings.length);
+        for (int i = 0; i < max; i++) {
+            int v1 = (i < ver1Strings.length) ? Integer.parseInt(ver1Strings[i]) : 0;
+            int v2 = (i < ver2Strings.length) ? Integer.parseInt(ver2Strings[i]) : 0;
+
+            if (v1 < v2) {
+                return -1;
+            } else if (v1 > v2) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
 
     public int sumRootToLeaf(TreeNode root) {
 
@@ -27,7 +46,7 @@ public class SepChallenge {
         if (root == null)
             return 0;
 
-        sum = (sum << 1 ) + root.val;
+        sum = (sum << 1) + root.val;
         if (root.left == null && root.right == null) {
             return sum;
         } else
