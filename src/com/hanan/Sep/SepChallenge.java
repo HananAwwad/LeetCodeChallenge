@@ -4,6 +4,7 @@ import com.hanan.common.TreeNode;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class SepChallenge {
     public static void main(String a[]) {
@@ -15,7 +16,29 @@ public class SepChallenge {
         //System.out.println(new SepChallenge().wordPattern("abba", "dog cat cat dog"));
         // System.out.println(new SepChallenge().isIsomorphic("egg", "add"));
         //System.out.println(new SepChallenge().compareVersion("1.0.1", "1"));
-        System.out.println(new SepChallenge().getHint("1807", "7810"));
+        //System.out.println(new SepChallenge().getHint("1807", "7810"));
+        System.out.println(new SepChallenge().carPooling(new int[][]{{3, 2, 7}, {3, 7, 9}, {8, 3, 9}}, 11));
+
+    }
+
+    public boolean carPooling(int[][] trips, int capacity) {
+
+        Map<Integer, Integer> timestamp = new TreeMap<>();
+        for (int[] trip : trips) {
+            int start_passenger = timestamp.getOrDefault(trip[1], 0) + trip[0];
+            timestamp.put(trip[1], start_passenger);
+
+            int end_passenger = timestamp.getOrDefault(trip[2], 0) - trip[0];
+            timestamp.put(trip[2], end_passenger);
+        }
+        int ued_capacity = 0;
+        for (int passenger_change : timestamp.values()) {
+            ued_capacity += passenger_change;
+            if (ued_capacity > capacity) {
+                return false;
+            }
+        }
+        return true;
 
     }
 
