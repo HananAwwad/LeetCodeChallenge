@@ -2,9 +2,7 @@ package com.hanan.Sep;
 
 import com.hanan.common.TreeNode;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class SepChallenge {
     public static void main(String a[]) {
@@ -17,7 +15,49 @@ public class SepChallenge {
         // System.out.println(new SepChallenge().isIsomorphic("egg", "add"));
         //System.out.println(new SepChallenge().compareVersion("1.0.1", "1"));
         //System.out.println(new SepChallenge().getHint("1807", "7810"));
-        System.out.println(new SepChallenge().carPooling(new int[][]{{3, 2, 7}, {3, 7, 9}, {8, 3, 9}}, 11));
+        // System.out.println(new SepChallenge().carPooling(new int[][]{{3, 2, 7}, {3, 7, 9}, {8, 3, 9}}, 11));
+        System.out.println(new SepChallenge().majorityElement(new int[]{1, 1, 1, 3, 3, 2, 2, 2}));
+
+    }
+
+    public List<Integer> majorityElement(int[] nums) {
+        Integer candidate1 = null;
+        Integer candidate2 = null;
+
+        int count1 = 0;
+        int count2 = 0;
+
+        for (int n : nums) {
+            if (candidate1 != null && candidate1 == n) {
+                count1++;
+            } else if (candidate2 != null && candidate2 == n) {
+                count2++;
+            } else if (count1 == 0) {
+                candidate1 = n;
+                count1++;
+            } else if (count2 == 0) {
+                candidate2 = n;
+                count2++;
+            } else {
+                count1--;
+                count2--;
+            }
+        }
+        count1 = 0;
+        count2 = 0;
+        List<Integer> result = new ArrayList<>();
+        for (int n : nums) {
+            if (candidate1 != null && candidate1 == n) {
+                count1++;
+            }
+            if (candidate2 != null && candidate2 == n) {
+                count2++;
+            }
+        }
+        int p = nums.length / 3;
+        if (count1 > p) result.add(candidate1);
+        if (count2 > p) result.add(candidate2);
+        return result;
 
     }
 
