@@ -16,8 +16,23 @@ public class SepChallenge {
         //System.out.println(new SepChallenge().compareVersion("1.0.1", "1"));
         //System.out.println(new SepChallenge().getHint("1807", "7810"));
         // System.out.println(new SepChallenge().carPooling(new int[][]{{3, 2, 7}, {3, 7, 9}, {8, 3, 9}}, 11));
-        System.out.println(new SepChallenge().majorityElement(new int[]{1, 1, 1, 3, 3, 2, 2, 2}));
+        // System.out.println(new SepChallenge().majorityElement(new int[]{1, 1, 1, 3, 3, 2, 2, 2}));
+        System.out.println(new SepChallenge().canCompleteCircuit(new int[]{1, 2, 3, 4, 5}, new int[]{3, 4, 5, 1, 2}));
+    }
 
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int tank = 0, total = 0, index = 0;
+        for (int i = 0; i < gas.length; i++) {
+            int consume = gas[i] - cost[i];
+            tank += consume;
+            if (tank < 0) {
+                tank = 0;
+                index = i + 1;
+            }
+            total += consume;
+
+        }
+        return total < 0 ? -1 : index;
     }
 
     public List<Integer> majorityElement(int[] nums) {
