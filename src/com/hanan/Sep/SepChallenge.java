@@ -5,6 +5,17 @@ import com.hanan.common.TreeNode;
 import java.util.*;
 
 public class SepChallenge {
+
+    class Node {
+        String key;
+        double value;
+
+        public Node(String key, double value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
     public static void main(String a[]) {
 //        System.out.println(new SepChallenge().largestOverlap(new int[][]{{1, 1, 0},
 //                {0, 1, 0},
@@ -17,7 +28,60 @@ public class SepChallenge {
         //System.out.println(new SepChallenge().getHint("1807", "7810"));
         // System.out.println(new SepChallenge().carPooling(new int[][]{{3, 2, 7}, {3, 7, 9}, {8, 3, 9}}, 11));
         // System.out.println(new SepChallenge().majorityElement(new int[]{1, 1, 1, 3, 3, 2, 2, 2}));
-        System.out.println(new SepChallenge().canCompleteCircuit(new int[]{1, 2, 3, 4, 5}, new int[]{3, 4, 5, 1, 2}));
+      //  System.out.println(new SepChallenge().canCompleteCircuit(new int[]{1, 2, 3, 4, 5}, new int[]{3, 4, 5, 1, 2}));
+        List<List<String>> equations = new ArrayList<>();
+        equations.add(Arrays.asList("a","b"));
+        equations.add(Arrays.asList("b","c"));
+        equations.add(Arrays.asList("bc","cd"));
+        List<List<String>> queries = new ArrayList<>();
+        queries.add(Arrays.asList("a","c"));
+        queries.add(Arrays.asList("c","b"));
+        queries.add(Arrays.asList("bc","cd"));
+        queries.add(Arrays.asList("cd","bc"));
+
+        System.out.println(new SepChallenge().calcEquation(equations, new double[]{1.5,2.5,5.0},queries));
+    }
+
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        Map<String, List<Node>> graph = buildGrap(equations, values);
+        double[] result = new double[queries.size()];
+        for (int i = 0; i < queries.size(); i++) {
+            result[i] = dfs(queries.get(i).get(0), queries.get(i).get(1), new HashSet(), graph);
+        }
+        return result;
+    }
+
+    private double dfs(String s, String d, HashSet visited, Map<String, List<Node>> graph) {
+        if (!graph.containsKey(s) && !graph.containsKey(d))
+            return -1.0;
+        if (s.equals(d))
+            return 1.0;
+
+        visited.add(s);
+        for (Node ng : graph.get(s)) {
+            if (!visited.contains(ng.key)) {
+                double ans = dfs(ng.key, d, visited, graph);
+                if (ans != -1.0)
+                    return ans * ng.value;
+            }
+        }
+        return -1.0;
+    }
+
+    Map<String, List<Node>> buildGrap(List<List<String>> equations, double[] values) {
+        Map<String, List<Node>> graph = new HashMap();
+
+        for (int i = 0; i < values.length; i++) {
+
+            String src = equations.get(i).get(0);
+            String desc = equations.get(i).get(1);
+            graph.putIfAbsent(src, new ArrayList<>());
+            graph.putIfAbsent(desc, new ArrayList<>());
+            graph.get(src).add(new Node(desc, values[i]));
+            graph.get(desc).add(new Node(src, 1 / values[i]));
+
+        }
+        return graph;
     }
 
     public int canCompleteCircuit(int[] gas, int[] cost) {
