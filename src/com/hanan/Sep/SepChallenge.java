@@ -28,18 +28,51 @@ public class SepChallenge {
         //System.out.println(new SepChallenge().getHint("1807", "7810"));
         // System.out.println(new SepChallenge().carPooling(new int[][]{{3, 2, 7}, {3, 7, 9}, {8, 3, 9}}, 11));
         // System.out.println(new SepChallenge().majorityElement(new int[]{1, 1, 1, 3, 3, 2, 2, 2}));
-      //  System.out.println(new SepChallenge().canCompleteCircuit(new int[]{1, 2, 3, 4, 5}, new int[]{3, 4, 5, 1, 2}));
-        List<List<String>> equations = new ArrayList<>();
-        equations.add(Arrays.asList("a","b"));
-        equations.add(Arrays.asList("b","c"));
-        equations.add(Arrays.asList("bc","cd"));
-        List<List<String>> queries = new ArrayList<>();
-        queries.add(Arrays.asList("a","c"));
-        queries.add(Arrays.asList("c","b"));
-        queries.add(Arrays.asList("bc","cd"));
-        queries.add(Arrays.asList("cd","bc"));
+        //  System.out.println(new SepChallenge().canCompleteCircuit(new int[]{1, 2, 3, 4, 5}, new int[]{3, 4, 5, 1, 2}));
+//        List<List<String>> equations = new ArrayList<>();
+//        equations.add(Arrays.asList("a", "b"));
+//        equations.add(Arrays.asList("b", "c"));
+//        equations.add(Arrays.asList("bc", "cd"));
+//        List<List<String>> queries = new ArrayList<>();
+//        queries.add(Arrays.asList("a", "c"));
+//        queries.add(Arrays.asList("c", "b"));
+//        queries.add(Arrays.asList("bc", "cd"));
+//        queries.add(Arrays.asList("cd", "bc"));
+//        System.out.println(new SepChallenge().calcEquation(equations, new double[]{1.5, 2.5, 5.0}, queries));
+        System.out.println(new SepChallenge().numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
+    }
 
-        System.out.println(new SepChallenge().calcEquation(equations, new double[]{1.5,2.5,5.0},queries));
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        if (k < 0) return 0;
+        int left = 0, right = 0, count = 0, prod = 1;
+
+        while (right < nums.length) {
+            prod *= nums[right];
+            while (prod >= k) prod /= nums[left++];
+            count += 1 + (right - left);
+            right++;
+        }
+        return count;
+    }
+
+    public int numSubarrayProductLessThanK1(int[] nums, int k) {
+
+
+        int counter = 0;
+        for (int start = 0; start < nums.length; start++) {
+            int prod = 1;
+
+            for (int end = start; end < nums.length; end++) {
+                prod *= nums[end];
+                if (prod < k) {
+                    counter++;
+                } else
+                    break;
+
+
+            }
+        }
+        return counter;
     }
 
     public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
