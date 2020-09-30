@@ -1,6 +1,7 @@
 package com.hanan.Sep;
 
 import com.hanan.common.TreeNode;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -39,7 +40,72 @@ public class SepChallenge {
 //        queries.add(Arrays.asList("bc", "cd"));
 //        queries.add(Arrays.asList("cd", "bc"));
 //        System.out.println(new SepChallenge().calcEquation(equations, new double[]{1.5, 2.5, 5.0}, queries));
-        System.out.println(new SepChallenge().numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
+        // System.out.println(new SepChallenge().numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
+        //System.out.println(new SepChallenge().wordBreak("leetcode", Arrays.asList("leet", "code")));
+        System.out.println(new SepChallenge().wordBreakII("catsanddog", Arrays.asList("cat", "cats", "and", "sand", "dog")));
+    }
+
+    public boolean wordBreak(String s, List<String> wordDict) {
+        if (wordDict.contains(s))
+            return true;
+        Map<String, Boolean> map = new HashMap<>();
+
+        if (map.containsKey(s))
+            return map.get(s);
+        for (int i = 0; i <= s.length(); i++) {
+            String left = s.substring(0, i);
+            if (wordDict.contains(left)) {
+
+                if (wordBreak(s.substring(i), wordDict)) {
+                    map.put(s, true);
+                    return true;
+                }
+            }
+        }
+        map.put(s, false);
+        return false;
+    }
+
+    public List<String> wordBreakII(String s, @NotNull List<String> wordDict) {
+        Set<String> wordSet = new HashSet<>();
+        for (String word : wordDict) {
+            wordSet.add(word);
+        }
+
+        return wordBreakHelper(s, wordSet, new HashMap<>());
+    }
+
+    List<String> wordBreakHelper(String s, Set<String> wordSet,Map<String, List<String>> memo) {
+        if (memo.containsKey(s)) {
+            return memo.get(s);
+        }
+
+        List<String> result = new ArrayList<>();
+
+        if (wordSet.contains(s)) {
+            result.add(s);
+        }
+
+        for (String word : wordSet) {
+            if (!s.startsWith(word) || s.equals(word)) {
+                continue;
+            }
+            List<String> subResult =
+                    wordBreakHelper(s.substring(word.length()), wordSet, memo);
+
+            result.addAll(append(word, subResult));
+        }
+
+        memo.put(s, result);
+        return result;
+    }
+
+    List<String> append(String word, List<String> sentences) {
+        List<String> result = new ArrayList<>();
+        for (String sentence : sentences) {
+            result.add(word + " " + sentence);
+        }
+        return result;
     }
 
     public int numSubarrayProductLessThanK(int[] nums, int k) {
