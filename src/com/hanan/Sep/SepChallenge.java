@@ -42,7 +42,24 @@ public class SepChallenge {
 //        System.out.println(new SepChallenge().calcEquation(equations, new double[]{1.5, 2.5, 5.0}, queries));
         // System.out.println(new SepChallenge().numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
         //System.out.println(new SepChallenge().wordBreak("leetcode", Arrays.asList("leet", "code")));
-        System.out.println(new SepChallenge().wordBreakII("catsanddog", Arrays.asList("cat", "cats", "and", "sand", "dog")));
+        //   System.out.println(new SepChallenge().wordBreakII("catsanddog", Arrays.asList("cat", "cats", "and", "sand", "dog")));
+        System.out.println(new SepChallenge().findPairs(new int[]{1,3,1,5,4}, 0));
+    }
+
+    public int findPairs(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int result = 0;
+
+        for (int key : map.keySet()) {
+            if (k == 0 && map.get(key) > 1)
+                result++;
+            if (k > 0 && map.containsKey(key + k) )
+                result++;
+        }
+        return result;
     }
 
     public boolean wordBreak(String s, List<String> wordDict) {
@@ -75,7 +92,7 @@ public class SepChallenge {
         return wordBreakHelper(s, wordSet, new HashMap<>());
     }
 
-    List<String> wordBreakHelper(String s, Set<String> wordSet,Map<String, List<String>> memo) {
+    List<String> wordBreakHelper(String s, Set<String> wordSet, Map<String, List<String>> memo) {
         if (memo.containsKey(s)) {
             return memo.get(s);
         }
