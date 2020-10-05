@@ -43,7 +43,22 @@ public class SepChallenge {
         // System.out.println(new SepChallenge().numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
         //System.out.println(new SepChallenge().wordBreak("leetcode", Arrays.asList("leet", "code")));
         //   System.out.println(new SepChallenge().wordBreakII("catsanddog", Arrays.asList("cat", "cats", "and", "sand", "dog")));
-        System.out.println(new SepChallenge().findPairs(new int[]{1,3,1,5,4}, 0));
+        // System.out.println(new SepChallenge().findPairs(new int[]{1, 3, 1, 5, 4}, 0));
+        System.out.println(new SepChallenge().removeCoveredIntervals(new int[][]{{1, 4}, {3, 6}, {2, 8}}));
+    }
+
+    public int removeCoveredIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        int[] current = new int[]{-1, -1};
+        int result = 0;
+        for (int[] in : intervals) {
+            if (in[0] > current[0] && in[1] > current[1]) {
+                current[0] = in[0];
+                result++;
+            }
+            current[1] = Math.max(current[1], in[1]);
+        }
+        return result;
     }
 
     public int findPairs(int[] nums, int k) {
@@ -56,7 +71,7 @@ public class SepChallenge {
         for (int key : map.keySet()) {
             if (k == 0 && map.get(key) > 1)
                 result++;
-            if (k > 0 && map.containsKey(key + k) )
+            if (k > 0 && map.containsKey(key + k))
                 result++;
         }
         return result;
