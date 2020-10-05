@@ -48,7 +48,7 @@ public class SepChallenge {
     }
 
     public int removeCoveredIntervals(int[][] intervals) {
-        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        Arrays.sort(intervals, (a, b) -> a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);
         int[] current = new int[]{-1, -1};
         int result = 0;
         for (int[] in : intervals) {
