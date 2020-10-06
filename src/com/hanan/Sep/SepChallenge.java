@@ -44,7 +44,16 @@ public class SepChallenge {
         //System.out.println(new SepChallenge().wordBreak("leetcode", Arrays.asList("leet", "code")));
         //   System.out.println(new SepChallenge().wordBreakII("catsanddog", Arrays.asList("cat", "cats", "and", "sand", "dog")));
         // System.out.println(new SepChallenge().findPairs(new int[]{1, 3, 1, 5, 4}, 0));
-        System.out.println(new SepChallenge().removeCoveredIntervals(new int[][]{{1, 4}, {3, 6}, {2, 8}}));
+        //System.out.println(new SepChallenge().removeCoveredIntervals(new int[][]{{1, 4}, {3, 6}, {2, 8}}));
+        System.out.println(new SepChallenge().bitwiseComplement(5));
+    }
+
+    public int bitwiseComplement(int N) {
+
+        int bitlength = ((int)(Math.log(N)/Math.log(2)) + 1 );
+        int bitMask = (1 << bitlength)-1 ;
+
+        return N ^ bitMask;
     }
 
     public int removeCoveredIntervals(int[][] intervals) {
