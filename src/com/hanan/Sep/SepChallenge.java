@@ -46,7 +46,29 @@ public class SepChallenge {
         //   System.out.println(new SepChallenge().wordBreakII("catsanddog", Arrays.asList("cat", "cats", "and", "sand", "dog")));
         // System.out.println(new SepChallenge().findPairs(new int[]{1, 3, 1, 5, 4}, 0));
         //System.out.println(new SepChallenge().removeCoveredIntervals(new int[][]{{1, 4}, {3, 6}, {2, 8}}));
-        System.out.println(new SepChallenge().bitwiseComplement(5));
+        //System.out.println(new SepChallenge().bitwiseComplement(5));
+        System.out.println(new SepChallenge().findMinArrowShots(new int [][] {{10,16},{2,8},{1,6},{7,12}}));
+    }
+
+    public int findMinArrowShots(int[][] points) {
+
+        if (points.length == 0) return 0;
+
+        Arrays.sort(points, (a, b) -> (a[0] - b[0]));
+
+        int arrows = 1;
+
+        int pos = points[0][1];
+
+        for (int i = 1; i < points.length; i++) {
+            if (points[i][0] <= pos) {
+                continue;
+            }
+            arrows++;
+            pos = points[i][1];
+        }
+
+        return arrows;
     }
 
     public int search(int[] nums, int target) {
