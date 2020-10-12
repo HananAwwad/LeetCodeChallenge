@@ -47,7 +47,34 @@ public class SepChallenge {
         // System.out.println(new SepChallenge().findPairs(new int[]{1, 3, 1, 5, 4}, 0));
         //System.out.println(new SepChallenge().removeCoveredIntervals(new int[][]{{1, 4}, {3, 6}, {2, 8}}));
         //System.out.println(new SepChallenge().bitwiseComplement(5));
-        System.out.println(new SepChallenge().findMinArrowShots(new int [][] {{10,16},{2,8},{1,6},{7,12}}));
+        //   System.out.println(new SepChallenge().findMinArrowShots(new int [][] {{10,16},{2,8},{1,6},{7,12}}));
+        System.out.println(new SepChallenge().removeDuplicateLetters("cbacdcbc"));
+    }
+
+    public String removeDuplicateLetters(String s) {
+        int[] lastIndex = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            lastIndex[s.charAt(i) - 'a'] = i;
+        }
+        boolean[] seen = new boolean[26];
+        Stack<Integer> st = new Stack();
+        for (int i = 0; i < s.length(); i++) {
+            int c = s.charAt(i) - 'a';
+            if (seen[c])
+                continue;
+
+            while (!st.empty() && st.peek() > c && i < lastIndex[st.peek()])
+                seen[st.pop()] = false;
+
+            st.push(c);
+            seen[c] = true;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!st.empty()) {
+            sb.append((char)(st.pop() + 'a'));
+        }
+        return sb.reverse().toString();
+
     }
 
     public int findMinArrowShots(int[][] points) {
