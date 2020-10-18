@@ -4,7 +4,20 @@ import java.util.*;
 
 public class OctChallenge {
     public static void main(String[] aa) {
-        System.out.println(new OctChallenge().buddyStrings("ab", "ab"));
+        //System.out.println(new OctChallenge().buddyStrings("ab", "ab"));
+        System.out.println(new OctChallenge().findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
+    }
+
+    public List<String> findRepeatedDnaSequences(String s) {
+        Set<String> seen = new HashSet(), repeated = new HashSet<>();
+        for (int i = 0; i < s.length() - 9; i++) {
+            String subString = s.substring(i, i + 10);
+            if (seen.contains(subString))
+                repeated.add(subString);
+
+            seen.add(subString);
+        }
+        return new ArrayList<>(repeated);
     }
 
     public boolean buddyStrings(String A, String B) {
