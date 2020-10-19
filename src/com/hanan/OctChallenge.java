@@ -5,7 +5,31 @@ import java.util.*;
 public class OctChallenge {
     public static void main(String[] aa) {
         //System.out.println(new OctChallenge().buddyStrings("ab", "ab"));
-        System.out.println(new OctChallenge().findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
+        //System.out.println(new OctChallenge().findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
+        System.out.println(new OctChallenge().maxProfit(1, new int[]{3, 2, 6, 5, 0, 3}));
+    }
+
+    public int maxProfit(int k, int[] prices) {
+        k = k > prices.length / 2 ? prices.length / 2 : k; // Case of Problem 122. Best Time to Buy and Sell Stock II
+        int[] buy = new int[k + 1], sell = new int[k + 1];
+        Arrays.fill(buy, Integer.MIN_VALUE);
+        for (int price : prices) {
+            for (int i = 1; i <= k; i++) {
+                buy[i] = Math.max(buy[i], sell[i - 1] - price);
+                sell[i] = Math.max(sell[i], buy[i] + price);
+            }
+        }
+        return sell[k];
+    }
+
+    public int helper(int[] prices, int i, int buy, int txCount, int k) {
+        if (i > prices.length || txCount >= k)
+            return 0;
+        if (buy == 1) {
+            return Math.max(-prices[i] + helper(prices, i + 1, 0, txCount, k), helper(prices, i + 1, buy, txCount, k));
+        }else
+            return Math.max(prices[i] + helper(prices, i + 1, 1, txCount+1, k), helper(prices, i + 1, buy, txCount, k));
+
     }
 
     public List<String> findRepeatedDnaSequences(String s) {
