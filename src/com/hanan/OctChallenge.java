@@ -6,8 +6,28 @@ public class OctChallenge {
     public static void main(String[] aa) {
         //System.out.println(new OctChallenge().buddyStrings("ab", "ab"));
         //System.out.println(new OctChallenge().findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
-        System.out.println(new OctChallenge().maxProfit(1, new int[]{3, 2, 6, 5, 0, 3}));
+        // System.out.println(new OctChallenge().maxProfit(1, new int[]{3, 2, 6, 5, 0, 3}));
+        System.out.println(new OctChallenge().minDominoRotations(new int[]{2, 1, 2, 4, 2, 2}, new int[]{5, 2, 6, 2, 3, 2}));
     }
+
+    public int minDominoRotations(int[] A, int[] B) {
+
+        int n = A.length;
+        int[] faceA = new int[7], faceB = new int[7], same = new int[7];
+        for (int i = 0; i < n; i++) {
+            faceA[A[i]]++;
+            faceB[B[i]]++;
+            if (A[i] == B[i])
+                same[A[i]]++;
+        }
+        int minRotation = Integer.MAX_VALUE;
+        for (int i = 1; i < 7; i++) {
+            if (faceA[i] + faceB[i] - same[i] == n)
+                minRotation = Math.min(minRotation, Math.min(faceA[i], faceB[i]) - same[i]);
+        }
+        return minRotation == Integer.MAX_VALUE ? -1 : minRotation;
+    }
+
 
     public int maxProfit(int k, int[] prices) {
         k = k > prices.length / 2 ? prices.length / 2 : k; // Case of Problem 122. Best Time to Buy and Sell Stock II
@@ -27,8 +47,8 @@ public class OctChallenge {
             return 0;
         if (buy == 1) {
             return Math.max(-prices[i] + helper(prices, i + 1, 0, txCount, k), helper(prices, i + 1, buy, txCount, k));
-        }else
-            return Math.max(prices[i] + helper(prices, i + 1, 1, txCount+1, k), helper(prices, i + 1, buy, txCount, k));
+        } else
+            return Math.max(prices[i] + helper(prices, i + 1, 1, txCount + 1, k), helper(prices, i + 1, buy, txCount, k));
 
     }
 
