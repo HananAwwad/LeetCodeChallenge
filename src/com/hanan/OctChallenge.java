@@ -7,7 +7,16 @@ public class OctChallenge {
         //System.out.println(new OctChallenge().buddyStrings("ab", "ab"));
         //System.out.println(new OctChallenge().findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
         // System.out.println(new OctChallenge().maxProfit(1, new int[]{3, 2, 6, 5, 0, 3}));
-        System.out.println(new OctChallenge().minDominoRotations(new int[]{2, 1, 2, 4, 2, 2}, new int[]{5, 2, 6, 2, 3, 2}));
+        // System.out.println(new OctChallenge().minDominoRotations(new int[]{2, 1, 2, 4, 2, 2}, new int[]{5, 2, 6, 2, 3, 2}));
+
+    }
+
+    public int minDepth(TreeNode root) {
+        if (root == null) return 0;
+        else if (root.left == null && root.right == null) return 1;
+        else if (root.left == null) return 1 + minDepth(root.right);
+        else if (root.right == null) return 1 + minDepth(root.left);
+        else return 1 + Math.min(minDepth(root.left), minDepth(root.right));
     }
 
     public int minDominoRotations(int[] A, int[] B) {
