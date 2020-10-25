@@ -8,8 +8,31 @@ public class OctChallenge {
         //System.out.println(new OctChallenge().findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
         // System.out.println(new OctChallenge().maxProfit(1, new int[]{3, 2, 6, 5, 0, 3}));
         // System.out.println(new OctChallenge().minDominoRotations(new int[]{2, 1, 2, 4, 2, 2}, new int[]{5, 2, 6, 2, 3, 2}));
-        System.out.println(new OctChallenge().find132pattern(new int[]{3, 1, 4, 2}));
+        //    System.out.println(new OctChallenge().find132pattern(new int[]{3, 1, 4, 2}));
+        System.out.println(new OctChallenge().bagOfTokensScore(new int[]{100, 200, 300, 400}, 200));
     }
+
+    public int bagOfTokensScore(int[] tokens, int P) {
+        Arrays.sort(tokens);
+        int left = 0, right = tokens.length - 1;
+        int score = 0;
+        while (left < right) {
+            if (P >= tokens[left]) {
+                P -= tokens[left];
+                score++;
+            } else {
+                if (right != left && score != 0 && (P + tokens[right] >= tokens[left])) {
+                    P += tokens[right];
+                    right--;
+                    score--;
+                } else
+                    break;
+            }
+        }
+        return score;
+
+    }
+
     public boolean find132pattern(int[] nums) {
         if (nums.length < 3)
             return false;
@@ -30,6 +53,7 @@ public class OctChallenge {
         }
         return false;
     }
+
     public boolean find132pattern1(int[] nums) {
 
         int n = nums.length;
