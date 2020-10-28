@@ -10,7 +10,27 @@ public class OctChallenge {
         // System.out.println(new OctChallenge().minDominoRotations(new int[]{2, 1, 2, 4, 2, 2}, new int[]{5, 2, 6, 2, 3, 2}));
         //    System.out.println(new OctChallenge().find132pattern(new int[]{3, 1, 4, 2}));
         //    System.out.println(new OctChallenge().bagOfTokensScore(new int[]{100, 200, 300, 400}, 200));
-        System.out.println(new OctChallenge().champagneTower(2 , 1  , 1));
+        //System.out.println(new OctChallenge().champagneTower(2, 1, 1));
+        System.out.println(new OctChallenge().detectCycle(new ListNode(2)));
+    }
+
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head, slow = head;
+        if (head == null || head.next == null)
+            return null;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow)
+                break;
+        }
+        if (fast == null || fast.next == null) return null;
+        fast = head;
+        while (fast != slow) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return fast;
     }
 
     public double champagneTower(int poured, int query_row, int query_glass) {
@@ -18,11 +38,11 @@ public class OctChallenge {
             return 0;
         List<Double> l = new ArrayList();
         l.add((double) poured);
-        while (query_row -- > 0) {
+        while (query_row-- > 0) {
             List<Double> temp = new ArrayList();
             temp.add(Math.max((l.get(0) - 1) / 2, 0));
             for (int i = 1; i < l.size(); i++) {
-                temp.add(Math.max((l.get(i - 1) - 1) / 2, 0) + Math.max((l.get(i) -  1) / 2, 0));
+                temp.add(Math.max((l.get(i - 1) - 1) / 2, 0) + Math.max((l.get(i) - 1) / 2, 0));
             }
             temp.add(temp.get(0));
             l = new ArrayList<>(temp);
