@@ -3,6 +3,7 @@ package com.hanan;
 import java.util.*;
 
 public class OctChallenge {
+
     public static void main(String[] aa) {
         //System.out.println(new OctChallenge().buddyStrings("ab", "ab"));
         //System.out.println(new OctChallenge().findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
@@ -11,7 +12,57 @@ public class OctChallenge {
         //    System.out.println(new OctChallenge().find132pattern(new int[]{3, 1, 4, 2}));
         //    System.out.println(new OctChallenge().bagOfTokensScore(new int[]{100, 200, 300, 400}, 200));
         //System.out.println(new OctChallenge().champagneTower(2, 1, 1));
-        System.out.println(new OctChallenge().detectCycle(new ListNode(2)));
+        // System.out.println(new OctChallenge().detectCycle(new ListNode(2)));
+        //   System.out.println(new OctChallenge().findDuplicate(new int []{2,5,9,6,9,3,8,9,7,1}));
+        // System.out.println(new OctChallenge().summaryRanges(new int[]{0, 2, 3, 4, 6, 8, 9}));
+
+        SummaryRanges obj = new SummaryRanges();
+        obj.addNum(1);
+        obj.addNum(3);
+        obj.addNum(7);
+        obj.addNum(2);
+        obj.addNum(6);
+        System.out.println(obj.getIntervals());
+
+    }
+
+    public List<String> summaryRanges(int[] nums) {
+        List<String> result = new ArrayList<>();
+        if (nums.length == 0)
+            return result;
+        int start = nums[0], end = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == (end + 1)) {
+                end = nums[i];
+            } else {
+                String interval = (start == end) ? (start + "") : start + "->" + end;
+                result.add(interval);
+                end = nums[i];
+                start = nums[i];
+            }
+        }
+        String interval = (start == end) ? (start + "") : start + "->" + end;
+        result.add(interval);
+        return result;
+    }
+
+    public int findDuplicate(int[] nums) {
+        // Find the intersection point of the two runners.
+        int tortoise = nums[0];
+        int hare = nums[0];
+        do {
+            tortoise = nums[tortoise];
+            hare = nums[nums[hare]];
+        } while (tortoise != hare);
+
+        // Find the "entrance" to the cycle.
+        tortoise = nums[0];
+        while (tortoise != hare) {
+            tortoise = nums[tortoise];
+            hare = nums[hare];
+        }
+
+        return hare;
     }
 
     public ListNode detectCycle(ListNode head) {
@@ -324,3 +375,95 @@ public class OctChallenge {
         return result;
     }
 }
+
+class SummaryRanges {
+
+    TreeSet<Interval> lookUp;
+    int[][] resCache;
+    boolean cacheDirty;
+
+    public SummaryRanges() {
+
+        Comparator<Interval> sortInterval = new Comparator<Interval>() {
+            @Override
+            public int compare(Interval it1, Interval it2) {
+                return it1.start - it2.start;
+            }
+        };
+        lookUp = new TreeSet<Interval>(sortInterval);
+
+        resCache = new int[0][2];
+        cacheDirty = true;
+    }
+
+// lower - Returns the greatest element in this set strictly less than the given
+// element, or null if there is no such element.
+
+    // higher - Returns the least element in this set strictly greater than the
+// given element, or null if there is no such element.
+    public void addNum(int val) {
+
+        Interval itCur = new Interval(val, val);
+
+        // CASE 1: interval already exists
+        if (lookUp.contains(itCur))
+            return;
+
+        //https://docs.oracle.com/javase/7/docs/api/java/util/TreeSet.html
+        Interval itLower = lookUp.lower(itCur), itHigher = lookUp.higher(itCur);
+
+        // CASE 2:
+        if (itLower != null && val <= itLower.end)
+            return;
+
+        // CASE 3:
+        if ((itHigher != null && itHigher.start == val + 1) && (itLower != null && val == itLower.end + 1)) {
+            itLower.end = itHigher.end; // merge both the intervals
+            lookUp.remove(itHigher);
+        }
+
+        // CASE 4:
+        else if (itHigher != null && itHigher.start == val + 1)
+            itHigher.start = val; // to be merged with higher
+
+            // CASE 5:
+        else if (itLower != null && val == itLower.end + 1)
+            itLower.end = val; // to be merged with lower
+
+            // CASE 6:
+        else
+            lookUp.add(new Interval(val, val));
+
+        // in all the above 4 cases - lookUp is modified
+        cacheDirty = true;
+    }
+
+    public int[][] getIntervals() {
+
+        if (!cacheDirty)
+            return resCache;
+
+        int len = lookUp.size();
+        resCache = new int[len][2];
+
+        int i = 0;
+        for (Interval curr : lookUp) {
+            resCache[i][0] = curr.start;
+            resCache[i][1] = curr.end;
+            i++;
+        }
+        cacheDirty = false;
+        return resCache;
+    }
+
+    class Interval {
+        int start;
+        int end;
+
+        public Interval(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+    }
+}
+
