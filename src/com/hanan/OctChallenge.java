@@ -16,14 +16,53 @@ public class OctChallenge {
         //   System.out.println(new OctChallenge().findDuplicate(new int []{2,5,9,6,9,3,8,9,7,1}));
         // System.out.println(new OctChallenge().summaryRanges(new int[]{0, 2, 3, 4, 6, 8, 9}));
 
-        SummaryRanges obj = new SummaryRanges();
-        obj.addNum(1);
-        obj.addNum(3);
-        obj.addNum(7);
-        obj.addNum(2);
-        obj.addNum(6);
-        System.out.println(obj.getIntervals());
+//        SummaryRanges obj = new SummaryRanges();
+//        obj.addNum(1);
+//        obj.addNum(3);
+//        obj.addNum(7);
+//        obj.addNum(2);
+//        obj.addNum(6);
+//        System.out.println(obj.getIntervals());
 
+        System.out.println(new OctChallenge().findNumberOfLIS(new int[]{1, 3, 5, 4, 7}));
+    }
+
+    public int findNumberOfLIS(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) return n;
+        int[] lis = new int[n], count = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            lis[i] = 1;
+            count[i] = 1;
+        }
+
+        for (int j = 1; j < n; j++) {
+            for (int i = 0; i < j; i++) {
+
+                if (nums[i] < nums[j]) {
+
+                    if (lis[i] >= lis[j]) {
+                        lis[j] = lis[i] + 1;
+                        count[j] = count[i];
+                    } else if (lis[j] == lis[i] + 1) {
+                        count[j] += count[i];
+                    }
+
+                }
+
+            }
+        }
+        int longest = 0;
+        for (int i = 0; i < n; i++) {
+            longest = Math.max(longest, lis[i]);
+        }
+        int result = 0;
+        for (int i = 0; i < n; i++) {
+            if (lis[i] == longest)
+                result += count[i];
+        }
+        return result;
     }
 
     public List<String> summaryRanges(int[] nums) {
