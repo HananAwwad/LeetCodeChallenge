@@ -5,6 +5,9 @@ public class ListNode {
     int val;
     public ListNode next;
 
+    ListNode() {
+    }
+
     ListNode(int x) {
         val = x;
     }
