@@ -1,5 +1,8 @@
 package com.hanan;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NovChallenge {
     public static void main(String[] aa) {
         //System.out.println(new NovChallenge().getDecimalValue(new ListNode(4)));
@@ -14,8 +17,35 @@ public class NovChallenge {
 //        listNode = listNode.push(5, listNode);
 //        new NovChallenge().insertionSortList(listNode);
         //System.out.println(new NovChallenge().maxPower("abbcccddddeeeeedcba"));
-        System.out.println(new NovChallenge().findMaxConsecutiveOnes(new int[]{1}));
+       // System.out.println(new NovChallenge().findMaxConsecutiveOnes(new int[]{1}));
+        System.out.println(new NovChallenge().findTilt(new TreeNode(5)));
 
+    }
+
+    int totalTilt = 0;
+    int valueSum(TreeNode node) {
+        if (node == null)
+            return 0;
+
+        int leftTilt = valueSum(node.left);
+        int rightTilt = valueSum(node.right);
+        int tilt = Math.abs(leftTilt - rightTilt);
+        totalTilt += tilt;
+        return node.val + leftTilt + rightTilt;
+    }
+
+    public int findTilt(TreeNode root) {
+        this.totalTilt = 0;
+
+        valueSum(root);
+        return totalTilt;
+    }
+
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        List<Integer> result = new ArrayList<>();
+
+
+        return result;
     }
 
     public int findMaxConsecutiveOnes(int[] nums) {
@@ -23,11 +53,11 @@ public class NovChallenge {
         int count = 0;
         int max = 0;
 
-        for(int i: nums){
-            if(i == 1){
+        for (int i : nums) {
+            if (i == 1) {
                 count++;
                 max = Math.max(max, count);
-            }else{
+            } else {
                 count = 0;
             }
         }
