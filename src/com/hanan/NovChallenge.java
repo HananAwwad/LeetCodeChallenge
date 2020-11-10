@@ -17,12 +17,36 @@ public class NovChallenge {
 //        listNode = listNode.push(5, listNode);
 //        new NovChallenge().insertionSortList(listNode);
         //System.out.println(new NovChallenge().maxPower("abbcccddddeeeeedcba"));
-       // System.out.println(new NovChallenge().findMaxConsecutiveOnes(new int[]{1}));
-        System.out.println(new NovChallenge().findTilt(new TreeNode(5)));
+        // System.out.println(new NovChallenge().findMaxConsecutiveOnes(new int[]{1}));
+        //System.out.println(new NovChallenge().findTilt(new TreeNode(5)));
+        System.out.println(new NovChallenge().maxAncestorDiff(new TreeNode(5)));
 
     }
 
+    int result = 0;
+
+    public void helper(TreeNode node, int max, int min) {
+        if (node == null)
+            return;
+        result = Math.max(result, Math.max(Math.abs(node.val - min), Math.abs(node.val - max)));
+
+
+        min = Math.min(min, node.val);
+        max = Math.max(max, node.val);
+        helper(node.left, max, min);
+        helper(node.left, max, min);
+
+    }
+
+    public int maxAncestorDiff(TreeNode root) {
+        helper(root, root.val, root.val);
+
+        return result;
+    }
+
+
     int totalTilt = 0;
+
     int valueSum(TreeNode node) {
         if (node == null)
             return 0;
