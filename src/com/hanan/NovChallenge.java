@@ -19,8 +19,22 @@ public class NovChallenge {
         //System.out.println(new NovChallenge().maxPower("abbcccddddeeeeedcba"));
         // System.out.println(new NovChallenge().findMaxConsecutiveOnes(new int[]{1}));
         //System.out.println(new NovChallenge().findTilt(new TreeNode(5)));
-        System.out.println(new NovChallenge().maxAncestorDiff(new TreeNode(5)));
+        // System.out.println(new NovChallenge().maxAncestorDiff(new TreeNode(5)));
+        System.out.println(new NovChallenge().flipAndInvertImage(new int[][]{{1, 1, 0, 0}, {1, 0, 0, 1}, {0, 1, 1, 1}, {1, 0, 1, 0}}));
 
+    }
+
+
+    public int[][] flipAndInvertImage(int[][] A) {
+        int C = A[0].length;
+        for (int[] row : A)
+            for (int i = 0; i < (C + 1) / 2; ++i) {
+                int tmp = row[i] ^ 1;
+                row[i] = row[C - 1 - i] ^ 1;
+                row[C - 1 - i] = tmp;
+            }
+
+        return A;
     }
 
     int result = 0;
