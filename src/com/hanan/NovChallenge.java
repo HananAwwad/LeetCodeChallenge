@@ -2,6 +2,7 @@ package com.hanan;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class NovChallenge {
     public static void main(String[] aa) {
@@ -24,6 +25,76 @@ public class NovChallenge {
 
     }
 
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        Stack<Integer> s1 = listToStack(l1);
+        Stack<Integer> s2 = listToStack(l2);
+
+        int carray = 0;
+        ListNode head = null;
+        while (!s1.isEmpty() || !s2.isEmpty() || carray != 0) {
+
+            int sum = carray;
+            if (!s1.isEmpty()) sum += s1.pop();
+            if (!s2.isEmpty()) sum += s2.pop();
+            ListNode newNode = new ListNode(sum % 10);
+
+            newNode.next = head;
+            head = newNode;
+            carray = sum / 10;
+        }
+        return head;
+    }
+
+    Stack<Integer> listToStack(ListNode l) {
+        Stack<Integer> stack = new Stack();
+        while (l != null) {
+            stack.push(l.val);
+            l = l.next;
+        }
+        return stack;
+    }
+
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+        ListNode p = reverseList(head.next);
+        head.next.next = head;
+        head.next = p;
+        return p;
+    }
+
+    public ListNode addTwoNumbersI(ListNode l1, ListNode l2) {
+
+        ListNode dummyHead = new ListNode(0);
+
+        ListNode p = l1, q = l2, curr = dummyHead;
+
+        int carry = 0;
+
+        while (p != null || q != null) {
+
+            int x = (p != null) ? p.val : 0;
+
+            int y = (q != null) ? q.val : 0;
+
+            int sum = carry + x + y;
+
+            carry = sum / 10;
+
+            curr.next = new ListNode(sum % 10);
+
+            curr = curr.next;
+
+            if (p != null) p = p.next;
+
+            if (q != null) q = q.next;
+        }
+        if (carry > 0) {
+            curr.next = new ListNode(carry);
+        }
+        return dummyHead.next;
+
+    }
 
     public int[][] flipAndInvertImage(int[][] A) {
         int C = A[0].length;
