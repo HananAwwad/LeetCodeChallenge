@@ -1,8 +1,6 @@
 package com.hanan;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class NovChallenge {
     public static void main(String[] aa) {
@@ -21,8 +19,25 @@ public class NovChallenge {
         // System.out.println(new NovChallenge().findMaxConsecutiveOnes(new int[]{1}));
         //System.out.println(new NovChallenge().findTilt(new TreeNode(5)));
         // System.out.println(new NovChallenge().maxAncestorDiff(new TreeNode(5)));
-        System.out.println(new NovChallenge().flipAndInvertImage(new int[][]{{1, 1, 0, 0}, {1, 0, 0, 1}, {0, 1, 1, 1}, {1, 0, 1, 0}}));
+      //  System.out.println(new NovChallenge().flipAndInvertImage(new int[][]{{1, 1, 0, 0}, {1, 0, 0, 1}, {0, 1, 1, 1}, {1, 0, 1, 0}}));
+        System.out.println(new NovChallenge().validSquare(new int[]{0,0},new int[]{1,1},new int[]{0,1},new int[]{1,0}));
 
+    }
+
+    public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {
+        Set<Integer> set = new HashSet<>();
+        set.add(ds(p1, p2));
+        set.add(ds(p1, p3));
+        set.add(ds(p1, p4));
+        set.add(ds(p2, p3));
+        set.add(ds(p3, p4));
+        set.add(ds(p2, p4));
+        return !set.contains(0) && set.size() == 2;
+
+    }
+
+    private int ds(int[] a, int[] b) {
+        return ((a[0] - b[0]) * (a[0] - b[0])) + ((a[1] - b[1]) * (a[1] - b[1]));
     }
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
