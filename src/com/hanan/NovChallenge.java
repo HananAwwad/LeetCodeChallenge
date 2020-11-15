@@ -21,9 +21,23 @@ public class NovChallenge {
         // System.out.println(new NovChallenge().maxAncestorDiff(new TreeNode(5)));
         //  System.out.println(new NovChallenge().flipAndInvertImage(new int[][]{{1, 1, 0, 0}, {1, 0, 0, 1}, {0, 1, 1, 1}, {1, 0, 1, 0}}));
         //   System.out.println(new NovChallenge().validSquare(new int[]{0,0},new int[]{1,1},new int[]{0,1},new int[]{1,0}));
-        System.out.println(new NovChallenge().permuteUnique(new int[]{1, 2, 3}));
+       // System.out.println(new NovChallenge().permuteUnique(new int[]{1, 2, 3}));
+        System.out.println(new NovChallenge().poorPigs(4,15,15));
 
     }
+    public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+        int time = (minutesToTest / minutesToDie) + 1;
+        int pigs = 0;
+        int total = 1;
+
+        while (total < buckets) {
+            ++pigs;
+            total *= time;
+        }
+
+        return pigs;
+    }
+
 
     public List<List<Integer>> permuteUnique(int[] nums) {
         List<List<Integer>> results = new ArrayList<>();
