@@ -21,10 +21,27 @@ public class NovChallenge {
         // System.out.println(new NovChallenge().maxAncestorDiff(new TreeNode(5)));
         //  System.out.println(new NovChallenge().flipAndInvertImage(new int[][]{{1, 1, 0, 0}, {1, 0, 0, 1}, {0, 1, 1, 1}, {1, 0, 1, 0}}));
         //   System.out.println(new NovChallenge().validSquare(new int[]{0,0},new int[]{1,1},new int[]{0,1},new int[]{1,0}));
-       // System.out.println(new NovChallenge().permuteUnique(new int[]{1, 2, 3}));
-        System.out.println(new NovChallenge().poorPigs(4,15,15));
+        // System.out.println(new NovChallenge().permuteUnique(new int[]{1, 2, 3}));
+        //  System.out.println(new NovChallenge().poorPigs(4,15,15));
 
     }
+
+    public Node connect(Node root) {
+        if (root == null || root.left == null) {
+            return root;
+        }
+
+        root.left.next = root.right;
+        if (root.next != null) {
+            root.right.next = root.next.left;
+        }
+
+        connect(root.left);
+        connect(root.right);
+
+        return root;
+    }
+
     public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
         int time = (minutesToTest / minutesToDie) + 1;
         int pigs = 0;
