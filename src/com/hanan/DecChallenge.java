@@ -7,7 +7,24 @@ public class DecChallenge {
 
     public static void main(String[] aa) {
         //  System.out.println(new DecChallenge().partition(""));
-        System.out.println(new DecChallenge().sortedSquares(new int[]{-4, -1, 0, 3, 10}));
+        //  System.out.println(new DecChallenge().sortedSquares(new int[]{-4, -1, 0, 3, 10}));
+        System.out.println(new DecChallenge().isValidBST(new TreeNode(5)));
+    }
+
+    public boolean isValidBST(TreeNode root) {
+
+        return validate(root, null, null);
+    }
+
+    public boolean validate(TreeNode node, Integer low, Integer high) {
+
+        if (node == null)
+            return true;
+
+        if ((low != null && node.val < low) || (high != null && node.val > high))
+            return false;
+        return validate(node.left, low, node.val) && validate(node.right, node.val, high);
+
     }
 
     public int[] sortedSquares(int[] nums) {
