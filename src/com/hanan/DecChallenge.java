@@ -8,10 +8,62 @@ public class DecChallenge {
     public static void main(String[] aa) {
         //  System.out.println(new DecChallenge().partition(""));
         //  System.out.println(new DecChallenge().sortedSquares(new int[]{-4, -1, 0, 3, 10}));
-      //  System.out.println(new DecChallenge().isValidBST(new TreeNode(5)));
-        System.out.println(new DecChallenge().decodeAtIndex("leet2code3", 15));
+        //  System.out.println(new DecChallenge().isValidBST(new TreeNode(5)));
+        //System.out.println(new DecChallenge().decodeAtIndex("leet2code3", 15));
+        System.out.println(new DecChallenge().nextGreaterElement(21));
     }
 
+    public int nextGreaterElement(int n) {
+        char[] str = ("" + n).toCharArray();
+        int deflectionPoint = str.length - 1;
+
+        while (deflectionPoint > 0) {
+            if (str[deflectionPoint] > str[deflectionPoint - 1]) {
+                break;
+            }
+            deflectionPoint--;
+        }
+
+        if (deflectionPoint == 0) {
+            return -1;
+        }
+        int firstSwappingIndex = deflectionPoint - 1;
+
+        int secondSwappingIndex = str.length - 1;
+        while(secondSwappingIndex>=firstSwappingIndex){
+            if(str[firstSwappingIndex] < str[secondSwappingIndex]) {
+                break;
+            }
+            secondSwappingIndex--;
+        }
+
+        //swap
+        char temp = str[firstSwappingIndex];
+        str[firstSwappingIndex] = str[secondSwappingIndex];
+        str[secondSwappingIndex] = temp;
+
+        // swapping at the point of deflection
+        reverse(str, deflectionPoint);
+        Long no = Long.parseLong(new String(str));
+
+        if (no <= Integer.MAX_VALUE)
+            return no.intValue();
+        else
+            return -1;
+    }
+
+    private void reverse(char[] str, int i) {
+        int start = i;
+        int end = str.length - 1;
+        while (end >= start) {
+            char temp = str[start];
+            str[start] = str[end];
+            str[end] = temp;
+            start++;
+            end--;
+
+        }
+    }
 
     public String decodeAtIndex(String S, int K) {
 
@@ -26,7 +78,7 @@ public class DecChallenge {
             else
                 size++;
         }
-        for (int i = N-1; i >= 0; --i) {
+        for (int i = N - 1; i >= 0; --i) {
             char c = S.charAt(i);
             K %= size;
             if (K == 0 && Character.isLetter(c))
