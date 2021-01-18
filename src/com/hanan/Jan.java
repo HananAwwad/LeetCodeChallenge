@@ -11,7 +11,24 @@ public class Jan {
         //  System.out.println(new DecChallenge().isValidBST(new TreeNode(5)));
         //System.out.println(new DecChallenge().decodeAtIndex("leet2code3", 15));
         //System.out.println(new Jan().findKthPositive(new int[]{2, 3, 4, 7, 11}, 5));
-        System.out.println(new Jan().ladderLength("hit", "cog", new ArrayList<>(Arrays.asList(new String[]{"hot", "dot", "dog", "lot", "log", "cog"}))));
+        //System.out.println(new Jan().ladderLength("hit", "cog", new ArrayList<>(Arrays.asList(new String[]{"hot", "dot", "dog", "lot", "log", "cog"}))));
+        System.out.println(new Jan().countVowelStrings(3));
+    }
+
+    public int countVowelStrings(int n) {
+        int[] dp = new int[5];
+        Arrays.fill(dp, 1);
+        int ans = 0;
+        for (int i = 2; i <= n; i++) {
+            for (int j = 3; j >= 0; j--) {
+                dp[j] = dp[j] + dp[j + 1];
+            }
+        }
+
+        for (int el : dp) {
+            ans += el;
+        }
+        return ans;
     }
 
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
