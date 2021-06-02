@@ -1,6 +1,5 @@
-package com.hanan.Sep;
+package com.hanan.Challenge2020.Sep;
 
-import com.hanan.ListNode;
 import com.hanan.common.TreeNode;
 import org.jetbrains.annotations.NotNull;
 

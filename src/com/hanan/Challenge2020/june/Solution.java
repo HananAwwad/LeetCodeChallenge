@@ -1,4 +1,4 @@
-package com.hanan.june;
+package com.hanan.Challenge2020.june;
 
 public class Solution {
     public static

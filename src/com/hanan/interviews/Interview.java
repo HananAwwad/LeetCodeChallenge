@@ -1,4 +1,6 @@
-package com.hanan;
+package com.hanan.interviews;
+
+import com.hanan.common.TreeNode;
 
 import java.util.*;
 import java.util.stream.Collectors;

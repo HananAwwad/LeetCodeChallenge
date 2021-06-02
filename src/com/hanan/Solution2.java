@@ -1,5 +1,7 @@
 package com.hanan;
 
+import com.hanan.common.ListNode;
+
 import java.util.*;
 
 public class Solution2 {

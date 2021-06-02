@@ -1,4 +1,7 @@
-package com.hanan;
+package com.hanan.Challenge2020;
+
+import com.hanan.common.ListNode;
+import com.hanan.common.TreeNode;
 
 import java.util.*;
 

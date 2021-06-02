@@ -1,4 +1,4 @@
-package com.hanan;
+package com.hanan.interviews;
 
 import java.util.*;
 
