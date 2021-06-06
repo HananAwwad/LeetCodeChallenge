@@ -1,10 +1,73 @@
 package com.hanan.Challenge2021;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+
 public class June {
 
     public static void main(String[] aa) {
         //System.out.println(new June().maxAreaOfIsland(new int[][]{{0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0}, {0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0}, {0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0}}));
-        System.out.println(new June().isInterleave("aabcc", "dbbca", "aadbbbaccc"));
+        //System.out.println(new June().isInterleave("aabcc", "dbbca", "aadbbbaccc"));
+        System.out.println(new June().openLock(new String[]{"0201", "0101", "0102", "1212", "2002"}, "0202"));
+    }
+
+    public String plusOne(String str, int index) {
+        char[] c = str.toCharArray();
+        if (c[index] == '9') {
+            c[index] = '0';
+        } else {
+            c[index] += 1;
+        }
+        return new String(c);
+    }
+
+    public String minusOne(String str, int index) {
+        char[] c = str.toCharArray();
+        if (c[index] == '0') {
+            c[index] = '9';
+        } else {
+            c[index] -= 1;
+        }
+        return new String(c);
+    }
+
+    public int openLock(String[] deadends, String target) {
+        int minimumTurns = -1;
+        Set<String> set = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        set.add("0000");
+        queue.offer("0000");
+        for (String deadend : deadends) {
+            if (deadend.equals("0000")) {
+                return -1;
+            }
+            set.add(deadend);
+        }
+        while (!queue.isEmpty()) {
+            ++minimumTurns;
+            int size = queue.size();
+            while (size-- != 0) {
+                String str = queue.poll();
+                if (str.equals(target)) {
+                    return minimumTurns;
+                }
+                for (int index = 0; index < 4; index++) {
+                    String plus = plusOne(str, index);
+                    String minus = minusOne(str, index);
+                    if (!set.contains(plus)) {
+                        set.add(plus);
+                        queue.offer(plus);
+                    }
+                    if (!set.contains(minus)) {
+                        set.add(minus);
+                        queue.offer(minus);
+                    }
+                }
+            }
+        }
+        return -1;
     }
 
     public boolean isInterleave(String s1, String s2, String s3) {
