@@ -1,16 +1,48 @@
 package com.hanan.Challenge2021;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 public class June {
 
     public static void main(String[] aa) {
         //System.out.println(new June().maxAreaOfIsland(new int[][]{{0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0}, {0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0}, {0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0}}));
         //System.out.println(new June().isInterleave("aabcc", "dbbca", "aadbbbaccc"));
-        System.out.println(new June().openLock(new String[]{"0201", "0101", "0102", "1212", "2002"}, "0202"));
+        //   System.out.println(new June().openLock(new String[]{"0201", "0101", "0102", "1212", "2002"}, "0202"));
+        System.out.println(new June().maxPerformance(6, new int[]{2,10,3,1,5,8}, new int[]{5,4,3,9,7,2}, 2));
+    }
+
+    private class Engineer {
+        private int speed;
+        private int efficiency;
+
+        public Engineer(int speed, int efficiency) {
+            this.speed = speed;
+            this.efficiency = efficiency;
+        }
+    }
+
+    public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
+        //TC: O(nlong)
+        //SC : O(n)
+        List<Engineer> engineerList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            engineerList.add(new Engineer(speed[i], efficiency[i]));
+        }
+        engineerList.sort((a, b) -> b.efficiency - a.efficiency);
+        PriorityQueue<Engineer> currentTeam = new PriorityQueue<>((a, b) -> a.speed - b.speed);
+        long teamSpeed = 0;
+        long maxPerformance = 0;
+        for (Engineer engineer : engineerList) {
+            if (currentTeam.size() == k) {
+                Engineer slowGuy = currentTeam.poll();
+                teamSpeed -= slowGuy.speed;
+            }
+            currentTeam.add(engineer);
+            teamSpeed += engineer.speed;
+            long profermanceWithNewGuy = teamSpeed * (long) engineer.efficiency;
+            maxPerformance = Math.max(maxPerformance, profermanceWithNewGuy);
+        }
+        return (int) (maxPerformance % 1000000007);
     }
 
     public String plusOne(String str, int index) {
