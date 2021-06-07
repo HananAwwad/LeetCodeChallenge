@@ -8,7 +8,34 @@ public class June {
         //System.out.println(new June().maxAreaOfIsland(new int[][]{{0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0}, {0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0}, {0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0}}));
         //System.out.println(new June().isInterleave("aabcc", "dbbca", "aadbbbaccc"));
         //   System.out.println(new June().openLock(new String[]{"0201", "0101", "0102", "1212", "2002"}, "0202"));
-        System.out.println(new June().maxPerformance(6, new int[]{2,10,3,1,5,8}, new int[]{5,4,3,9,7,2}, 2));
+        //  System.out.println(new June().maxPerformance(6, new int[]{2,10,3,1,5,8}, new int[]{5,4,3,9,7,2}, 2));
+        System.out.println(new June().longestConsecutive(new int[]{100, 4, 200, 1, 3, 2}));
+    }
+
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> num_set = new HashSet<Integer>();
+        for (int num : nums) {
+            num_set.add(num);
+        }
+
+        int longestStreak = 0;
+
+        for (int num : num_set) {
+            if (!num_set.contains(num - 1)) {
+                int currentNum = num;
+                int currentStreak = 1;
+
+                while (num_set.contains(currentNum + 1)) {
+                    currentNum += 1;
+                    currentStreak += 1;
+                }
+
+                longestStreak = Math.max(longestStreak, currentStreak);
+            }
+        }
+
+        return longestStreak;
+
     }
 
     private class Engineer {
