@@ -4,13 +4,28 @@ import java.util.*;
 
 public class June {
 
+
     public static void main(String[] aa) {
         //System.out.println(new June().maxAreaOfIsland(new int[][]{{0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0}, {0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0}, {0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0}}));
         //System.out.println(new June().isInterleave("aabcc", "dbbca", "aadbbbaccc"));
         //   System.out.println(new June().openLock(new String[]{"0201", "0101", "0102", "1212", "2002"}, "0202"));
         //  System.out.println(new June().maxPerformance(6, new int[]{2,10,3,1,5,8}, new int[]{5,4,3,9,7,2}, 2));
-        System.out.println(new June().longestConsecutive(new int[]{100, 4, 200, 1, 3, 2}));
+        //  System.out.println(new June().longestConsecutive(new int[]{100, 4, 200, 1, 3, 2}));
+        System.out.println(new June().minCostClimbingStairs(new int[]{10, 15, 20}));
     }
+
+    public int minCostClimbingStairs(int[] cost) {
+        int downOne = 0;
+        int downTwo = 0;
+        for (int i = 2; i < cost.length + 1; i++) {
+            int temp = downOne;
+            downOne = Math.min(downOne + cost[i - 1], downTwo + cost[i - 2]);
+            downTwo = temp;
+        }
+
+        return downOne;
+    }
+
 
     public int longestConsecutive(int[] nums) {
         Set<Integer> num_set = new HashSet<Integer>();
