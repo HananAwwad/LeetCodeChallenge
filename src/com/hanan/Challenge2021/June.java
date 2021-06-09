@@ -1,5 +1,7 @@
 package com.hanan.Challenge2021;
 
+import com.hanan.common.TreeNode;
+
 import java.util.*;
 
 public class June {
@@ -11,7 +13,37 @@ public class June {
         //   System.out.println(new June().openLock(new String[]{"0201", "0101", "0102", "1212", "2002"}, "0202"));
         //  System.out.println(new June().maxPerformance(6, new int[]{2,10,3,1,5,8}, new int[]{5,4,3,9,7,2}, 2));
         //  System.out.println(new June().longestConsecutive(new int[]{100, 4, 200, 1, 3, 2}));
-        System.out.println(new June().minCostClimbingStairs(new int[]{10, 15, 20}));
+        //System.out.println(new June().minCostClimbingStairs(new int[]{10, 15, 20}));
+        System.out.println(new June().buildTree(new int[]{3,9,20,15,7}, new int []{9,3,15,20,7}));
+    }
+
+    int preorderIndex;
+    Map<Integer, Integer> inorderIndexMap;
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        preorderIndex = 0;
+        // build a hashmap to store value -> its index relations
+        inorderIndexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            inorderIndexMap.put(inorder[i], i);
+        }
+
+        return arrayToTree(preorder, 0, preorder.length - 1);
+    }
+
+    private TreeNode arrayToTree(int[] preorder, int left, int right) {
+        // if there are no elements to construct the tree
+        if (left > right) return null;
+
+        // select the preorder_index element as the root and increment it
+        int rootValue = preorder[preorderIndex++];
+        TreeNode root = new TreeNode(rootValue);
+
+        // build left and right subtree
+        // excluding inorderIndexMap[rootValue] element because it's the root
+        root.left = arrayToTree(preorder, left, inorderIndexMap.get(rootValue) - 1);
+        root.right = arrayToTree(preorder, inorderIndexMap.get(rootValue) + 1, right);
+        return root;
     }
 
     public int minCostClimbingStairs(int[] cost) {
