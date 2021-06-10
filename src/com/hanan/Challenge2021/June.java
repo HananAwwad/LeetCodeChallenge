@@ -1,6 +1,7 @@
 package com.hanan.Challenge2021;
 
 import com.hanan.common.TreeNode;
+import javafx.util.Pair;
 
 import java.util.*;
 
@@ -14,9 +15,31 @@ public class June {
         //  System.out.println(new June().maxPerformance(6, new int[]{2,10,3,1,5,8}, new int[]{5,4,3,9,7,2}, 2));
         //  System.out.println(new June().longestConsecutive(new int[]{100, 4, 200, 1, 3, 2}));
         //System.out.println(new June().minCostClimbingStairs(new int[]{10, 15, 20}));
-        System.out.println(new June().buildTree(new int[]{3,9,20,15,7}, new int []{9,3,15,20,7}));
+        //System.out.println(new June().buildTree(new int[]{3,9,20,15,7}, new int []{9,3,15,20,7}));
+        System.out.println(new June().maxResult(new int[]{}, 1));
     }
+    public int maxResult(int[] nums, int k) {
+        Deque<Pair<Integer, Integer>> deque = new LinkedList() {{
+            offer(new Pair<>(0, nums[0]));
+        }};
+        int max = nums[0];
 
+        for (int i = 1; i < nums.length; i++) {
+            while (!deque.isEmpty() && deque.peekFirst().getKey() < i - k) {
+                deque.pollFirst();
+            }
+
+            max = nums[i] + (deque.isEmpty() ? 0 : deque.peekFirst().getValue());
+
+            while (!deque.isEmpty() && deque.peekLast().getValue() <= max) {
+                deque.pollLast();
+            }
+
+            deque.offerLast(new Pair<>(i, max));
+        }
+
+        return max;
+    }
     int preorderIndex;
     Map<Integer, Integer> inorderIndexMap;
 
