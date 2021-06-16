@@ -4,6 +4,7 @@ import com.hanan.common.TreeNode;
 import javafx.util.Pair;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class June {
 
@@ -16,8 +17,169 @@ public class June {
         //  System.out.println(new June().longestConsecutive(new int[]{100, 4, 200, 1, 3, 2}));
         //System.out.println(new June().minCostClimbingStairs(new int[]{10, 15, 20}));
         //System.out.println(new June().buildTree(new int[]{3,9,20,15,7}, new int []{9,3,15,20,7}));
-        System.out.println(new June().maxResult(new int[]{}, 1));
+        // System.out.println(new June().maxResult(new int[]{}, 1));
+        // System.out.println(new June().maximumUnits(new int[][]{{}},10));
+        System.out.println(new June().makesquare(new int[]{1, 1, 2, 2, 2}));
     }
+
+
+    // The memoization cache to be used during recursion.
+    public HashMap<Pair<Integer, Integer>, Boolean> memo = new HashMap<Pair<Integer, Integer>, Boolean>();
+
+    // Array containing our matchsticks.
+    public int[] nums;
+
+    // Possible side of our square depending on the total sum of all the matchsticks. 
+    public int possibleSquareSide;
+
+    // Main DP function.
+    public boolean recurse(Integer mask, Integer sidesDone) {
+        int total = 0;
+        int L = this.nums.length;
+
+        // The memo key for this recursion
+        Pair<Integer, Integer> memoKey = new Pair(mask, sidesDone);
+
+        // Find out the sum of matchsticks used till now.
+        for (int i = L - 1; i >= 0; i--) {
+            if ((mask & (1 << i)) == 0) {
+                total += this.nums[L - 1 - i];
+            }
+        }
+
+        // If the sum if divisible by our square's side, then we increment our number of complete sides formed variable.
+        if (total > 0 && total % this.possibleSquareSide == 0) {
+            sidesDone++;
+        }
+
+        // Base case.
+        if (sidesDone == 3) {
+            return true;
+        }
+
+
+        // Return precomputed results
+        if (this.memo.containsKey(memoKey)) {
+            return this.memo.get(memoKey);
+        }
+
+        boolean ans = false;
+        int c = total / this.possibleSquareSide;
+
+        // Remaining vlength in the current partially formed side.
+        int rem = this.possibleSquareSide * (c + 1) - total;
+
+        // Try out all remaining options (that are valid)
+        for (int i = L - 1; i >= 0; i--) {
+            if (this.nums[L - 1 - i] <= rem && (mask & (1 << i)) > 0) {
+                if (this.recurse(mask ^ (1 << i), sidesDone)) {
+                    ans = true;
+                    break;
+                }
+            }
+        }
+
+        // Cache the computed results.
+        this.memo.put(memoKey, ans);
+        return ans;
+    }
+
+    public boolean makesquare(int[] nums) {
+
+        // Empty matchsticks.
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+
+        // Find the perimeter of the square (if at all possible)
+        int L = nums.length;
+        int perimeter = 0;
+        for (int i = 0; i < L; i++) {
+            perimeter += nums[i];
+        }
+
+        int possibleSquareSide = perimeter / 4;
+        if (possibleSquareSide * 4 != perimeter) {
+            return false;
+        }
+
+        this.nums = nums;
+        this.possibleSquareSide = possibleSquareSide;
+        return this.recurse((1 << L) - 1, 0);
+    }
+
+    public List<Integer> numbers;
+    public int[] squareSums = new int[4];
+    // public int possibleSquareSide;
+
+
+    public boolean makesquare2(int[] nums) {
+        // Empty matchsticks.
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+
+        // Find the perimeter of the square (if at all possible)
+        int L = nums.length;
+        int perimeter = 0;
+        for (int i = 0; i < L; i++) {
+            perimeter += nums[i];
+        }
+
+        this.possibleSquareSide = perimeter / 4;
+        if (this.possibleSquareSide * 4 != perimeter) {
+            return false;
+        }
+
+        // Convert the array of primitive int to ArrayList (for sorting).
+        this.numbers = Arrays.stream(nums).boxed().collect(Collectors.toList());
+        Collections.sort(this.numbers, Collections.reverseOrder());
+        return this.dfs(0);
+    }
+
+    // Depth First Search function.
+    public boolean dfs(int index) {
+
+        // If we have exhausted all our matchsticks, check if all sides of the square are of equal length
+        if (index == this.numbers.size()) {
+            return squareSums[0] == squareSums[1] && squareSums[1] == squareSums[2] && squareSums[2] == squareSums[3];
+        }
+
+        // Get current matchstick.
+        int element = this.numbers.get(index);
+
+        // Try adding it to each of the 4 sides (if possible)
+        for (int i = 0; i < 4; i++) {
+            if (this.squareSums[i] + element <= this.possibleSquareSide) {
+                this.squareSums[i] += element;
+                if (this.dfs(index + 1)) {
+                    return true;
+                }
+                this.squareSums[i] -= element;
+            }
+        }
+
+        return false;
+    }
+
+
+    public int maximumUnits(int[][] boxTypes, int truckSize) {
+        Arrays.sort(boxTypes, new Comparator<int[]>() {
+            public int compare(int[] idx1, int[] idx2) {
+                return Integer.compare(idx2[1], idx1[1]);
+            }
+        });
+
+        int i = 0, units = 0;
+        while (i < boxTypes.length && truckSize > 0) {
+            units += boxTypes[i][1] * (Math.min(truckSize, boxTypes[i][0]));
+            truckSize -= boxTypes[i][0];
+            i++;
+        }
+
+        return units;
+    }
+
     public int maxResult(int[] nums, int k) {
         Deque<Pair<Integer, Integer>> deque = new LinkedList() {{
             offer(new Pair<>(0, nums[0]));
@@ -40,6 +202,7 @@ public class June {
 
         return max;
     }
+
     int preorderIndex;
     Map<Integer, Integer> inorderIndexMap;
 
