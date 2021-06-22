@@ -19,7 +19,162 @@ public class June {
         //System.out.println(new June().buildTree(new int[]{3,9,20,15,7}, new int []{9,3,15,20,7}));
         // System.out.println(new June().maxResult(new int[]{}, 1));
         // System.out.println(new June().maximumUnits(new int[][]{{}},10));
-        System.out.println(new June().makesquare(new int[]{1, 1, 2, 2, 2}));
+        //System.out.println(new June().makesquare(new int[]{1, 1, 2, 2, 2}));
+        //System.out.println(new June().numSubarrayBoundedMax(new int[]{}, 2, 3));
+        //System.out.println(new June().swimInWater(new int[][]{{0, 1, 2, 3, 4}, {24, 23, 22, 21, 5}, {12, 13, 14, 15, 16}, {11, 17, 18, 19, 20}, {10, 9, 8, 7, 6}}));
+        //System.out.println(new June().getRow(0));
+        System.out.println(new June().numMatchingSubseq("", new String[]{"",""}));
+    }
+
+
+    /* Approach: For every word, check if it is subsequence of input string */
+
+    public int numMatchingSubseq(String s, String[] words) {
+
+        String inputString = s;
+        int count = 0;
+
+        // Check for every words in array
+
+        for (String word: words) {
+
+            // Check if word is subsequence of input string
+
+            if (checkSubsequence(word, inputString)) {
+                count = count + 1;
+            }
+
+        }
+
+        return count;
+    }
+
+
+    /* Helper function to check if given word is sub sequence of given input string */
+
+    private boolean checkSubsequence (String word, String inputString) {
+
+        int prevCharIndex = 0;   // It will store the index of input String where previous char was found
+
+        /*  So, the curr character should be found after this index for maintaining subsequence order  */
+
+        for (char ch : word.toCharArray()) {
+
+            int index = inputString.indexOf(ch, prevCharIndex);   // search for char after prev char found index
+
+            // If index == -1 means char not found, else found at index i.
+
+            if (index == -1) {
+                return false;
+            }
+
+            prevCharIndex = index + 1;   // set the prevCharIndex to current found char index + 1 for next search
+
+            // We do index + 1 as maybe duplicate elements consider this same index twice, so increment by 1.
+
+        }
+
+        return true;   // Every chars traversed and found, return true.
+
+    }
+
+    public List<Integer> getRow(int rowIndex) {
+        Integer[] result = new Integer[rowIndex + 1];
+        Arrays.fill(result, 0);
+        result[0] = 1;
+        for (int i = 1; i <= rowIndex; i++)
+            for (int j = i; j > 0; j--)
+                result[j] = result[j] + result[j - 1];
+
+        return Arrays.asList(result);
+
+    }
+    static int[][] DIRS = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
+    public int swimInWater(int[][] grid) {
+        int N = grid.length, NN = N * N;
+        int[] index = new int[NN];
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++)
+                index[grid[i][j]] = i * N + j;
+
+        UnionFind uf = new UnionFind(NN);
+        int start = 0, end = N * N - 1;
+
+        for (int t = 1; t < NN; t++) {
+            int idx = index[t];
+            int i = idx / N, j = idx % N;
+            for (int[] dir : DIRS) {
+                int i2 = i + dir[0], j2 = j + dir[1];
+                if (i2 >= 0 && i2 < N && j2 >= 0 && j2 < N && grid[i2][j2] < t)
+                    uf.union(idx, i2 * N + j2);
+            }
+            if (uf.connected(start, end)) return t;
+        }
+        return -1;
+    }
+
+
+    static class UnionFind {
+        int[] parent;
+        int[] size;
+        public int count;
+
+        public UnionFind(int n) {
+            count = n;
+            parent = new int[n];
+            size = new int[n];
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;
+                size[i] = 1;
+            }
+        }
+
+        public int find(int p) {
+            int root = p;
+            while (root != parent[root])
+                root = parent[root];
+            while (p != root) {
+                int newp = parent[p];
+                parent[p] = root;
+                p = newp;
+            }
+            return root;
+        }
+
+        public boolean connected(int p, int q) {
+            return find(p) == find(q);
+        }
+
+        public void union(int p, int q) {
+            int rootP = find(p);
+            int rootQ = find(q);
+            if (rootP == rootQ) return;
+
+            if (size[rootP] < size[rootQ]) {
+                parent[rootP] = rootQ;
+                size[rootQ] += size[rootP];
+            } else {
+                parent[rootQ] = rootP;
+                size[rootP] += size[rootQ];
+            }
+            count--;
+        }
+    }
+
+    public int numSubarrayBoundedMax(int[] nums, int left, int right) {
+        int start = -1, end = -1, res = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > right) {
+                start = end = i;
+                continue;
+            }
+            if (nums[i] >= left)
+                end = i;
+            res += end - start;
+        }
+        return res;
+
     }
 
 
