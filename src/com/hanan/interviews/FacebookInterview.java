@@ -8,7 +8,39 @@ public class FacebookInterview {
         ///  System.out.println(new FacebookInterview().spiralOrder(new int[][]{}));
         //System.out.println(new FacebookInterview().rotationalCipher("abcdefghijklmNOPQRSTUVWXYZ0123456789", 39));
         //System.out.println(new FacebookInterview().countSubarrays(new int[]{3, 4, 1, 6, 2}));
-        System.out.println(new FacebookInterview().numberOfWays2(new int[]{1, 5, 3, 3, 3}, 6));
+        //System.out.println(new FacebookInterview().numberOfWays2(new int[]{1, 5, 3, 3, 3}, 6));
+        System.out.println(new FacebookInterview().canBeEqual(new int[]{1, 1, 1, 1, 1}, new int[]{1, 1, 1, 1, 1}));
+    }
+
+    public boolean canBeEqual(int[] target, int[] arr) {
+
+        int[] map = new int[1001];
+        for (int element : target) map[element]++;
+        for (int element : arr) map[element]--;
+        for (int element : map) if (element != 0) return false;
+        return true;
+    }
+
+    public boolean areTheyEqual(int[] target, int[] arr) {
+
+        if (target.length != arr.length)
+            return false;
+        int N = target.length;
+        int[] result = new int[N];
+        Set nonMatchingItems = new HashSet();
+        for (int i = 0; i < N; i++) {
+            if (target[i] == arr[i])
+                result[i] = target[i];
+            else
+                nonMatchingItems.add(arr[i]);
+        }
+        for (int i = 0; i < N; i++) {
+            if (result[i] == 0 && nonMatchingItems.contains(target[i])) {
+                result[i] = target[i];
+                nonMatchingItems.remove(result[i]);
+            }
+        }
+        return (nonMatchingItems.size() == 0);
     }
 
     public int numberOfWays(int[] nums, int target) {
@@ -31,7 +63,7 @@ public class FacebookInterview {
         HashMap<Integer, Integer> map = new HashMap<>();
         map.put(0, 1);
         for (int i = 0; i < nums.length; i++) {
-            int complement = k -nums[i];
+            int complement = k - nums[i];
             sum += nums[i];
             if (map.containsKey(sum - k))
                 count += map.get(sum - k);
