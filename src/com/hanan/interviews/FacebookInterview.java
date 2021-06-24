@@ -1,16 +1,43 @@
 package com.hanan.interviews;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Stack;
+import java.util.*;
 
 public class FacebookInterview {
     public static void main(String[] a) {
         // aVeryBigSum(new ArrayList<Long>(){1000, 100});
         ///  System.out.println(new FacebookInterview().spiralOrder(new int[][]{}));
         //System.out.println(new FacebookInterview().rotationalCipher("abcdefghijklmNOPQRSTUVWXYZ0123456789", 39));
-        System.out.println(new FacebookInterview().countSubarrays(new int[]{3, 4, 1, 6, 2}));
+        //System.out.println(new FacebookInterview().countSubarrays(new int[]{3, 4, 1, 6, 2}));
+        System.out.println(new FacebookInterview().numberOfWays2(new int[]{1, 5, 3, 3, 3}, 6));
+    }
+
+    public int numberOfWays(int[] nums, int target) {
+        int number = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], i);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (map.containsKey(complement) && map.get(complement) != i) {
+                number++;
+            }
+        }
+        return number;
+    }
+
+    public int numberOfWays2(int[] nums, int k) {
+        int count = 0, sum = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        for (int i = 0; i < nums.length; i++) {
+            int complement = k -nums[i];
+            sum += nums[i];
+            if (map.containsKey(sum - k))
+                count += map.get(sum - k);
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        return count;
     }
 
     int[] countSubarrays(int[] arr) {
