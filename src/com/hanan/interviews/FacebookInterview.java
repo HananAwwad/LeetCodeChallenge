@@ -1,5 +1,7 @@
 package com.hanan.interviews;
 
+import com.hanan.common.TreeNode;
+
 import java.util.*;
 
 public class FacebookInterview {
@@ -11,7 +13,40 @@ public class FacebookInterview {
         //System.out.println(new FacebookInterview().numberOfWays2(new int[]{1, 5, 3, 3, 3}, 6));
         //System.out.println(new FacebookInterview().canBeEqual(new int[]{1, 1, 1, 1, 1}, new int[]{1, 1, 1, 1, 1}));
         //System.out.println(new FacebookInterview().findSignatureCounts(new int[]{1, 2}));
-        System.out.println(new FacebookInterview().matchingPairs("mno", "mno"));
+        // System.out.println(new FacebookInterview().matchingPairs("mno", "mno"));
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.right.left = new TreeNode(25);
+        root.right.right = new TreeNode(40);
+
+        System.out.println(new FacebookInterview().leftView(root));
+    }
+
+
+    public List leftView(TreeNode root) {
+        List result = new ArrayList();
+        leftViewUtil(root, result, 0);
+        return result;
+    }
+
+    int max_level = 0;
+
+    public void leftViewUtil(TreeNode node, List l, int level) {
+        if (node == null)
+            return;
+
+        // If this is the first node of its level
+        if (max_level < level) {
+            System.out.print(" " + node.val);
+            l.add(node.val);
+            max_level = level;
+        }
+
+        // Recur for left and right subtrees
+        leftViewUtil(node.left, l, level + 1);
+        leftViewUtil(node.right, l, level + 1);
+
     }
 
     public int matchingPairs(String s, String t) {
