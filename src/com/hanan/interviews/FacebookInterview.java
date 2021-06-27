@@ -9,7 +9,49 @@ public class FacebookInterview {
         //System.out.println(new FacebookInterview().rotationalCipher("abcdefghijklmNOPQRSTUVWXYZ0123456789", 39));
         //System.out.println(new FacebookInterview().countSubarrays(new int[]{3, 4, 1, 6, 2}));
         //System.out.println(new FacebookInterview().numberOfWays2(new int[]{1, 5, 3, 3, 3}, 6));
-        System.out.println(new FacebookInterview().canBeEqual(new int[]{1, 1, 1, 1, 1}, new int[]{1, 1, 1, 1, 1}));
+        //System.out.println(new FacebookInterview().canBeEqual(new int[]{1, 1, 1, 1, 1}, new int[]{1, 1, 1, 1, 1}));
+        System.out.println(new FacebookInterview().findSignatureCounts(new int[]{1, 2}));
+    }
+
+    public int[] findSignatureCounts(int[] arr) {
+        // Write your code here
+        int[] output = new int[arr.length];
+
+        for (int student = 1; student <= arr.length; student++) {
+            int bookOwner = student;
+            int currentHolder = student;
+
+            do {
+                output[student - 1] += 1;
+                currentHolder = arr[currentHolder - 1];
+            } while (currentHolder != bookOwner);
+
+        }
+        return output;
+
+    }
+
+    public int[] findSignatureCount(int[] nums) {
+        int[] res = new int[nums.length];
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], i + 1);
+        }
+        Set<Integer> visited = new HashSet<>();
+        for (int book : map.keySet()) {
+            if (!visited.contains(book)) {
+                Set<Integer> round = new HashSet<>();
+                while (!visited.contains(book)) {
+                    round.add(book);
+                    visited.add(book);
+                    book = map.get(book);
+                }
+                for (int i : round) {
+                    res[i - 1] = round.size();
+                }
+            }
+        }
+        return res;
     }
 
     public boolean canBeEqual(int[] target, int[] arr) {
