@@ -23,9 +23,60 @@ public class June {
         //System.out.println(new June().numSubarrayBoundedMax(new int[]{}, 2, 3));
         //System.out.println(new June().swimInWater(new int[][]{{0, 1, 2, 3, 4}, {24, 23, 22, 21, 5}, {12, 13, 14, 15, 16}, {11, 17, 18, 19, 20}, {10, 9, 8, 7, 6}}));
         //System.out.println(new June().getRow(0));
-        System.out.println(new June().numMatchingSubseq("", new String[]{"",""}));
+        //System.out.println(new June().numMatchingSubseq("", new String[]{"", ""}));
+        System.out.println(new June().countSmaller(new int[]{5, 2, 6, 1}));
     }
+    public List<Integer> countSmaller(int[] nums) {
+        List<Integer> result = new ArrayList<Integer>();
+        ArrayList<Integer> sorted = new ArrayList<Integer>();
 
+        for(int i=nums.length-1; i>=0; i--){
+            if(sorted.isEmpty()){
+                sorted.add(nums[i]);
+                result.add(0);
+            }else if(nums[i]>sorted.get(sorted.size()-1)){
+                sorted.add(sorted.size(), nums[i]);
+                result.add(sorted.size()-1);
+            }else{
+                int l=0;
+                int r=sorted.size()-1;
+
+                while(l<r){
+                    int m = l + (r-l)/2;
+
+                    if(nums[i]>sorted.get(m)){
+                        l=m+1;
+                    }else{
+                        r=m;
+                    }
+                }
+
+                sorted.add(r, nums[i]);
+                result.add(r);
+            }
+        }
+
+        Collections.reverse(result);
+
+        return result;
+    }
+    public List<Integer> countSmaller1(int[] nums) {
+        List<Integer> result = new ArrayList<>();
+        int[] sortedArray = nums;
+        int lenght = sortedArray.length;
+        Arrays.sort(sortedArray);
+        Map<Integer, Integer> indexes = new HashMap();
+        for (int i = 0; i < nums.length; i++) {
+            indexes.put(sortedArray[i], i);
+        }
+        for (int i = 0; i < nums.length; i++) {
+
+
+            result.add(indexes.get(nums[i]) );
+        }
+
+        return result;
+    }
 
     /* Approach: For every word, check if it is subsequence of input string */
 
@@ -36,7 +87,7 @@ public class June {
 
         // Check for every words in array
 
-        for (String word: words) {
+        for (String word : words) {
 
             // Check if word is subsequence of input string
 
@@ -52,7 +103,7 @@ public class June {
 
     /* Helper function to check if given word is sub sequence of given input string */
 
-    private boolean checkSubsequence (String word, String inputString) {
+    private boolean checkSubsequence(String word, String inputString) {
 
         int prevCharIndex = 0;   // It will store the index of input String where previous char was found
 
@@ -89,6 +140,7 @@ public class June {
         return Arrays.asList(result);
 
     }
+
     static int[][] DIRS = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
     public int swimInWater(int[][] grid) {
