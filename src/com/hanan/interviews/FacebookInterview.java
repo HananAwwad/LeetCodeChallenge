@@ -10,7 +10,38 @@ public class FacebookInterview {
         //System.out.println(new FacebookInterview().countSubarrays(new int[]{3, 4, 1, 6, 2}));
         //System.out.println(new FacebookInterview().numberOfWays2(new int[]{1, 5, 3, 3, 3}, 6));
         //System.out.println(new FacebookInterview().canBeEqual(new int[]{1, 1, 1, 1, 1}, new int[]{1, 1, 1, 1, 1}));
-        System.out.println(new FacebookInterview().findSignatureCounts(new int[]{1, 2}));
+        //System.out.println(new FacebookInterview().findSignatureCounts(new int[]{1, 2}));
+        System.out.println(new FacebookInterview().matchingPairs("mno", "mno"));
+    }
+
+    public int matchingPairs(String s, String t) {
+        Set<String> mismatchS = new HashSet<>();
+        char[] sToChar = s.toCharArray();
+        char[] tToChar = t.toCharArray();
+        int matching = 0;
+        for (int i = 0; i < sToChar.length; i++) {
+            if (sToChar[i] != tToChar[i]) {
+                mismatchS.add(sToChar[i] + "" + tToChar[i]);
+            } else
+                matching++;
+        }
+        for (String mism : mismatchS) {
+            String reverse = mism.charAt(1) + "" + mism.charAt(0);
+            if (mismatchS.contains(reverse)) {
+                return matching + 2;
+            }
+        }
+        if (mismatchS.size() <= 1)
+            matching--;
+        if (mismatchS.size() == 0)
+            matching--;
+        return matching;
+    }
+
+    public void swap(String s, char source, char dest) {
+        char temp = source;
+        s.replace(source, dest);
+        s.replace(dest, temp);
     }
 
     public int[] findSignatureCounts(int[] arr) {
