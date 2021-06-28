@@ -19,12 +19,23 @@ public class FacebookInterview {
         root.right = new TreeNode(3);
 //        root.right.left = new TreeNode(25);
 //        root.right.right = new TreeNode(40);
-
         // System.out.println(new FacebookInterview().leftView(root));
         ArrayList<Query> list = new ArrayList<Query>();
         list.add(new Query(1, 'a'));
+       // System.out.println(new FacebookInterview().countOfNodes(root, list, "aba"));
+        System.out.println(new FacebookInterview().getTotalTime(new int[]{4, 2, 1, 3}));
+    }
 
-        System.out.println(new FacebookInterview().countOfNodes(root, list, "aba"));
+
+    int getTotalTime(int[] arr) {
+        Arrays.sort(arr);
+        int sum = arr[arr.length - 1];
+        int penalty = 0;
+        for (int i = arr.length - 2; i >= 0 ; i--) {
+            sum += arr[i];
+            penalty += sum;
+        }
+        return penalty;
     }
 
     private int getCount(TreeNode node, Query q, String s) {
@@ -35,8 +46,8 @@ public class FacebookInterview {
         if (s.charAt(node.val - 1) == q.c) {
             count++;
         }
-        count+=getCount(node.left, q, s);
-        count+=getCount(node.right, q, s);
+        count += getCount(node.left, q, s);
+        count += getCount(node.right, q, s);
 
         return count;
     }
