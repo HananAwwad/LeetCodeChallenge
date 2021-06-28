@@ -22,16 +22,101 @@ public class FacebookInterview {
         // System.out.println(new FacebookInterview().leftView(root));
         ArrayList<Query> list = new ArrayList<Query>();
         list.add(new Query(1, 'a'));
-       // System.out.println(new FacebookInterview().countOfNodes(root, list, "aba"));
-        System.out.println(new FacebookInterview().getTotalTime(new int[]{4, 2, 1, 3}));
+        // System.out.println(new FacebookInterview().countOfNodes(root, list, "aba"));
+        //  System.out.println(new FacebookInterview().getTotalTime(new int[]{4, 2, 1, 3}));
+        //System.out.println(new FacebookInterview().findMinArray(new int[]{8, 9, 11, 2, 1}, 3));
+        int arr[] = {7, 6, 9, 2, 1};
+        int n = arr.length;
+        int k = 3;
+
+        minimizeWithKSwaps(arr, n, k);
+
+        //Print the final Array
+        for (int i = 0; i < n; ++i)
+            System.out.print(arr[i] + " ");
     }
 
+
+    // Modifies arr[0..n-1] to lexicographically
+    // smallest with k swaps.
+    static void minimizeWithKSwaps(int arr[], int n, int k) {
+        for (int i = 0; i < n - 1 && k > 0; ++i) {
+
+            // Set the position where we want
+            // to put the smallest integer
+            int pos = i;
+            for (int j = i + 1; j < n; ++j) {
+
+                // If we exceed the Max swaps
+                // then terminate the loop
+                if (j - i > k)
+                    break;
+
+                // Find the minimum value from i+1 to
+                // max k or n
+                if (arr[j] < arr[pos])
+                    pos = j;
+            }
+
+            // Swap the elements from Minimum position
+            // we found till now to the i index
+            int temp;
+
+            for (int j = pos; j > i; --j) {
+                temp = arr[j];
+                arr[j] = arr[j - 1];
+                arr[j - 1] = temp;
+            }
+
+            // Set the final value after swapping pos-i
+            // elements
+            k -= pos - i;
+        }
+    }
+
+
+
+    public int[] findMinArray(int[] arr, int k) {
+        for (int i = 0; i < arr.length && k > 0; i++) {
+            int minIndex = findMinAtDistanceK(arr, i, k);
+            //if minimum element is already at position i, nothing to do
+            if (minIndex == i) {
+                continue;
+            }
+            swap(arr, i, minIndex);
+            // we have used up minindex-i swaps
+            k -= minIndex - i;
+        }
+        return arr;
+    }
+
+    private int findMinAtDistanceK(int[] arr, int start, int k) {
+        int index = 0, min = Integer.MAX_VALUE;
+        // find minimum element at distance k from start
+        for (int i = start; i <= start + k; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    private void swap(int[] arr, int start, int end) {
+        //move element at position end to start
+        while (end > start) {
+            int temp = arr[end];
+            arr[end] = arr[end - 1];
+            arr[end - 1] = temp;
+            end--;
+        }
+    }
 
     int getTotalTime(int[] arr) {
         Arrays.sort(arr);
         int sum = arr[arr.length - 1];
         int penalty = 0;
-        for (int i = arr.length - 2; i >= 0 ; i--) {
+        for (int i = arr.length - 2; i >= 0; i--) {
             sum += arr[i];
             penalty += sum;
         }
@@ -125,31 +210,32 @@ public class FacebookInterview {
         inOrderTraversal(node.right, charIndex + 1, map, s);
     }
 
-    static class Query {
-        int u;
-        char c;
+static class Query {
+    int u;
+    char c;
 
-        Query(int u, char c) {
-            this.u = u;
-            this.c = c;
-        }
-
-        public int getU() {
-            return u;
-        }
-
-        public void setU(int u) {
-            this.u = u;
-        }
-
-        public char getC() {
-            return c;
-        }
-
-        public void setC(char c) {
-            this.c = c;
-        }
+    Query(int u, char c) {
+        this.u = u;
+        this.c = c;
     }
+
+    public int getU() {
+        return u;
+    }
+
+    public void setU(int u) {
+        this.u = u;
+    }
+
+    public char getC() {
+        return c;
+    }
+
+    public void setC(char c) {
+        this.c = c;
+    }
+
+}
 
     public List leftView(TreeNode root) {
         List result = new ArrayList();
