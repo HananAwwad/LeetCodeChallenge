@@ -17,12 +17,128 @@ public class FacebookInterview {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
-        root.right.left = new TreeNode(25);
-        root.right.right = new TreeNode(40);
+//        root.right.left = new TreeNode(25);
+//        root.right.right = new TreeNode(40);
 
-        System.out.println(new FacebookInterview().leftView(root));
+        // System.out.println(new FacebookInterview().leftView(root));
+        ArrayList<Query> list = new ArrayList<Query>();
+        list.add(new Query(1, 'a'));
+
+        System.out.println(new FacebookInterview().countOfNodes(root, list, "aba"));
     }
 
+    private int getCount(TreeNode node, Query q, String s) {
+        if (node == null) {
+            return 0;
+        }
+        int count = 0;
+        if (s.charAt(node.val - 1) == q.c) {
+            count++;
+        }
+        count+=getCount(node.left, q, s);
+        count+=getCount(node.right, q, s);
+
+        return count;
+    }
+
+    private TreeNode findNode(TreeNode root, int val) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val == val) {
+            return root;
+        }
+
+        TreeNode left = findNode(root.left, val);
+        TreeNode right = findNode(root.right, val);
+
+        if (left != null)
+            return left;
+        else if (right != null)
+            return right;
+
+        return null;
+    }
+
+    int[] countOfNodes(TreeNode root, ArrayList<Query> queries, String s) {
+        int[] result = new int[queries.size()];
+        int i = 0;
+        for (Query q : queries) {
+            TreeNode TreeNode = findNode(root, q.u);
+
+            result[i++] = getCount(TreeNode, q, s);
+        }
+        return result;
+    }
+
+    int[] countOfNodes1(TreeNode root, ArrayList<Query> queries, String s) {
+        int[] result = new int[queries.size()];
+        Map map = new HashMap();
+        inOrderTraversal(root, 0, map, s);
+
+        for (int i = 0; i < queries.size(); i++) {
+            TreeNode subTree = findSubTreeQueries(root, queries.get(i).getU());
+            int currentCount = 0;
+            searchForQuery(subTree, queries.get(i).getC(), currentCount, map);
+            result[i] = currentCount;
+        }
+
+        return result;
+    }
+
+    void searchForQuery(TreeNode node, char c, int count, Map map) {
+    }
+
+    TreeNode findSubTreeQueries(TreeNode node, int u) {
+
+        if (node == null)
+            return null;
+        if (node.val == u) {
+            return node;
+        } else {
+            TreeNode left = findSubTreeQueries(node.left, u);
+            if (left != null)
+                return left;
+            TreeNode right = findSubTreeQueries(node.right, u);
+            if (right != null)
+                return right;
+        }
+        return null;
+    }
+
+    void inOrderTraversal(TreeNode node, int charIndex, Map map, String s) {
+        if (node == null)
+            return;
+        map.put(node.val, s.charAt(charIndex));
+        inOrderTraversal(node.left, charIndex + 1, map, s);
+        inOrderTraversal(node.right, charIndex + 1, map, s);
+    }
+
+    static class Query {
+        int u;
+        char c;
+
+        Query(int u, char c) {
+            this.u = u;
+            this.c = c;
+        }
+
+        public int getU() {
+            return u;
+        }
+
+        public void setU(int u) {
+            this.u = u;
+        }
+
+        public char getC() {
+            return c;
+        }
+
+        public void setC(char c) {
+            this.c = c;
+        }
+    }
 
     public List leftView(TreeNode root) {
         List result = new ArrayList();
