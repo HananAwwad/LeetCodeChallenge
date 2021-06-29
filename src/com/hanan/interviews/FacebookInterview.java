@@ -25,15 +25,39 @@ public class FacebookInterview {
         // System.out.println(new FacebookInterview().countOfNodes(root, list, "aba"));
         //  System.out.println(new FacebookInterview().getTotalTime(new int[]{4, 2, 1, 3}));
         //System.out.println(new FacebookInterview().findMinArray(new int[]{8, 9, 11, 2, 1}, 3));
-        int arr[] = {7, 6, 9, 2, 1};
-        int n = arr.length;
-        int k = 3;
+//        int arr[] = {7, 6, 9, 2, 1};
+//        int n = arr.length;
+//        int k = 3;
+//
+//        minimizeWithKSwaps(arr, n, k);
+//
+//        //Print the final Array
+//        for (int i = 0; i < n; ++i)
+//            System.out.print(arr[i] + " ");
 
-        minimizeWithKSwaps(arr, n, k);
+        System.out.println(new FacebookInterview().isBalanced("{[()]}"));
+    }
 
-        //Print the final Array
-        for (int i = 0; i < n; ++i)
-            System.out.print(arr[i] + " ");
+    boolean isBalanced(String a) {
+        Stack<Character> stack = new Stack();
+        Map<Character,Character> map = new HashMap();
+        map.put('(', ')');
+        map.put('{', '}');
+        map.put('[', ']');
+        for (int i = 0; i < a.length(); i++) {
+
+            char c = a.charAt(i);
+            if (map.containsKey(c)) {
+                stack.push(map.get(c));
+            } else if (map.containsValue(c)){
+                if (stack.isEmpty() || stack.pop() != c){
+                    return false;
+                }
+
+            }
+
+        }
+        return stack.isEmpty();
     }
 
 
@@ -73,7 +97,6 @@ public class FacebookInterview {
             k -= pos - i;
         }
     }
-
 
 
     public int[] findMinArray(int[] arr, int k) {
@@ -210,32 +233,32 @@ public class FacebookInterview {
         inOrderTraversal(node.right, charIndex + 1, map, s);
     }
 
-static class Query {
-    int u;
-    char c;
+    static class Query {
+        int u;
+        char c;
 
-    Query(int u, char c) {
-        this.u = u;
-        this.c = c;
+        Query(int u, char c) {
+            this.u = u;
+            this.c = c;
+        }
+
+        public int getU() {
+            return u;
+        }
+
+        public void setU(int u) {
+            this.u = u;
+        }
+
+        public char getC() {
+            return c;
+        }
+
+        public void setC(char c) {
+            this.c = c;
+        }
+
     }
-
-    public int getU() {
-        return u;
-    }
-
-    public void setU(int u) {
-        this.u = u;
-    }
-
-    public char getC() {
-        return c;
-    }
-
-    public void setC(char c) {
-        this.c = c;
-    }
-
-}
 
     public List leftView(TreeNode root) {
         List result = new ArrayList();
