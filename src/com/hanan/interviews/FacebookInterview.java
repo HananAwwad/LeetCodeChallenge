@@ -35,12 +35,66 @@ public class FacebookInterview {
 //        for (int i = 0; i < n; ++i)
 //            System.out.print(arr[i] + " ");
 
-        System.out.println(new FacebookInterview().isBalanced("{[()]}"));
+        // System.out.println(new FacebookInterview().isBalanced("{[()]}"));
+        System.out.println(new FacebookInterview().findPositions(new int[]{1, 2, 2, 3, 4, 5}, 5));
+    }
+
+    class Position {
+        int index;
+        int val;
+
+        Position(int index, int val) {
+            this.index = index;
+            this.val = val;
+        }
+    }
+    int[] findPositions(int[] arr, int x) {
+        int[] output = new int[x];
+        Queue<Position> positions = new LinkedList();
+        for (int i = 0; i < arr.length; i++) {
+            positions.add(new Position(i + 1, arr[i]));
+        }
+        List<Position> popped;
+        int pass = 0;
+        for (int i = 0; i < x; i++) {
+
+            popped = new ArrayList<>();
+            // Step 1. Pop x elements
+            for (int j = 0; j < x && !positions.isEmpty(); j++) {
+                popped.add(positions.poll());
+            }
+            // Step 2. Remove Largest element
+            int max = 0;
+            int maxIdx = Integer.MAX_VALUE;
+            for (Position p : popped) {
+                if (p.val == max) {
+                    maxIdx = Math.min(maxIdx, p.index);
+                } else if (p.val > max) {
+                    max = p.val;
+                    maxIdx = p.index;
+                }
+            }
+
+            output[pass++] = maxIdx;
+
+            // Step 3. Decrement Values & Add Back
+            for (Position p : popped) {
+                if (p.index != maxIdx) { // remove from queue
+                    Position next = new Position(p.index, (p.val == 0) ? p.val : p.val - 1);
+                    positions.add(next);
+                }
+            }
+
+        }
+
+
+        return output;
+
     }
 
     boolean isBalanced(String a) {
         Stack<Character> stack = new Stack();
-        Map<Character,Character> map = new HashMap();
+        Map<Character, Character> map = new HashMap();
         map.put('(', ')');
         map.put('{', '}');
         map.put('[', ']');
@@ -49,8 +103,8 @@ public class FacebookInterview {
             char c = a.charAt(i);
             if (map.containsKey(c)) {
                 stack.push(map.get(c));
-            } else if (map.containsValue(c)){
-                if (stack.isEmpty() || stack.pop() != c){
+            } else if (map.containsValue(c)) {
+                if (stack.isEmpty() || stack.pop() != c) {
                     return false;
                 }
 
