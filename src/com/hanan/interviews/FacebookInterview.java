@@ -1,5 +1,6 @@
 package com.hanan.interviews;
 
+import com.hanan.common.Node;
 import com.hanan.common.TreeNode;
 
 import java.util.*;
@@ -36,7 +37,48 @@ public class FacebookInterview {
 //            System.out.print(arr[i] + " ");
 
         // System.out.println(new FacebookInterview().isBalanced("{[()]}"));
-        System.out.println(new FacebookInterview().findPositions(new int[]{1, 2, 2, 3, 4, 5}, 5));
+        // System.out.println(new FacebookInterview().findPositions(new int[]{1, 2, 2, 3, 4, 5}, 5));
+        //new FacebookInterview().reverse(new Node());
+    }
+
+    int minOperations(int[] arr) {
+        return 0;
+    }
+
+    Node reverse(Node head) {
+        Node dummy = new Node(0);
+        dummy.next = head;
+
+        Node prev = dummy;
+        Node curr = head;
+
+        while (curr != null) {
+            if (curr.val % 2 == 0) {
+                prev.next = reverseOdds(curr);
+            }
+
+            prev = curr;
+            curr = curr.next;
+        }
+
+        return dummy.next;
+
+    }
+
+    Node reverseOdds(Node head) {
+        Node prev = null;
+        Node curr = head;
+
+        while (curr != null && curr.val % 2 == 0) {
+            Node t = curr.next;
+            curr.next = prev;
+
+            prev = curr;
+            curr = t;
+        }
+
+        head.next = curr;
+        return prev;
     }
 
     class Position {
@@ -48,6 +90,7 @@ public class FacebookInterview {
             this.val = val;
         }
     }
+
     int[] findPositions(int[] arr, int x) {
         int[] output = new int[x];
         Queue<Position> positions = new LinkedList();
