@@ -39,10 +39,80 @@ public class FacebookInterview {
         // System.out.println(new FacebookInterview().isBalanced("{[()]}"));
         // System.out.println(new FacebookInterview().findPositions(new int[]{1, 2, 2, 3, 4, 5}, 5));
         //new FacebookInterview().reverse(new Node());
+        System.out.println(new FacebookInterview().minOperations(new int[]{3, 1, 2}));
+
+        System.out.println(minOperations(new int[] {3, 1, 2}) == 2);
+        System.out.println(minOperations(new int[] {4, 3, 1, 2}) == 2);
+        System.out.println(minOperations(new int[] {6, 1, 2, 3, 4, 5}) == 2);
     }
 
-    int minOperations(int[] arr) {
-        return 0;
+    private static void reverse(int[] arr, int l, int r) {
+        // reverse array [i,...,j]
+        while (l < r) {
+            int xor = arr[l] ^ arr[r];
+            arr[l++] = xor ^ arr[l];
+            arr[r--] = xor ^ arr[r];
+        }
+    }
+
+    private static boolean isSorted(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != i + 1) return false;
+        }
+        return true;
+    }
+
+    static int minOperations(int[] arr) {
+        int operations = 0;
+        if (arr == null || arr.length == 0 || isSorted(arr)) return operations;
+        Set<String> visited = new HashSet<>();
+        visited.add(Arrays.toString(arr));
+
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(arr);
+
+        while (!queue.isEmpty()) {
+            operations++;
+            int n = queue.size();
+            for (int i = 0; i < n; i++) {
+                int[] cur = queue.poll();
+                for (int l = 0; l < cur.length; l++) {
+                    for (int r = l + 1; r < cur.length; r++) {
+                        int[] next = Arrays.copyOf(cur, cur.length);
+                        reverse(next, l, r);
+                        String key = Arrays.toString(next);
+                        if (visited.contains(key)) continue;
+                        if (isSorted(next)) return operations;
+                        visited.add(key);
+                        queue.add(next);
+                    }
+                }
+            }
+        }
+        return -1; // not reach here
+    }
+
+    public void reverse1(int[] arr, int from, int to) {
+        while (from < to) {
+            int tmp = arr[from];
+            arr[from] = arr[to];
+            arr[to] = tmp;
+            from++;
+            to--;
+        }
+    }
+
+    int minOperations1(int[] arr) {
+        int result = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] - 1 != i) {
+                int dif = arr[i] - 1;
+                result++;
+                reverse(arr, i, dif);
+                i--;
+            }
+        }
+        return result;
     }
 
     Node reverse(Node head) {
