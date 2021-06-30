@@ -24,8 +24,45 @@ public class June {
         //System.out.println(new June().swimInWater(new int[][]{{0, 1, 2, 3, 4}, {24, 23, 22, 21, 5}, {12, 13, 14, 15, 16}, {11, 17, 18, 19, 20}, {10, 9, 8, 7, 6}}));
         //System.out.println(new June().getRow(0));
         //System.out.println(new June().numMatchingSubseq("", new String[]{"", ""}));
-        System.out.println(new June().countSmaller(new int[]{5, 2, 6, 1}));
+        //System.out.println(new June().countSmaller(new int[]{5, 2, 6, 1}));
+        System.out.println(new June().candy(new int[]{1,2,2}));
     }
+
+        public int count(int n) {
+            return (n * (n + 1)) / 2;
+        }
+        public int candy(int[] ratings) {
+            if (ratings.length <= 1) {
+                return ratings.length;
+            }
+            int candies = 0;
+            int up = 0;
+            int down = 0;
+            int oldSlope = 0;
+            for (int i = 1; i < ratings.length; i++) {
+                int newSlope = (ratings[i] > ratings[i - 1]) ? 1
+                        : (ratings[i] < ratings[i - 1] ? -1
+                        : 0);
+
+                if ((oldSlope > 0 && newSlope == 0) || (oldSlope < 0 && newSlope >= 0)) {
+                    candies += count(up) + count(down) + Math.max(up, down);
+                    up = 0;
+                    down = 0;
+                }
+                if (newSlope > 0) {
+                    up++;
+                } else if (newSlope < 0) {
+                    down++;
+                } else {
+                    candies++;
+                }
+
+                oldSlope = newSlope;
+            }
+            candies += count(up) + count(down) + Math.max(up, down) + 1;
+            return candies;
+        }
+
     public List<Integer> countSmaller(int[] nums) {
         List<Integer> result = new ArrayList<Integer>();
         ArrayList<Integer> sorted = new ArrayList<Integer>();
