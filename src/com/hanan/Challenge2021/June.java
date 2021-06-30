@@ -25,66 +25,100 @@ public class June {
         //System.out.println(new June().getRow(0));
         //System.out.println(new June().numMatchingSubseq("", new String[]{"", ""}));
         //System.out.println(new June().countSmaller(new int[]{5, 2, 6, 1}));
-        System.out.println(new June().candy(new int[]{1,2,2}));
+        //System.out.println(new June().candy(new int[]{1,2,2}));
+        //System.out.println(new June().removeDuplicates("azxxzy"));
+        System.out.println(new June().longestOnes(new int[]{0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1}, 3));
     }
 
-        public int count(int n) {
-            return (n * (n + 1)) / 2;
-        }
-        public int candy(int[] ratings) {
-            if (ratings.length <= 1) {
-                return ratings.length;
-            }
-            int candies = 0;
-            int up = 0;
-            int down = 0;
-            int oldSlope = 0;
-            for (int i = 1; i < ratings.length; i++) {
-                int newSlope = (ratings[i] > ratings[i - 1]) ? 1
-                        : (ratings[i] < ratings[i - 1] ? -1
-                        : 0);
-
-                if ((oldSlope > 0 && newSlope == 0) || (oldSlope < 0 && newSlope >= 0)) {
-                    candies += count(up) + count(down) + Math.max(up, down);
-                    up = 0;
-                    down = 0;
+    public int longestOnes(int[] nums, int k) {
+        int maxConsecutiveOne = 0;
+        int start = 0;
+        int zeroCount = 0;
+        for (int end = 0; end < nums.length; end++) {
+            if (nums[end] == 0)
+                zeroCount++;
+            while (zeroCount > k) {
+                if (nums[start] == 0) {
+                    zeroCount--;
                 }
-                if (newSlope > 0) {
-                    up++;
-                } else if (newSlope < 0) {
-                    down++;
-                } else {
-                    candies++;
-                }
-
-                oldSlope = newSlope;
+                start++;
             }
-            candies += count(up) + count(down) + Math.max(up, down) + 1;
-            return candies;
+            maxConsecutiveOne = Math.max(maxConsecutiveOne, end - start + 1);
         }
+        return maxConsecutiveOne;
+
+    }
+
+    public String removeDuplicates(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (sb.length() > 0 && sb.charAt(sb.length() - 1) == c) {
+                sb.deleteCharAt(sb.length() - 1);
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    public int count(int n) {
+        return (n * (n + 1)) / 2;
+    }
+
+    public int candy(int[] ratings) {
+        if (ratings.length <= 1) {
+            return ratings.length;
+        }
+        int candies = 0;
+        int up = 0;
+        int down = 0;
+        int oldSlope = 0;
+        for (int i = 1; i < ratings.length; i++) {
+            int newSlope = (ratings[i] > ratings[i - 1]) ? 1
+                    : (ratings[i] < ratings[i - 1] ? -1
+                    : 0);
+
+            if ((oldSlope > 0 && newSlope == 0) || (oldSlope < 0 && newSlope >= 0)) {
+                candies += count(up) + count(down) + Math.max(up, down);
+                up = 0;
+                down = 0;
+            }
+            if (newSlope > 0) {
+                up++;
+            } else if (newSlope < 0) {
+                down++;
+            } else {
+                candies++;
+            }
+
+            oldSlope = newSlope;
+        }
+        candies += count(up) + count(down) + Math.max(up, down) + 1;
+        return candies;
+    }
 
     public List<Integer> countSmaller(int[] nums) {
         List<Integer> result = new ArrayList<Integer>();
         ArrayList<Integer> sorted = new ArrayList<Integer>();
 
-        for(int i=nums.length-1; i>=0; i--){
-            if(sorted.isEmpty()){
+        for (int i = nums.length - 1; i >= 0; i--) {
+            if (sorted.isEmpty()) {
                 sorted.add(nums[i]);
                 result.add(0);
-            }else if(nums[i]>sorted.get(sorted.size()-1)){
+            } else if (nums[i] > sorted.get(sorted.size() - 1)) {
                 sorted.add(sorted.size(), nums[i]);
-                result.add(sorted.size()-1);
-            }else{
-                int l=0;
-                int r=sorted.size()-1;
+                result.add(sorted.size() - 1);
+            } else {
+                int l = 0;
+                int r = sorted.size() - 1;
 
-                while(l<r){
-                    int m = l + (r-l)/2;
+                while (l < r) {
+                    int m = l + (r - l) / 2;
 
-                    if(nums[i]>sorted.get(m)){
-                        l=m+1;
-                    }else{
-                        r=m;
+                    if (nums[i] > sorted.get(m)) {
+                        l = m + 1;
+                    } else {
+                        r = m;
                     }
                 }
 
@@ -97,6 +131,7 @@ public class June {
 
         return result;
     }
+
     public List<Integer> countSmaller1(int[] nums) {
         List<Integer> result = new ArrayList<>();
         int[] sortedArray = nums;
@@ -109,7 +144,7 @@ public class June {
         for (int i = 0; i < nums.length; i++) {
 
 
-            result.add(indexes.get(nums[i]) );
+            result.add(indexes.get(nums[i]));
         }
 
         return result;
