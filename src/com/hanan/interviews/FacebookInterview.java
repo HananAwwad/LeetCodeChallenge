@@ -43,7 +43,39 @@ public class FacebookInterview {
 //        System.out.println(minOperations(new int[] {3, 1, 2}) == 2);
 //        System.out.println(minOperations(new int[] {4, 3, 1, 2}) == 2);
 //        System.out.println(minOperations(new int[] {6, 1, 2, 3, 4, 5}) == 2);
-        System.out.println(new FacebookInterview().findEncryptedWord("abcxcba"));
+        // System.out.println(new FacebookInterview().findEncryptedWord("abcxcba"));
+        System.out.println(new FacebookInterview().canGetExactChange(94, new int[]{5, 10, 25, 100, 200}));
+    }
+    boolean canGetExactChange(int targetMoney, int[] denominations) {
+        if(targetMoney < 0)
+            return false;
+        if(targetMoney == 0)
+            return true;
+        for(int i = 0; i < denominations.length;i++){
+            if(canGetExactChange(targetMoney - denominations[i], denominations)){
+                return true;
+            }
+        }
+        return false;
+
+    }
+    boolean canGetExactChange1(int targetMoney, int[] denominations) {
+        Arrays.sort(denominations);
+        for (int i = denominations.length - 1; i >= 0; i--) {
+            if (denominations[i] > targetMoney)
+                continue;
+            targetMoney = substractFrom(targetMoney, denominations[i]);
+            if (targetMoney == 0)
+                return true;
+        }
+
+        return false;
+    }
+
+    int substractFrom(int target, int denomination) {
+        while (target >= denomination)
+            target -= denomination;
+        return target;
     }
 
     String findEncryptedWord(String s) {
@@ -56,7 +88,7 @@ public class FacebookInterview {
         if (length == 1)
             return s;
 
-        return s.charAt(middle) + findEncryptedWord(s.substring(0, middle )) + findEncryptedWord(s.substring(middle + 1, length));
+        return s.charAt(middle) + findEncryptedWord(s.substring(0, middle)) + findEncryptedWord(s.substring(middle + 1, length));
     }
 
     private static void reverse(int[] arr, int l, int r) {
