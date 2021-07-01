@@ -39,11 +39,24 @@ public class FacebookInterview {
         // System.out.println(new FacebookInterview().isBalanced("{[()]}"));
         // System.out.println(new FacebookInterview().findPositions(new int[]{1, 2, 2, 3, 4, 5}, 5));
         //new FacebookInterview().reverse(new Node());
-        System.out.println(new FacebookInterview().minOperations(new int[]{3, 1, 2}));
+//        System.out.println(new FacebookInterview().minOperations(new int[]{3, 1, 2}));
+//        System.out.println(minOperations(new int[] {3, 1, 2}) == 2);
+//        System.out.println(minOperations(new int[] {4, 3, 1, 2}) == 2);
+//        System.out.println(minOperations(new int[] {6, 1, 2, 3, 4, 5}) == 2);
+        System.out.println(new FacebookInterview().findEncryptedWord("abcxcba"));
+    }
 
-        System.out.println(minOperations(new int[] {3, 1, 2}) == 2);
-        System.out.println(minOperations(new int[] {4, 3, 1, 2}) == 2);
-        System.out.println(minOperations(new int[] {6, 1, 2, 3, 4, 5}) == 2);
+    String findEncryptedWord(String s) {
+        int length = s.length();
+        int middle = length / 2;
+        if (middle % 2 == 0)
+            middle = middle - 1;
+        if (length == 0)
+            return "";
+        if (length == 1)
+            return s;
+
+        return s.charAt(middle) + findEncryptedWord(s.substring(0, middle )) + findEncryptedWord(s.substring(middle + 1, length));
     }
 
     private static void reverse(int[] arr, int l, int r) {
