@@ -47,7 +47,22 @@ public class FacebookInterview {
         // System.out.println(new FacebookInterview().canGetExactChange(94, new int[]{5, 10, 25, 100, 200}));
         //System.out.println(new FacebookInterview().getMilestoneDays(new int[]{10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, new int[]{100, 200, 500}));
 
-        System.out.println(new FacebookInterview().getBillionUsersDay(new float[]{(float) 1.1, (float) 1.2, (float) 1.3}));
+        //System.out.println(new FacebookInterview().getBillionUsersDay(new float[]{(float) 1.1, (float) 1.2, (float) 1.3}));
+        System.out.println(new FacebookInterview().minOverallAwkwardness(new int[]{5, 10, 6, 8}));
+    }
+
+    int minOverallAwkwardness(int[] arr) {
+        Arrays.sort(arr);
+        int diff = arr[1] - arr[0];
+
+        for (int i = 2; i < arr.length; i += 2) {
+            diff = Math.max(diff, arr[i] - arr[i - 2]);
+        }
+        for (int i = 3; i < arr.length; i += 2) {
+            diff = Math.max(diff, arr[i] - arr[i - 2]);
+        }
+
+        return Math.max(diff, arr[arr.length - 1] - arr[arr.length - 2]);
     }
 
     // GP n-th element formula: [a * (r^ (n- 1)]
