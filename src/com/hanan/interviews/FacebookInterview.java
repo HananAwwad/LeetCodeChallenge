@@ -48,7 +48,41 @@ public class FacebookInterview {
         //System.out.println(new FacebookInterview().getMilestoneDays(new int[]{10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, new int[]{100, 200, 500}));
 
         //System.out.println(new FacebookInterview().getBillionUsersDay(new float[]{(float) 1.1, (float) 1.2, (float) 1.3}));
-        System.out.println(new FacebookInterview().minOverallAwkwardness(new int[]{5, 10, 6, 8}));
+        System.out.println(new FacebookInterview().findMaxProduct(new int[]{1, 2, 3, 4, 5}));
+    }
+
+    int[] findMaxProduct(int[] arr) {
+        int[] result = new int[arr.length];
+        // call a priority queue
+        PriorityQueue<Integer> q = new PriorityQueue(Collections.reverseOrder());
+
+        // traversing the array
+        for (int i = 0; i < arr.length; i++) {
+            // pushing arr[i] in array
+            q.add(arr[i]);
+
+            // if less than three elements are present
+            // in array print -1
+            if (q.size() < 3) {
+                System.out.println("-1");
+                result[i] = -1;
+            } else {
+                // pop three largest elements
+                int x = q.poll();
+                int y = q.poll();
+                int z = q.poll();
+
+                // Reinsert x, y, z in priority_queue
+                int ans = x * y * z;
+                System.out.println(ans);
+                result[i] = ans;
+                q.add(x);
+                q.add(y);
+                q.add(z);
+            }
+
+        }
+        return result;
     }
 
     int minOverallAwkwardness(int[] arr) {
