@@ -44,21 +44,69 @@ public class FacebookInterview {
 //        System.out.println(minOperations(new int[] {4, 3, 1, 2}) == 2);
 //        System.out.println(minOperations(new int[] {6, 1, 2, 3, 4, 5}) == 2);
         // System.out.println(new FacebookInterview().findEncryptedWord("abcxcba"));
-        System.out.println(new FacebookInterview().canGetExactChange(94, new int[]{5, 10, 25, 100, 200}));
+        // System.out.println(new FacebookInterview().canGetExactChange(94, new int[]{5, 10, 25, 100, 200}));
+        System.out.println(new FacebookInterview().getMilestoneDays(new int[]{10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, new int[]{100, 200, 500}));
     }
+
+    int searchDays(int[] revenues, int target) {
+        int l = 0;
+        int r = revenues.length - 1;
+        while (l < r) {
+            int mid = l + ((r - l)/2);
+            if (revenues[mid] == target)
+                return mid;
+            else if (revenues[mid] > target)
+                r = mid;
+            else
+                l = mid + 1;
+        }
+        return l;
+    }
+
+    int[] getMilestoneDays(int[] revenues, int[] milestones) {
+        int[] result = new int[milestones.length];
+        for (int i = 1; i < revenues.length; i++) {
+            revenues[i] += revenues[i-1];
+        }
+        for (int x = 0; x < milestones.length; x++) {
+            result[x] = searchDays(revenues,milestones[x]) + 1;
+        }
+
+        return result;
+    }
+
+    int[] getMilestoneDays1(int[] revenues, int[] milestones) {
+        int[] result = new int[milestones.length];
+
+        for (int i = 0; i < milestones.length; i++) {
+            int currentRevenues = 0;
+
+            for (int j = 0; j < revenues.length; j++) {
+                currentRevenues += revenues[j];
+                if (currentRevenues >= milestones[i]) {
+                    result[i] = j + 1;
+                    break;
+                }
+            }
+
+        }
+        return result;
+    }
+
     boolean canGetExactChange(int targetMoney, int[] denominations) {
-        if(targetMoney < 0)
+        if (targetMoney < 0)
             return false;
-        if(targetMoney == 0)
+        if (targetMoney == 0)
             return true;
-        for(int i = 0; i < denominations.length;i++){
-            if(canGetExactChange(targetMoney - denominations[i], denominations)){
+        for (int i = 0; i < denominations.length; i++) {
+            if (canGetExactChange(targetMoney - denominations[i], denominations)) {
                 return true;
             }
         }
         return false;
 
     }
+
     boolean canGetExactChange1(int targetMoney, int[] denominations) {
         Arrays.sort(denominations);
         for (int i = denominations.length - 1; i >= 0; i--) {
