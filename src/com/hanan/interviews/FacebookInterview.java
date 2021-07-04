@@ -45,14 +45,51 @@ public class FacebookInterview {
 //        System.out.println(minOperations(new int[] {6, 1, 2, 3, 4, 5}) == 2);
         // System.out.println(new FacebookInterview().findEncryptedWord("abcxcba"));
         // System.out.println(new FacebookInterview().canGetExactChange(94, new int[]{5, 10, 25, 100, 200}));
-        System.out.println(new FacebookInterview().getMilestoneDays(new int[]{10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, new int[]{100, 200, 500}));
+        //System.out.println(new FacebookInterview().getMilestoneDays(new int[]{10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, new int[]{100, 200, 500}));
+
+        System.out.println(new FacebookInterview().getBillionUsersDay(new float[]{(float) 1.1, (float) 1.2, (float) 1.3}));
     }
+
+    // GP n-th element formula: [a * (r^ (n- 1)]
+    // In this case as a == r, it simplifies to r^n
+    private double userOnDay(float rate, int day) {
+        return Math.pow(rate, day);
+    }
+
+    public int getBillionUsersDay(float[] growthRates) {
+        // Write your code here
+        int start = 1;
+        int end = Integer.MAX_VALUE; // considering this to be the upper_limit; can be discussed with the interviewer
+        double target = 1000000000;
+        double target1 = 1000000000;
+
+        while (start < end) {
+            double total = 0;
+            int mid = start + (end - start) / 2;
+
+            // calculate mid value
+            for (float growthRate : growthRates) {
+                total += userOnDay(growthRate, mid);
+            }
+
+            if (total == target) {
+                return mid;
+            }
+            if (total > target) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
 
     int searchDays(int[] revenues, int target) {
         int l = 0;
         int r = revenues.length - 1;
         while (l < r) {
-            int mid = l + ((r - l)/2);
+            int mid = l + ((r - l) / 2);
             if (revenues[mid] == target)
                 return mid;
             else if (revenues[mid] > target)
@@ -66,10 +103,10 @@ public class FacebookInterview {
     int[] getMilestoneDays(int[] revenues, int[] milestones) {
         int[] result = new int[milestones.length];
         for (int i = 1; i < revenues.length; i++) {
-            revenues[i] += revenues[i-1];
+            revenues[i] += revenues[i - 1];
         }
         for (int x = 0; x < milestones.length; x++) {
-            result[x] = searchDays(revenues,milestones[x]) + 1;
+            result[x] = searchDays(revenues, milestones[x]) + 1;
         }
 
         return result;
