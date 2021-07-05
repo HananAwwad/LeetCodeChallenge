@@ -49,7 +49,44 @@ public class FacebookInterview {
 
         //System.out.println(new FacebookInterview().getBillionUsersDay(new float[]{(float) 1.1, (float) 1.2, (float) 1.3}));
         //System.out.println(new FacebookInterview().findMaxProduct(new int[]{1, 2, 3, 4, 5}));
-        System.out.println(new FacebookInterview().maxCandies(new int[]{2,1,7,4,2}, 3));
+        // System.out.println(new FacebookInterview().maxCandies(new int[]{2,1,7,4,2}, 3));
+        System.out.println(new FacebookInterview().findMedian(new int[]{5, 15, 1, 3}));
+    }
+
+    int[] findMedian(int[] arr) {
+        if (arr == null || arr.length == 0) return null;
+
+        Queue<Integer> q = new PriorityQueue<>();
+
+        int[] output = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            q.offer(arr[i]);
+
+            int len = q.size();
+            int mid = -1;
+
+
+            int[] temp = new int[len];
+            for (int j = 0; j < len; j++) {
+                temp[j] = q.poll();
+            }
+
+
+            if (len % 2 == 0) {
+                mid = len / 2 - 1;
+                output[i] = (temp[mid] + temp[mid + 1]) / 2;
+            } else {
+                mid = len / 2;
+                output[i] = temp[mid];
+            }
+
+            for (int j = 0; j < len; j++) {
+                q.offer(temp[j]);
+            }
+
+        }
+
+        return output;
     }
 
     int maxCandies(int[] arr, int k) {
@@ -354,15 +391,15 @@ public class FacebookInterview {
         return prev;
     }
 
-class Position {
-    int index;
-    int val;
+    class Position {
+        int index;
+        int val;
 
-    Position(int index, int val) {
-        this.index = index;
-        this.val = val;
+        Position(int index, int val) {
+            this.index = index;
+            this.val = val;
+        }
     }
-}
 
     int[] findPositions(int[] arr, int x) {
         int[] output = new int[x];
@@ -603,32 +640,32 @@ class Position {
         inOrderTraversal(node.right, charIndex + 1, map, s);
     }
 
-static class Query {
-    int u;
-    char c;
+    static class Query {
+        int u;
+        char c;
 
-    Query(int u, char c) {
-        this.u = u;
-        this.c = c;
+        Query(int u, char c) {
+            this.u = u;
+            this.c = c;
+        }
+
+        public int getU() {
+            return u;
+        }
+
+        public void setU(int u) {
+            this.u = u;
+        }
+
+        public char getC() {
+            return c;
+        }
+
+        public void setC(char c) {
+            this.c = c;
+        }
+
     }
-
-    public int getU() {
-        return u;
-    }
-
-    public void setU(int u) {
-        this.u = u;
-    }
-
-    public char getC() {
-        return c;
-    }
-
-    public void setC(char c) {
-        this.c = c;
-    }
-
-}
 
     public List leftView(TreeNode root) {
         List result = new ArrayList();
