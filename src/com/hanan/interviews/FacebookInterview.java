@@ -55,8 +55,33 @@ public class FacebookInterview {
         sides.add(new Sides(2, 2, 3));
         sides.add(new Sides(3, 2, 2));
         sides.add(new Sides(2, 5, 6));
-        System.out.println(new FacebookInterview().countDistinctTriangles(sides));
+        //System.out.println(new FacebookInterview().countDistinctTriangles(sides));
+        System.out.println(new FacebookInterview().balancedSplitExists(new int[]{12, 7, 6, 7, 6}));
 
+    }
+
+    boolean balancedSplitExists(int[] arr) {
+        int len = arr.length;
+        if (len == 0) {
+            return false;
+        }
+
+        Arrays.sort(arr);
+        int totalSum = 0;
+        int remaining = arr[len - 1];
+        for (int i = 0; i < len - 1; i++) {
+            totalSum += arr[i];
+        }
+
+        for (int i = len - 2; i >= 0; i--) {
+            if (totalSum == remaining && arr[i] < arr[i + 1]) return true;
+            if (totalSum < remaining) break;
+
+            totalSum -= arr[i];
+            remaining += arr[i];
+        }
+
+        return false;
     }
 
     int countDistinctTriangles(ArrayList<Sides> arr) {
