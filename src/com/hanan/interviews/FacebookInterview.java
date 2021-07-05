@@ -48,8 +48,32 @@ public class FacebookInterview {
         //System.out.println(new FacebookInterview().getMilestoneDays(new int[]{10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, new int[]{100, 200, 500}));
 
         //System.out.println(new FacebookInterview().getBillionUsersDay(new float[]{(float) 1.1, (float) 1.2, (float) 1.3}));
-        System.out.println(new FacebookInterview().findMaxProduct(new int[]{1, 2, 3, 4, 5}));
+        //System.out.println(new FacebookInterview().findMaxProduct(new int[]{1, 2, 3, 4, 5}));
+        System.out.println(new FacebookInterview().maxCandies(new int[]{2,1,7,4,2}, 3));
     }
+
+    int maxCandies(int[] arr, int k) {
+        // Write your code here
+        PriorityQueue<Integer> maxValue = new PriorityQueue<>(Collections.reverseOrder());
+
+        //nlog(n)
+        for (int i : arr) {
+            maxValue.add(i);
+        }
+
+
+        //klog(k);
+        int sum = 0;
+        while (k > 0) {
+            int cur = maxValue.poll();
+            sum += cur;
+            maxValue.add(cur / 2);
+            k--;
+        }
+
+        return sum;
+    }
+
 
     int[] findMaxProduct(int[] arr) {
         int[] result = new int[arr.length];
@@ -330,15 +354,15 @@ public class FacebookInterview {
         return prev;
     }
 
-    class Position {
-        int index;
-        int val;
+class Position {
+    int index;
+    int val;
 
-        Position(int index, int val) {
-            this.index = index;
-            this.val = val;
-        }
+    Position(int index, int val) {
+        this.index = index;
+        this.val = val;
     }
+}
 
     int[] findPositions(int[] arr, int x) {
         int[] output = new int[x];
@@ -579,32 +603,32 @@ public class FacebookInterview {
         inOrderTraversal(node.right, charIndex + 1, map, s);
     }
 
-    static class Query {
-        int u;
-        char c;
+static class Query {
+    int u;
+    char c;
 
-        Query(int u, char c) {
-            this.u = u;
-            this.c = c;
-        }
-
-        public int getU() {
-            return u;
-        }
-
-        public void setU(int u) {
-            this.u = u;
-        }
-
-        public char getC() {
-            return c;
-        }
-
-        public void setC(char c) {
-            this.c = c;
-        }
-
+    Query(int u, char c) {
+        this.u = u;
+        this.c = c;
     }
+
+    public int getU() {
+        return u;
+    }
+
+    public void setU(int u) {
+        this.u = u;
+    }
+
+    public char getC() {
+        return c;
+    }
+
+    public void setC(char c) {
+        this.c = c;
+    }
+
+}
 
     public List leftView(TreeNode root) {
         List result = new ArrayList();
