@@ -50,7 +50,37 @@ public class FacebookInterview {
         //System.out.println(new FacebookInterview().getBillionUsersDay(new float[]{(float) 1.1, (float) 1.2, (float) 1.3}));
         //System.out.println(new FacebookInterview().findMaxProduct(new int[]{1, 2, 3, 4, 5}));
         // System.out.println(new FacebookInterview().maxCandies(new int[]{2,1,7,4,2}, 3));
-        System.out.println(new FacebookInterview().findMedian(new int[]{5, 15, 1, 3}));
+        //System.out.println(new FacebookInterview().findMedian(new int[]{5, 15, 1, 3}));
+        ArrayList<Sides> sides = new ArrayList<>();
+        sides.add(new Sides(2, 2, 3));
+        sides.add(new Sides(3, 2, 2));
+        sides.add(new Sides(2, 5, 6));
+        System.out.println(new FacebookInterview().countDistinctTriangles(sides));
+
+    }
+
+    int countDistinctTriangles(ArrayList<Sides> arr) {
+        Set<String> set = new HashSet<>();
+        for (int i = 0; i < arr.size(); i++) {
+            Sides t = arr.get(i);
+            int[] sides = new int[]{t.a, t.b, t.c};
+            Arrays.sort(sides);
+            String key = Arrays.toString(sides);
+            set.add(key);
+        }
+        return set.size();
+    }
+
+    static class Sides {
+        int a;
+        int b;
+        int c;
+
+        public Sides(int a, int b, int c) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
     }
 
     int[] findMedian(int[] arr) {
