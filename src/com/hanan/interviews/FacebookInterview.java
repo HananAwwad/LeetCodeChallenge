@@ -56,9 +56,55 @@ public class FacebookInterview {
         sides.add(new Sides(3, 2, 2));
         sides.add(new Sides(2, 5, 6));
         //System.out.println(new FacebookInterview().countDistinctTriangles(sides));
-        System.out.println(new FacebookInterview().balancedSplitExists(new int[]{12, 7, 6, 7, 6}));
+        // System.out.println(new FacebookInterview().balancedSplitExists(new int[]{12, 7, 6, 7, 6}));
+        System.out.println(new FacebookInterview().getLocalMin(new int[]{0}));
+
+    }// Given an array of integers,
+// A Local minimum is defined as element that is less than or equals to its neighbors
+// Find any one local minimum from the array
+
+// for example, here
+// [5, 9, 7, 10, 12]
+// 5 and 7 are local minimums
+// returning either 5 or 7 works
+
+//[8,6,5,1]...O(n)...T(C).... O(1)
+// [5, 9, 7, 10, 12]
+//[8,6,5,1]...1
+// [0,0,0,0]......0
+// [9,-2,3,-6]......-2
+// [3,0]......0
+// [1].....1
+
+    int getLocalMin(int[] arr) {
+        int currentElement = arr[0];
+        if (arr.length == 1)
+            return currentElement;
+        for (int i = 0; i < arr.length; i++) {
+
+            int beforeElement;
+            currentElement = arr[i];
+            int afterElement;
+
+            if (i == 0) {
+                afterElement = arr[i + 1];
+                if (currentElement <= afterElement)
+                    return currentElement;
+            } else if (i == arr.length - 1) {
+                beforeElement = arr[i - 1];
+                if (currentElement <= beforeElement)
+                    return currentElement;
+            } else {
+                beforeElement = arr[i - 1];
+                afterElement = arr[i + 1];
+                if (currentElement <= beforeElement && currentElement <= afterElement)
+                    return currentElement;
+            }
+        }
+        return currentElement;
 
     }
+
 
     boolean balancedSplitExists(int[] arr) {
         int len = arr.length;
