@@ -1,16 +1,97 @@
 package com.hanan.Challenge2021;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class July {
 
     public static void main(String[] aa) {
 
         //    System.out.println(new July().matrixReshape(new int[][]{{1, 2}, {3, 4}}, 1, 4));
-        System.out.println(new July().minSetSize(new int[]{3, 3, 3, 3, 5, 5, 5, 2, 2, 7}));
+        //System.out.println(new July().minSetSize(new int[]{3, 3, 3, 3, 5, 5, 5, 2, 2, 7}));
+        //System.out.println(new July().lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
+        System.out.println(new July().isIsomorphic("paper", "title"));
+    }
+
+    private String transformString(String s) {
+        Map<Character, Integer> indexMapping = new HashMap<>();
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < s.length(); ++i) {
+            char c1 = s.charAt(i);
+
+            if (!indexMapping.containsKey(c1)) {
+                indexMapping.put(c1, i);
+            }
+
+            builder.append(Integer.toString(indexMapping.get(c1)));
+        }
+        return builder.toString();
+    }
+
+    public boolean isIsomorphic(String s, String t) {
+        return transformString(s).equals(transformString(t));
+    }
+
+    public boolean isIsomorphic1(String s, String t) {
+
+        int n = s.length(), i = 0;
+        if (n != t.length())
+            return false;
+
+        Map<Character, Character> sMap = new HashMap();
+        Map<Character, Character> tMap = new HashMap();
+
+        while (i < n) {
+            char sChar = s.charAt(i);
+            char tChar = t.charAt(i);
+            if (sMap.containsKey(sChar) != tMap.containsKey(tChar))
+                return false;
+
+            if (sMap.containsKey(sChar)) {
+                if (sMap.get(sChar) != tChar || tMap.get(tChar) != sChar)
+                    return false;
+            } else {
+                sMap.put(sChar, tChar);
+                tMap.put(tChar, sChar);
+            }
+
+            i++;
+        }
+
+        return i == n;
+    }
+
+    public int lengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = 1;
+        int omax = 1; //overall max
+
+        for (int i = 1; i < dp.length; i++) {
+            int lmax = 0; // loop max
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i] && dp[j] > lmax) {
+                    lmax = dp[j];
+                }
+            }
+
+            dp[i] = lmax + 1;
+
+            if (dp[i] > omax) {
+                omax = dp[i];
+            }
+        }
+
+        return omax;
+    }
+
+    public int kthSmallest(int[][] matrix, int k) {
+        PriorityQueue priorityQueue = new PriorityQueue();
+
+        for (int i = 0; i < matrix.length; i++) {
+            //    for (n)
+        }
+        return 0;
+
     }
 
     public int minSetSize(int[] arr) {
